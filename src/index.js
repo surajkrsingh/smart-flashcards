@@ -7,6 +7,8 @@ import { InnerBlocks } from '@wordpress/block-editor';
 import metadata from './block.json';
 import Edit from './edit';
 import Save from './save';
+import FrontSave from './front-side/save';
+import BackSave from './back-side/save';
 
 // Front Side Block
 import frontMetadata from './front-side/block.json';
@@ -29,12 +31,12 @@ registerBlockType(metadata.name, {
 registerBlockType(frontMetadata.name, {
 	...frontMetadata,
 	edit: FrontEdit,
-	save: () => <InnerBlocks.Content />,
+	save: FrontSave,
 });
 
 // Register Back Side Block
 registerBlockType(backMetadata.name, {
 	...backMetadata,
 	edit: BackEdit,
-	save: () => <InnerBlocks.Content />,
+	save: BackSave,
 });
