@@ -1,16 +1,18 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, RichText, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
 import { PanelBody, Button, ButtonGroup } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import './editor.scss';
 
+const ALLOWED_BLOCKS = ['smfcs/flashcard-front', 'smfcs/flashcard-back'];
+const TEMPLATE = [
+	['smfcs/flashcard-front'],
+	['smfcs/flashcard-back']
+];
+
 export default function Edit({ attributes, setAttributes }) {
 	const [isFlipped, setIsFlipped] = useState(false);
 	const blockProps = useBlockProps();
-	const { frontContent, backContent } = attributes;
-
-	console.log(frontContent);
-	console.log(backContent);
 
 	return (
 		<div { ...blockProps }>
@@ -20,12 +22,14 @@ export default function Edit({ attributes, setAttributes }) {
 						<Button 
 							isPrimary={!isFlipped}
 							onClick={() => setIsFlipped(false)}
+							aria-label={__('Show front side', 'smart-flashcards')}
 						>
 							{__('Front', 'smart-flashcards')}
 						</Button>
 						<Button 
 							isPrimary={isFlipped}
 							onClick={() => setIsFlipped(true)}
+							aria-label={__('Show back side', 'smart-flashcards')}
 						>
 							{__('Back', 'smart-flashcards')}
 						</Button>
@@ -35,30 +39,11 @@ export default function Edit({ attributes, setAttributes }) {
 
 			<div className="flashcard">
 				<div className={`flashcard-inner ${isFlipped ? 'is-flipped' : ''}`}>
-					<div className="flashcard-front">
-						<RichText
-							tagName="div"
-							className="flashcard-content"
-							value={frontContent}
-							onChange={(content) => {
-								setAttributes({ frontContent: content });
-							}}
-							placeholder={__('Add front side content...', 'smart-flashcards')}
-							keepPlaceholderOnFocus={true}
-						/>
-					</div>
-					<div className="flashcard-back">
-						<RichText
-							tagName="div"
-							className="flashcard-content"
-							value={backContent}
-							onChange={(content) => {
-								setAttributes({ backContent: content });
-							}}
-							placeholder={__('Add back side content...', 'smart-flashcards')}
-							keepPlaceholderOnFocus={true}
-						/>
-					</div>
+					<InnerBlocks
+						allowedBlocks={ALLOWED_BLOCKS}
+						template={TEMPLATE}
+						templateLock="all"
+					/>
 				</div>
 			</div>
 		</div>

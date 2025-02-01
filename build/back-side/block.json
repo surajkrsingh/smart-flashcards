@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "smfcs/flashcard-back",
+  "version": "0.1.0",
+  "title": "Flashcard Back",
+  "category": "widgets",
+  "parent": [
+    "smfcs/smart-flashcards"
+  ],
+  "icon": "align-pull-right",
+  "description": "Back side of the flashcard",
+  "supports": {
+    "html": true
+  },
+  "textdomain": "smart-flashcards"
+}

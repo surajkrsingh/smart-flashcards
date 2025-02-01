@@ -12,24 +12,41 @@
 		"align": ["wide", "full"]
 	},
 	"attributes": {
-		"frontContent": {
-			"type": "string",
-			"source": "html",
-			"selector": ".flashcard-front .flashcard-content",
-			"default": ""
-		},
-		"backContent": {
-			"type": "string",
-			"source": "html",
-			"selector": ".flashcard-back .flashcard-content",
-			"default": ""
+		"isFlipped": {
+			"type": "boolean",
+			"default": false
 		}
 	},
 	"example": {
 		"attributes": {
-			"frontContent": "Front side example",
-			"backContent": "Back side example"
-		}
+			"isFlipped": false
+		},
+		"innerBlocks": [
+			{
+				"name": "smfcs/flashcard-front",
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"content": "Front Side",
+							"level": 2
+						}
+					}
+				]
+			},
+			{
+				"name": "smfcs/flashcard-back",
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"content": "Back Side",
+							"level": 2
+						}
+					}
+				]
+			}
+		]
 	},
 	"textdomain": "smart-flashcards",
 	"editorScript": "file:./index.js",
