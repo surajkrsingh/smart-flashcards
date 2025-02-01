@@ -5,13 +5,38 @@
   "version": "0.1.0",
   "title": "Smart Flashcards",
   "category": "widgets",
-  "icon": "smiley",
-  "description": "Example static block scaffolded with Create Block tool.",
+  "icon": "index-card",
+  "description": "Create interactive flashcards with custom content",
   "supports": {
-    "html": false
+    "html": true,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "attributes": {
+    "frontContent": {
+      "type": "string",
+      "source": "html",
+      "selector": ".flashcard-front .flashcard-content",
+      "default": ""
+    },
+    "backContent": {
+      "type": "string",
+      "source": "html",
+      "selector": ".flashcard-back .flashcard-content",
+      "default": ""
+    }
+  },
+  "example": {
+    "attributes": {
+      "frontContent": "Front side example",
+      "backContent": "Back side example"
+    }
   },
   "textdomain": "smart-flashcards",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
-  "style": "file:./style-index.css"
+  "style": "file:./style-index.css",
+  "viewScript": "file:./frontend.js"
 }
