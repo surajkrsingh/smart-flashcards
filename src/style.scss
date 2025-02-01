@@ -14,10 +14,101 @@
 
 .wp-block-smfcs-smart-flashcards {
 	.flashcard {
-		perspective: 1000px;
 		width: 100%;
 		min-height: 300px;
 		margin: 20px 0;
+	}
+
+	.flashcard-content {
+		width: 100%;
+		max-width: 100%;
+		word-wrap: break-word;
+	}
+}
+
+// Editor styles - No flipping, just show/hide
+.editor-styles-wrapper .wp-block-smfcs-smart-flashcards {
+	.flashcard-inner {
+		position: relative;
+		width: 100%;
+		transform: none !important; // Prevent any transform
+		transition: none !important; // Prevent any transition
+		transform-style: flat !important; // Prevent 3D effects
+	}
+
+	// Simple show/hide based on settings
+	.flashcard-front {
+		display: block;
+		background: #fff;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		padding: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	.flashcard-back {
+		display: none;
+		background: #f8f9fa;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		padding: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	// Toggle visibility based on settings
+	.flashcard-inner.is-flipped {
+		.flashcard-front {
+			display: none;
+		}
+		.flashcard-back {
+			display: block;
+		}
+	}
+
+	// Block editor styles
+	.block-editor-block-list__layout {
+		min-height: 200px;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		.wp-block-heading {
+			margin: 0;
+		}
+		
+		.wp-block-image {
+			margin: 0;
+			img {
+				max-width: 100%;
+				height: auto;
+			}
+		}
+		
+		.wp-block-buttons {
+			display: flex;
+			justify-content: center;
+			gap: 0.5rem;
+			margin: 1rem 0;
+		}
+		
+		.wp-block-media-text {
+			grid-template-columns: 40% 1fr;
+			gap: 1rem;
+		}
+	}
+
+	.block-editor-block-list__block {
+		&.is-selected,
+		&.has-child-selected {
+			outline: 2px solid #007cba;
+		}
+	}
+}
+
+// Frontend styles - Only here we apply flip animation
+.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) {
+	.flashcard {
+		perspective: 1000px;
 	}
 
 	.flashcard-inner {
@@ -28,25 +119,9 @@
 		transition: transform 0.8s;
 		transform-style: preserve-3d;
 		cursor: pointer;
-		
-		&:focus {
-			box-shadow: 0 0 0 2px #007cba;
-		}
 
 		&.is-flipped {
 			transform: rotateY(180deg);
-
-			.flashcard-front {
-				opacity: 0;
-				visibility: hidden;
-				pointer-events: none;
-			}
-
-			.flashcard-back {
-				opacity: 1;
-				visibility: visible;
-				pointer-events: auto;
-			}
 		}
 	}
 
@@ -63,113 +138,15 @@
 		border: 1px solid #ddd;
 		border-radius: 8px;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-		transition: all 0.3s ease;
 		backface-visibility: hidden;
-	}
-
-	.flashcard-front {
-		z-index: 2;
-		opacity: 1;
-		visibility: visible;
-		pointer-events: auto;
 	}
 
 	.flashcard-back {
 		transform: rotateY(180deg);
 		background: #f8f9fa;
-		z-index: 1;
-		opacity: 0;
-		visibility: hidden;
-		pointer-events: none;
 
-		// Fix for editor text orientation
-		.block-editor-inner-blocks,
-		.block-editor-block-list__layout {
+		.flashcard-content {
 			transform: rotateY(180deg);
-			* {
-				transform: rotateY(180deg);
-			}
-		}
-	}
-
-	.flashcard-content {
-		width: 100%;
-		max-width: 100%;
-		word-wrap: break-word;
-
-		> .block-editor-inner-blocks > .block-editor-block-list__layout {
-			flex-direction: column;
-			gap: 1rem;
-			min-height: 200px;
-			display: flex;
-
-			.wp-block-heading {
-				margin: 0;
-			}
-			
-			.wp-block-image {
-				margin: 0;
-				img {
-					max-width: 100%;
-					height: auto;
-				}
-			}
-			
-			.wp-block-buttons {
-				display: flex;
-				justify-content: center;
-				gap: 0.5rem;
-				margin: 1rem 0;
-			}
-			
-			.wp-block-media-text {
-				grid-template-columns: 40% 1fr;
-				gap: 1rem;
-			}
-		}
-	}
-}
-
-// Editor specific styles
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards {
-	.block-editor-block-list__layout {
-		.block-editor-block-list__block {
-			&.is-selected,
-			&.has-child-selected {
-				outline: 2px solid #007cba;
-			}
-		}
-	}
-
-	.flashcard-front,
-	.flashcard-back {
-		.block-editor-block-list__layout {
-			min-height: 200px;
-		}
-	}
-
-	// Hide block appender when side is not active
-	.flashcard-inner {
-		&.is-flipped {
-			.flashcard-front .block-editor-button-block-appender {
-				display: none;
-			}
-		}
-		&:not(.is-flipped) {
-			.flashcard-back .block-editor-button-block-appender {
-				display: none;
-			}
-		}
-	}
-}
-
-// Frontend styles
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) {
-	.flashcard-inner {
-		.flashcard-back {
-			.flashcard-content {
-				transform: rotateY(180deg);
-			}
 		}
 	}
 }
