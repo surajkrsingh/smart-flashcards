@@ -40,9 +40,9 @@ class Smart_Flashcards {
 		add_action( 'admin_init', array( $this, 'check_php_version' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_scripts' ) );
 		add_action( 'init', array( $this, 'register_blocks' ) );
-		add_action( 'enqueue_block_assets', array( $this, 'enqueue_shared_assets' ) );
-		add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
-		add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
+		// add_action( 'enqueue_block_assets', array( $this, 'enqueue_shared_assets' ) );
+		// add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
+		// add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
 	}
 
 	/**
@@ -58,11 +58,11 @@ class Smart_Flashcards {
 
 		foreach ($blocks as $block) {
 			$args = [];
-			
-			// Only add render callback for parent block
-			if ('flashcard' === $block) {
-				$args['render_callback'] = [$this, 'render_flashcard_block'];
-			}
+
+			// Use render callback for parent block need to render the block in the frontend.
+			// if ('flashcard' === $block) {
+			// 	$args['render_callback'] = [$this, 'render_flashcard_block'];
+			// }
 
 			register_block_type(
 				SMFCS_PLUGIN_PATH . "/src/blocks/{$block}/block.json",
