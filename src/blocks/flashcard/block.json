@@ -1,21 +1,19 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "smfcs/smart-flashcards",
+	"name": "smfcs/flashcard",
 	"version": "0.1.0",
-	"title": "Smart Flashcards",
+	"title": "Flashcard",
 	"category": "widgets",
 	"icon": "index-card",
-	"description": "Create interactive flashcards with custom content",
+	"description": "Interactive flashcard with front/back content",
 	"supports": {
 		"html": true,
 		"align": ["wide", "full"]
 	},
 	"attributes": {
-		"isFlipped": {
-			"type": "boolean",
-			"default": false
-		}
+		"frontContent": {"type": "string"},
+		"backContent": {"type": "string"}
 	},
 	"example": {
 		"attributes": {
@@ -49,8 +47,8 @@
 		]
 	},
 	"textdomain": "smart-flashcards",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"viewScript": "file:./frontend.js"
+	"editorScript": "file:../../../build/flashcard/index.js",
+	"editorStyle": "file:../../../build/editor.css",
+	"style": "file:../../../build/style.css",
+	"viewScript": "file:../../../build/frontend.js"
 }

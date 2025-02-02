@@ -1,15 +1,15 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "smfcs/flashcard-front",
+  "name": "suraj-singh/flashcard-back",
   "version": "0.1.0",
-  "title": "Flashcard Front",
+  "title": "Flashcard Back",
   "category": "widgets",
   "parent": [
-    "smfcs/smart-flashcards"
+    "suraj-singh/flashcard"
   ],
   "icon": "card",
-  "description": "Front side of the flashcard",
+  "description": "Back side of the flashcard",
   "supports": {
     "html": false,
     "color": {
@@ -32,6 +32,8 @@
     }
   },
   "textdomain": "smart-flashcards",
-  "editorScript": "file:./index.js",
-  "editorStyle": "file:./index.css"
+  "editorScript": "file:../../../build/flashcard-back/index.js",
+  "editorStyle": "file:../../../build/editor.css",
+  "style": "file:../../../build/style.css",
+  "viewScript": "file:../../../build/frontend/index.js"
 }
