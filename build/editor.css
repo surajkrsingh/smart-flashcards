@@ -26,7 +26,7 @@
 
 .wp-block-smfcs-flashcard .flashcard {
   width: 100%;
-  min-height: 300px;
+  min-height: 200px;
   margin: 20px 0;
 }
 .wp-block-smfcs-flashcard .flashcard-inner {
@@ -59,7 +59,6 @@
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-heading,
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-heading {
   margin: 0;
-  text-align: center;
 }
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-paragraph,
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-paragraph {
@@ -69,7 +68,6 @@
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-image,
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-image {
   margin: 0;
-  text-align: center;
 }
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-image img,
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-image img {
@@ -79,7 +77,6 @@
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-buttons,
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-buttons {
   display: flex;
-  justify-content: center;
   gap: 0.5rem;
   margin: 1rem 0;
 }
@@ -88,7 +85,6 @@
   display: grid;
   grid-template-columns: 40% 1fr;
   gap: 1rem;
-  align-items: center;
 }
 .wp-block-smfcs-flashcard .flashcard-inner:not(.is-flipped) .wp-block-smfcs-flashcard-front {
   display: block;
