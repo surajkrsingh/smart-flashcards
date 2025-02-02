@@ -38,11 +38,11 @@ class Smart_Flashcards {
 
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_text_domain' ) );
 		add_action( 'admin_init', array( $this, 'check_php_version' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_scripts' ) );
 		add_action( 'init', array( $this, 'register_blocks' ) );
 		// add_action( 'enqueue_block_assets', array( $this, 'enqueue_shared_assets' ) );
 		// add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
 		// add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
+		// add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_scripts' ) );
 	}
 
 	/**
