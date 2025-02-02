@@ -24,9 +24,6 @@ class Smart_Flashcards {
 	 * Construct method.
 	 */
 	protected function __construct() {
-		// Load plugin classes.
-		// Admin_Settings::get_instance();
-
 		$this->setup_hooks();
 	}
 
@@ -41,11 +38,37 @@ class Smart_Flashcards {
 
 		add_action( 'plugins_loaded', array( $this, 'load_plugin_text_domain' ) );
 		add_action( 'admin_init', array( $this, 'check_php_version' ) );
-
-		add_action( 'init', array( $this, 'register_block' ) );
-		add_action( 'init', array( $this, 'register_post_type' ) );
-		add_action('rest_api_init', array($this, 'register_rest_routes'));
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_scripts' ) );
+		add_action( 'init', array( $this, 'register_blocks' ) );
+		// add_action( 'enqueue_block_assets', array( $this, 'enqueue_shared_assets' ) );
+		// add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_editor_assets' ) );
+		// add_action('wp_enqueue_scripts', [$this, 'enqueue_frontend_assets']);
+	}
+
+	/**
+	 * Create blocks.
+	 */
+	public function register_blocks() {
+		// Register child blocks first
+		$blocks = [
+			'flashcard-front',
+			'flashcard-back',
+			'flashcard' // Parent block last
+		];
+
+		foreach ($blocks as $block) {
+			$args = [];
+
+			// Use render callback for parent block need to render the block in the frontend.
+			// if ('flashcard' === $block) {
+			// 	$args['render_callback'] = [$this, 'render_flashcard_block'];
+			// }
+
+			register_block_type(
+				SMFCS_PLUGIN_PATH . "/src/blocks/{$block}/block.json",
+				$args
+			);
+		}
 	}
 
 	/**
@@ -100,137 +123,72 @@ class Smart_Flashcards {
 	}
 
 	/**
-	 * Register the flashcards block.
-	 *
-	 * @return void
-	 */
-	public function register_block() {
-		register_block_type( SMFCS_PLUGIN_BUILD_DIR, array(
-			'render_callback' => array( $this, 'render_flashcard_block' ),
-		) );
-	}
-
-	/**
-	 * Register flashcard post type.
-	 *
-	 * @return void
-	 */
-	public function register_post_type() {
-		register_post_type(
-			'flashcard',
-			array(
-				'labels'       => array(
-					'name'          => __( 'Flashcards', 'smart-flashcards' ),
-					'singular_name' => __( 'Flashcard', 'smart-flashcards' ),
-				),
-				'public'       => true,
-				'show_in_rest' => true,
-				'supports'     => array( 'title', 'editor' ),
-				'menu_icon'    => 'dashicons-index-card',
-			)
-		);
-
-		register_taxonomy(
-			'flashcard_set',
-			'flashcard',
-			array(
-				'labels'       => array(
-					'name'          => __( 'Flashcard Sets', 'smart-flashcards' ),
-					'singular_name' => __( 'Flashcard Set', 'smart-flashcards' ),
-				),
-				'public'       => true,
-				'show_in_rest' => true,
-				'hierarchical' => true,
-			)
-		);
-	}
-
-	/**
-	 * Register REST API routes
-	 */
-	public function register_rest_routes() {
-		register_rest_route('smart-flashcards/v1', '/sets', array(
-			'methods' => 'GET',
-			'callback' => array($this, 'get_flashcard_sets'),
-			'permission_callback' => '__return_true',
-		));
-	}
-
-	/**
-	 * Get all flashcard sets
-	 *
-	 * @return array
-	 */
-	public function get_flashcard_sets() {
-		$terms = get_terms(array(
-			'taxonomy' => 'flashcard_set',
-			'hide_empty' => true,
-		));
-
-		return array_map(function($term) {
-			return array(
-				'label' => $term->name,
-				'value' => $term->slug,
-			);
-		}, $terms);
-	}
-
-	/**
-	 * Render the flashcard block
-	 *
-	 * @param array  $attributes Block attributes.
-	 * @param string $content    Block content.
-	 * @return string Rendered block output.
-	 */
-	public function render_flashcard_block( $attributes, $content ) {
-		return $content;
-
-		// Suppress warnings from loadHTML
-		libxml_use_internal_errors( true );
-		
-		// Get the saved content
-		$wrapper = new \DOMDocument();
-		$wrapper->loadHTML( mb_convert_encoding( $content, 'HTML-ENTITIES', 'UTF-8' ), LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD );
-		
-		// Create XPath object to query elements
-		$xpath = new \DOMXPath( $wrapper );
-		
-		// Find the inner div and add interactive attributes
-		$inner = $xpath->query( "//*[contains(@class, 'flashcard-inner')]" )->item( 0 );
-		if ( $inner ) {
-			$inner->setAttribute( 'tabindex', '0' );
-			$inner->setAttribute( 'role', 'button' );
-			$inner->setAttribute( 'aria-label', __( 'Flashcard - Click or press Enter to flip', 'smart-flashcards' ) );
-		}
-		
-		// Find front and back divs and add aria-hidden
-		$front = $xpath->query( "//*[contains(@class, 'flashcard-front')]" )->item( 0 );
-		$back = $xpath->query( "//*[contains(@class, 'flashcard-back')]" )->item( 0 );
-		if ( $front && $back ) {
-			$front->setAttribute( 'aria-hidden', 'false' );
-			$back->setAttribute( 'aria-hidden', 'true' );
-		}
-		
-		// Clean up and return the modified HTML
-		libxml_clear_errors();
-		$output = $wrapper->saveHTML();
-		
-		// Remove DOCTYPE and <html><body> tags that DOMDocument adds
-		$output = preg_replace( '/^<!DOCTYPE.+?>/', '', str_replace( array( '<html>', '</html>', '<body>', '</body>' ), array( '', '', '', '' ), $output ) );
-		
-		return trim( $output );
-	}
-
-	/**
 	 * Enqueue frontend scripts
 	 */
 	public function enqueue_frontend_scripts() {
 		wp_enqueue_script(
 			'smfcs-frontend',
-			SMFCS_PLUGIN_URL . 'build/frontend.js',
+			SMFCS_PLUGIN_URL . 'build/blocks/index.js',
 			array(),
 			SMFCS_PLUGIN_VERSION,
 			true
 		);
+
+		wp_enqueue_style(
+			'smfcs-frontend',
+			SMFCS_PLUGIN_URL . 'build/style.css',
+			array(),
+			SMFCS_PLUGIN_VERSION
+		);
+	}
+
+	public function enqueue_shared_assets() {
+		wp_enqueue_style(
+			'smfcs-frontend-style',
+			SMFCS_PLUGIN_BUILD_URI . '/style.css',
+			[],
+			filemtime(SMFCS_PLUGIN_BUILD_DIR . '/style.css')
+		);
+	}
+
+	public function enqueue_editor_assets() {
+		$editor_script_path = 'flashcard/index.js';
+		$asset_file = SMFCS_PLUGIN_BUILD_DIR . '/flashcard/index.asset.php';
+
+		if (!file_exists($asset_file)) {
+			return;
+		}
+
+		$asset = include $asset_file;
+
+		wp_enqueue_script(
+			'smfcs-flashcard-editor',
+			SMFCS_PLUGIN_BUILD_URI . '/' . $editor_script_path,
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
+
+		wp_enqueue_style(
+			'smfcs-editor-style',
+			SMFCS_PLUGIN_BUILD_URI . '/editor.css',
+			[],
+			filemtime(SMFCS_PLUGIN_BUILD_DIR . '/editor.css')
+		);
+	}
+
+	public function enqueue_frontend_assets() {
+		// Frontend script
+		wp_enqueue_script(
+			'smfcs-frontend',
+			SMFCS_PLUGIN_BUILD_URI . '/frontend.js',
+			['wp-element', 'wp-components'],
+			$this->get_asset_version('frontend.js'),
+			true
+		);
+	}
+
+	private function get_asset_version($file) {
+		return filemtime(SMFCS_PLUGIN_BUILD_DIR . '/' . $file);
 	}
 }

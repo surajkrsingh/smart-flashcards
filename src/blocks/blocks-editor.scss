@@ -1,0 +1,116 @@
+// Editor styles
+@use 'flashcard/editor.scss' as *;
+@use 'flashcard-front/editor.scss' as *;
+@use 'flashcard-back/editor.scss' as *;
+
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+
+ .wp-block-create-block-smart-flashcards {
+	border: 1px dotted #f00;
+	background-color: #090;
+	color: #fff !important;
+	padding: 20px;
+}
+
+.wp-block-smfcs-flashcard {
+	.flashcard {
+		width: 100%;
+		min-height: 300px;
+		margin: 20px 0;
+	}
+
+	.flashcard-inner {
+		position: relative;
+		width: 100%;
+	}
+
+	// Front and back sides in editor - identical styling
+	.wp-block-smfcs-flashcard-front,
+	.wp-block-smfcs-flashcard-back {
+		display: none;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		margin-bottom: 1rem;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+		// Default styles if no custom styles set
+		&:not([style*="background"]) {
+			background: #fff;
+		}
+
+		&:not([style*="padding"]) {
+			padding: 1rem;
+		}
+
+		.block-editor-block-list__layout {
+			min-height: 200px;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+
+			.wp-block-heading {
+				margin: 0;
+				text-align: center;
+			}
+			
+			.wp-block-paragraph {
+				margin: 0;
+				line-height: 1.6;
+			}
+
+			.wp-block-image {
+				margin: 0;
+				text-align: center;
+				img {
+					max-width: 100%;
+					height: auto;
+				}
+			}
+			
+			.wp-block-buttons {
+				display: flex;
+				justify-content: center;
+				gap: 0.5rem;
+				margin: 1rem 0;
+			}
+
+			.wp-block-media-text {
+				display: grid;
+				grid-template-columns: 40% 1fr;
+				gap: 1rem;
+				align-items: center;
+			}
+		}
+	}
+
+	// Show/hide based on flip state
+	.flashcard-inner:not(.is-flipped) {
+		.wp-block-smfcs-flashcard-front {
+			display: block;
+		}
+		.wp-block-smfcs-flashcard-back {
+			display: none;
+		}
+	}
+
+	.flashcard-inner.is-flipped {
+		.wp-block-smfcs-flashcard-front {
+			display: none;
+		}
+		.wp-block-smfcs-flashcard-back {
+			display: block;
+		}
+	}
+
+	// Selected block styles
+	.block-editor-block-list__block {
+		&.is-selected,
+		&.has-child-selected {
+			outline: 2px solid #007cba;
+		}
+	}
+}

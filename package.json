@@ -6,13 +6,13 @@
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
-		"build": "wp-scripts build",
+		"build": "wp-scripts build --webpack-copy-php --config webpack.config.js && sass src/blocks/blocks-style.scss build/style.css && sass src/blocks/blocks-editor.scss build/editor.css",
+		"start": "wp-scripts start --webpack-copy-php --config webpack.config.js && sass src/blocks/blocks-style.scss build/style.css --watch && sass src/blocks/blocks-editor.scss build/editor.css --watch",
 		"format": "wp-scripts format",
 		"lint:css": "wp-scripts lint-style",
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "wp-scripts start"
+		"plugin-zip": "wp-scripts plugin-zip"
 	},
 	"devDependencies": {
 		"@wordpress/browserslist-config": "5.30.0",

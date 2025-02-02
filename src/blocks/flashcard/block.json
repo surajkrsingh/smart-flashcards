@@ -1,0 +1,71 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 2,
+	"name": "smfcs/flashcard",
+	"version": "0.1.0",
+	"title": "Flashcard",
+	"category": "widgets",
+	"icon": "index-card",
+	"description": "Create interactive flashcards with custom content",
+	"supports": {
+		"html": true,
+		"align": [
+			"wide",
+			"full"
+		],
+		"color": {
+			"background": true,
+			"gradients": true
+		}
+	},
+	"attributes": {
+		"isFlipped": {
+			"type": "boolean",
+			"default": false
+		},
+		"width": {
+			"type": "number",
+			"default": 100
+		},
+		"height": {
+			"type": "number",
+			"default": 300
+		}
+	},
+	"example": {
+		"attributes": {
+			"isFlipped": false
+		},
+		"innerBlocks": [
+			{
+				"name": "smfcs/flashcard-front",
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"content": "Front Side",
+							"level": 2
+						}
+					}
+				]
+			},
+			{
+				"name": "smfcs/flashcard-back",
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"content": "Back Side",
+							"level": 2
+						}
+					}
+				]
+			}
+		]
+	},
+	"textdomain": "smart-flashcards",
+	"editorScript": "file:../../../build/flashcard/index.js",
+	"editorStyle": "file:../../../build/editor.css",
+	"style": "file:../../../build/style.css",
+	"viewScript": "file:../../../build/frontend.js"
+}

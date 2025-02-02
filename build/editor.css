@@ -1,0 +1,109 @@
+.smfcs-flashcard-flip-button {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  border-radius: 50%;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  padding: 0.5rem;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/**
+ * The following styles get applied inside the editor only.
+ *
+ * Replace them with your own styles or remove the file completely.
+ */
+.wp-block-create-block-smart-flashcards {
+  border: 1px dotted #f00;
+  background-color: #090;
+  color: #fff !important;
+  padding: 20px;
+}
+
+.wp-block-smfcs-flashcard .flashcard {
+  width: 100%;
+  min-height: 300px;
+  margin: 20px 0;
+}
+.wp-block-smfcs-flashcard .flashcard-inner {
+  position: relative;
+  width: 100%;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back {
+  display: none;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front:not([style*=background]),
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back:not([style*=background]) {
+  background: #fff;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front:not([style*=padding]),
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back:not([style*=padding]) {
+  padding: 1rem;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-heading,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-heading {
+  margin: 0;
+  text-align: center;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-paragraph,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-paragraph {
+  margin: 0;
+  line-height: 1.6;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-image,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-image {
+  margin: 0;
+  text-align: center;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-image img,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-image img {
+  max-width: 100%;
+  height: auto;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-buttons,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front .block-editor-block-list__layout .wp-block-media-text,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back .block-editor-block-list__layout .wp-block-media-text {
+  display: grid;
+  grid-template-columns: 40% 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+.wp-block-smfcs-flashcard .flashcard-inner:not(.is-flipped) .wp-block-smfcs-flashcard-front {
+  display: block;
+}
+.wp-block-smfcs-flashcard .flashcard-inner:not(.is-flipped) .wp-block-smfcs-flashcard-back {
+  display: none;
+}
+.wp-block-smfcs-flashcard .flashcard-inner.is-flipped .wp-block-smfcs-flashcard-front {
+  display: none;
+}
+.wp-block-smfcs-flashcard .flashcard-inner.is-flipped .wp-block-smfcs-flashcard-back {
+  display: block;
+}
+.wp-block-smfcs-flashcard .block-editor-block-list__block.is-selected, .wp-block-smfcs-flashcard .block-editor-block-list__block.has-child-selected {
+  outline: 2px solid #007cba;
+}
+
+/*# sourceMappingURL=editor.css.map */
