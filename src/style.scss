@@ -209,6 +209,17 @@
 			transform: rotateY(180deg);
 		}
 	}
+
+	.wp-block-smfcs-flashcard-front,
+	.wp-block-smfcs-flashcard-back {
+		&:not([style*="background"]) {
+			background: #fff;
+		}
+
+		&:not([style*="padding"]) {
+			padding: 2rem;
+		}
+	}
 }
 
 

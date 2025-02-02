@@ -1,15 +1,35 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 2,
+	"apiVersion": 3,
 	"name": "smfcs/flashcard-back",
 	"version": "0.1.0",
 	"title": "Flashcard Back",
 	"category": "widgets",
 	"parent": ["smfcs/smart-flashcards"],
-	"icon": "align-pull-right",
+	"icon": "card",
 	"description": "Back side of the flashcard",
 	"supports": {
-		"html": true
+		"html": false,
+		"color": {
+			"background": true,
+			"text": true,
+			"gradients": true
+		},
+		"spacing": {
+			"padding": true
+		},
+		"typography": {
+			"fontSize": true,
+			"lineHeight": true,
+			"__experimentalFontFamily": true,
+			"__experimentalFontStyle": true,
+			"__experimentalFontWeight": true,
+			"__experimentalLetterSpacing": true,
+			"__experimentalTextTransform": true,
+			"__experimentalTextDecoration": true
+		}
 	},
-	"textdomain": "smart-flashcards"
+	"textdomain": "smart-flashcards",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css"
 } 
