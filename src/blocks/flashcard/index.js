@@ -7,7 +7,7 @@ import Save from './save';
 // Register Back Side Block
 registerBlockType(metadata.name, {
     ...metadata,
-    title: __('Smart Flashcards', 'smart-flashcards'),
+    title: __('Smart Flashcard', 'smart-flashcards'),
 	description: __('Create interactive flashcards with custom content', 'smart-flashcards'),
     edit: Edit,
     save: Save,

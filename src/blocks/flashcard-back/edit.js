@@ -10,8 +10,8 @@ const ALLOWED_BLOCKS = [
 ];
 
 const TEMPLATE = [
-	['core/heading', { level: 2, placeholder: __('Add back title...', 'smart-flashcards') }],
-	['core/paragraph', { placeholder: __('Add back content...', 'smart-flashcards') }]
+	['core/heading', { level: 2, placeholder: __('Add back side title...', 'smart-flashcards') }],
+	['core/paragraph', { placeholder: __('Add back side content...', 'smart-flashcards') }]
 ];
 
 export default function Edit() {
