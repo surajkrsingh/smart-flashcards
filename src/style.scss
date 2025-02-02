@@ -93,9 +93,7 @@
 	.flashcard-inner {
 		position: relative;
 		width: 100%;
-		transform: none !important; // Prevent any transform
 		transition: none !important; // Prevent any transition
-		transform-style: flat !important; // Prevent 3D effects
 	}
 
 	// Simple show/hide based on settings
