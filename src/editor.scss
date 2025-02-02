@@ -21,7 +21,6 @@
 	.flashcard-inner {
 		position: relative;
 		width: 100%;
-		transform-style: flat !important;
 	}
 
 	// Front and back sides in editor - identical styling
@@ -31,7 +30,6 @@
 		border: 1px solid #ddd;
 		border-radius: 8px;
 		margin-bottom: 1rem;
-		transform: none !important;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
 		// Default styles if no custom styles set
@@ -40,7 +38,7 @@
 		}
 
 		&:not([style*="padding"]) {
-			padding: 2rem;
+			padding: 1rem;
 		}
 
 		.block-editor-block-list__layout {

@@ -48,17 +48,28 @@
 		border-radius: 8px;
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 		backface-visibility: hidden;
+
+		&:not([style*="background"]) {
+			background: #fff;
+		}
+
+		&:not([style*="padding"]) {
+			padding: 2rem;
+		}
 	}
 
-	.wp-block-smfcs-flashcard-back {
-		transform: rotateY(180deg);
-		background: #f8f9fa;
-
-		.flashcard-content {
+	// Only apply transforms on frontend
+	&:not(.editor-styles-wrapper) {
+		.wp-block-smfcs-flashcard-back {
 			transform: rotateY(180deg);
-			
-			* {
+			background: #f8f9fa;
+
+			.flashcard-content {
 				transform: rotateY(180deg);
+
+				* {
+					transform: rotateY(180deg);
+				}
 			}
 		}
 	}
@@ -68,23 +79,20 @@
 		max-width: 100%;
 		word-wrap: break-word;
 	}
+}
 
-	// Editor specific styles
-	&.editor-styles-wrapper {
-		.flashcard-inner {
-			transform-style: flat;
-			
-			&.is-flipped {
-				transform: none;
-			}
-		}
+// Editor specific styles
+.editor-styles-wrapper .wp-block-smfcs-smart-flashcards {
+	.flashcard-inner {
+		position: relative;
+		width: 100%;
+		transition: none !important;
+	}
 
-		.wp-block-smfcs-flashcard-front,
-		.wp-block-smfcs-flashcard-back {
-			position: relative;
-			transform: none;
-			backface-visibility: visible;
-		}
+	.wp-block-smfcs-flashcard-front,
+	.wp-block-smfcs-flashcard-back {
+		position: relative;
+		backface-visibility: visible;
 	}
 }
 
@@ -120,6 +128,7 @@
 		.flashcard-front {
 			display: none;
 		}
+
 		.flashcard-back {
 			display: block;
 		}
@@ -135,22 +144,23 @@
 		.wp-block-heading {
 			margin: 0;
 		}
-		
+
 		.wp-block-image {
 			margin: 0;
+
 			img {
 				max-width: 100%;
 				height: auto;
 			}
 		}
-		
+
 		.wp-block-buttons {
 			display: flex;
 			justify-content: center;
 			gap: 0.5rem;
 			margin: 1rem 0;
 		}
-		
+
 		.wp-block-media-text {
 			grid-template-columns: 40% 1fr;
 			gap: 1rem;
@@ -158,6 +168,7 @@
 	}
 
 	.block-editor-block-list__block {
+
 		&.is-selected,
 		&.has-child-selected {
 			outline: 2px solid #007cba;
@@ -217,9 +228,7 @@
 		}
 
 		&:not([style*="padding"]) {
-			padding: 2rem;
+			padding: 1rem;
 		}
 	}
 }
-
-
