@@ -38,6 +38,9 @@
         transition: transform 0.8s;
         transform-style: preserve-3d;
         cursor: pointer;
+        padding: inherit;
+        font-size: inherit;
+        font-family: inherit;
 
         &.is-flipped {
             transform: rotateY(180deg);

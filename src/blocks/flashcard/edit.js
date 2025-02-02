@@ -89,6 +89,15 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						template={TEMPLATE}
 						templateLock="all"
 					/>
+
+					<Button 
+						className="smfcs-flashcard-flip-button is-primary"
+						isPrimary={isFlipped}
+						onClick={() => setIsFlipped(!isFlipped)}
+						aria-label={isFlipped ? __('Show front side', 'smart-flashcards') : __('Show back side', 'smart-flashcards')}
+					>
+						<span class="dashicons dashicons-image-flip-horizontal"></span>
+					</Button>
 				</div>
 			</div>
 		</div>
