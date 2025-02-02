@@ -1,0 +1,36 @@
+.flashcard-set-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: 20px 0;
+
+    .flashcard-set-slides {
+        display: flex;
+        transition: transform 0.3s ease;
+        will-change: transform;
+    }
+
+    .wp-block-smfcs-flashcard {
+        flex: 0 0 calc(100% / var(--slides-per-view, 1));
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+}
+
+.flashcard-set-nav {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+
+    button {
+        padding: 8px 16px;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    }
+} 

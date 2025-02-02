@@ -6,7 +6,7 @@
   "title": "Flashcard Front",
   "category": "widgets",
   "parent": [
-    "smfcs/flashcards"
+    "smfcs/flashcard"
   ],
   "icon": "card",
   "description": "Front side of the flashcard",

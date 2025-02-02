@@ -49,25 +49,27 @@ class Smart_Flashcards {
 	 * Create blocks.
 	 */
 	public function register_blocks() {
-		// Register child blocks first
-		$blocks = [
+		// Register blocks in correct hierarchical order
+		$blocks = array(
 			'flashcard-front',
 			'flashcard-back',
-			'flashcard' // Parent block last
-		];
+			'flashcard',        // Individual card
+			'flashcard-set',    // Card container (should come last)
+		);
 
 		foreach ($blocks as $block) {
-			$args = [];
+			$block_path = SMFCS_PLUGIN_PATH . "/src/blocks/{$block}/block.json";
+			
+			if (!file_exists($block_path)) {
+				error_log("Smart Flashcards: Missing block.json for {$block}");
+				continue;
+			}
 
-			// Use render callback for parent block need to render the block in the frontend.
-			// if ('flashcard' === $block) {
-			// 	$args['render_callback'] = [$this, 'render_flashcard_block'];
-			// }
-
-			register_block_type(
-				SMFCS_PLUGIN_PATH . "/src/blocks/{$block}/block.json",
-				$args
-			);
+			$result = register_block_type($block_path);
+			
+			if (!$result) {
+				error_log("Smart Flashcards: Failed to register block {$block}");
+			}
 		}
 	}
 
@@ -146,16 +148,16 @@ class Smart_Flashcards {
 		wp_enqueue_style(
 			'smfcs-frontend-style',
 			SMFCS_PLUGIN_BUILD_URI . '/style.css',
-			[],
-			filemtime(SMFCS_PLUGIN_BUILD_DIR . '/style.css')
+			array(),
+			filemtime( SMFCS_PLUGIN_BUILD_DIR . '/style.css' )
 		);
 	}
 
 	public function enqueue_editor_assets() {
 		$editor_script_path = 'flashcard/index.js';
-		$asset_file = SMFCS_PLUGIN_BUILD_DIR . '/flashcard/index.asset.php';
+		$asset_file         = SMFCS_PLUGIN_BUILD_DIR . '/flashcard/index.asset.php';
 
-		if (!file_exists($asset_file)) {
+		if ( ! file_exists( $asset_file ) ) {
 			return;
 		}
 
@@ -172,8 +174,8 @@ class Smart_Flashcards {
 		wp_enqueue_style(
 			'smfcs-editor-style',
 			SMFCS_PLUGIN_BUILD_URI . '/editor.css',
-			[],
-			filemtime(SMFCS_PLUGIN_BUILD_DIR . '/editor.css')
+			array(),
+			filemtime( SMFCS_PLUGIN_BUILD_DIR . '/editor.css' )
 		);
 	}
 
@@ -182,13 +184,13 @@ class Smart_Flashcards {
 		wp_enqueue_script(
 			'smfcs-frontend',
 			SMFCS_PLUGIN_BUILD_URI . '/frontend.js',
-			['wp-element', 'wp-components'],
-			$this->get_asset_version('frontend.js'),
+			array( 'wp-element', 'wp-components' ),
+			$this->get_asset_version( 'frontend.js' ),
 			true
 		);
 	}
 
-	private function get_asset_version($file) {
-		return filemtime(SMFCS_PLUGIN_BUILD_DIR . '/' . $file);
+	private function get_asset_version( $file ) {
+		return filemtime( SMFCS_PLUGIN_BUILD_DIR . '/' . $file );
 	}
 }
