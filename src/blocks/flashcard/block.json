@@ -12,7 +12,11 @@
 		"align": [
 			"wide",
 			"full"
-		]
+		],
+		"color": {
+			"background": true,
+			"gradients": true
+		}
 	},
 	"attributes": {
 		"isFlipped": {
