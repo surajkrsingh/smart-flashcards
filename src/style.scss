@@ -11,3 +11,223 @@
 	color: #fff;
 	padding: 20px;
 }
+
+.wp-block-smfcs-smart-flashcards {
+	.flashcard {
+		width: 100%;
+		min-height: 300px;
+		margin: 20px 0;
+		perspective: 1000px;
+	}
+
+	.flashcard-inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		transition: transform 0.8s;
+		transform-style: preserve-3d;
+		cursor: pointer;
+
+		&.is-flipped {
+			transform: rotateY(180deg);
+		}
+	}
+
+	.wp-block-smfcs-flashcard-front,
+	.wp-block-smfcs-flashcard-back {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		min-height: 300px;
+		height: auto;
+		padding: 2rem;
+		background: #fff;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+		backface-visibility: hidden;
+
+		&:not([style*="background"]) {
+			background: #fff;
+		}
+
+		&:not([style*="padding"]) {
+			padding: 2rem;
+		}
+	}
+
+	// Only apply transforms on frontend
+	&:not(.editor-styles-wrapper) {
+		.wp-block-smfcs-flashcard-back {
+			transform: rotateY(180deg);
+			background: #f8f9fa;
+
+			.flashcard-content {
+				transform: rotateY(180deg);
+
+				* {
+					transform: rotateY(180deg);
+				}
+			}
+		}
+	}
+
+	.flashcard-content {
+		width: 100%;
+		max-width: 100%;
+		word-wrap: break-word;
+	}
+}
+
+// Editor specific styles
+.editor-styles-wrapper .wp-block-smfcs-smart-flashcards {
+	.flashcard-inner {
+		position: relative;
+		width: 100%;
+		transition: none !important;
+	}
+
+	.wp-block-smfcs-flashcard-front,
+	.wp-block-smfcs-flashcard-back {
+		position: relative;
+		backface-visibility: visible;
+	}
+}
+
+// Editor styles - No flipping, just show/hide
+.editor-styles-wrapper .wp-block-smfcs-smart-flashcards {
+	.flashcard-inner {
+		position: relative;
+		width: 100%;
+		transition: none !important; // Prevent any transition
+	}
+
+	// Simple show/hide based on settings
+	.flashcard-front {
+		display: block;
+		background: #fff;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		padding: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	.flashcard-back {
+		display: none;
+		background: #f8f9fa;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		padding: 2rem;
+		margin-bottom: 1rem;
+	}
+
+	// Toggle visibility based on settings
+	.flashcard-inner.is-flipped {
+		.flashcard-front {
+			display: none;
+		}
+
+		.flashcard-back {
+			display: block;
+		}
+	}
+
+	// Block editor styles
+	.block-editor-block-list__layout {
+		min-height: 200px;
+		display: flex;
+		flex-direction: column;
+		gap: 1rem;
+
+		.wp-block-heading {
+			margin: 0;
+		}
+
+		.wp-block-image {
+			margin: 0;
+
+			img {
+				max-width: 100%;
+				height: auto;
+			}
+		}
+
+		.wp-block-buttons {
+			display: flex;
+			justify-content: center;
+			gap: 0.5rem;
+			margin: 1rem 0;
+		}
+
+		.wp-block-media-text {
+			grid-template-columns: 40% 1fr;
+			gap: 1rem;
+		}
+	}
+
+	.block-editor-block-list__block {
+
+		&.is-selected,
+		&.has-child-selected {
+			outline: 2px solid #007cba;
+		}
+	}
+}
+
+// Frontend styles - Only here we apply flip animation
+.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) {
+	.flashcard {
+		perspective: 1000px;
+	}
+
+	.flashcard-inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		transition: transform 0.8s;
+		transform-style: preserve-3d;
+		cursor: pointer;
+
+		&.is-flipped {
+			transform: rotateY(180deg);
+		}
+	}
+
+	.flashcard-front,
+	.flashcard-back {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		min-height: 300px;
+		height: auto;
+		padding: 2rem;
+		background: #fff;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	.flashcard-back {
+		transform: rotateY(180deg);
+		background: #f8f9fa;
+
+		.flashcard-content {
+			transform: rotateY(180deg);
+		}
+	}
+
+	.wp-block-smfcs-flashcard-front,
+	.wp-block-smfcs-flashcard-back {
+		&:not([style*="background"]) {
+			background: #fff;
+		}
+
+		&:not([style*="padding"]) {
+			padding: 1rem;
+		}
+	}
+}
