@@ -49,19 +49,24 @@ class Smart_Flashcards {
 	 * Create blocks.
 	 */
 	public function register_blocks() {
+		// Register child blocks first
 		$blocks = [
-			'flashcard',
 			'flashcard-front',
-			'flashcard-back'
+			'flashcard-back',
+			'flashcard' // Parent block last
 		];
 
 		foreach ($blocks as $block) {
+			$args = [];
+			
+			// Only add render callback for parent block
+			if ('flashcard' === $block) {
+				$args['render_callback'] = [$this, 'render_flashcard_block'];
+			}
+
 			register_block_type(
 				SMFCS_PLUGIN_PATH . "/src/blocks/{$block}/block.json",
-				[
-					'render_callback' => ($block === 'flashcard') ? 
-						[$this, 'render_flashcard_block'] : null
-				]
+				$args
 			);
 		}
 	}

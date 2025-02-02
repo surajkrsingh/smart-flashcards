@@ -1,11 +1,11 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "suraj-singh/flashcard-front",
+	"name": "smfcs/flashcard-front",
 	"version": "0.1.0",
 	"title": "Flashcard Front",
 	"category": "widgets",
-	"parent": ["suraj-singh/flashcard"],
+	"parent": ["smfcs/flashcards"],
 	"icon": "card",
 	"description": "Front side of the flashcard",
 	"supports": {

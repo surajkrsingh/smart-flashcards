@@ -6,14 +6,19 @@
 	"title": "Flashcard",
 	"category": "widgets",
 	"icon": "index-card",
-	"description": "Interactive flashcard with front/back content",
+	"description": "Create interactive flashcards with custom content",
 	"supports": {
 		"html": true,
-		"align": ["wide", "full"]
+		"align": [
+			"wide",
+			"full"
+		]
 	},
 	"attributes": {
-		"frontContent": {"type": "string"},
-		"backContent": {"type": "string"}
+		"isFlipped": {
+			"type": "boolean",
+			"default": false
+		}
 	},
 	"example": {
 		"attributes": {

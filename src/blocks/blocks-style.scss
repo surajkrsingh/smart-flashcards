@@ -3,6 +3,7 @@
 @use 'flashcard-front/frontend.scss' as *;
 @use 'flashcard-back/frontend.scss' as *;
 
+
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.
@@ -17,7 +18,7 @@
     padding: 20px;
 }
 
-.wp-block-smfcs-smart-flashcards {
+.wp-block-smfcs-flashcard {
     .flashcard {
         width: 100%;
         min-height: 300px;
@@ -87,7 +88,7 @@
 }
 
 // Editor specific styles
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards {
+.editor-styles-wrapper .wp-block-smfcs-flashcard {
     .flashcard-inner {
         position: relative;
         width: 100%;
@@ -102,7 +103,7 @@
 }
 
 // Editor styles - No flipping, just show/hide
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards {
+.editor-styles-wrapper .wp-block-smfcs-flashcard {
     .flashcard-inner {
         position: relative;
         width: 100%;
@@ -182,7 +183,7 @@
 }
 
 // Frontend styles - Only here we apply flip animation
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) {
     .flashcard {
         perspective: 1000px;
     }

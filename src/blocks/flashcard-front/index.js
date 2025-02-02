@@ -1,9 +1,11 @@
 import { registerBlockType } from '@wordpress/blocks';
-import { InnerBlocks } from '@wordpress/block-editor';
-import metadata from './block.json';
+import frontMetadata from './block.json';
+import FrontEdit from './edit';
+import FrontSave from './save';
 
 // Register Front Side Block
-registerBlockType(metadata.name, {
-	edit: () => <InnerBlocks templateLock={false} />,
-	save: () => <InnerBlocks.Content />
+registerBlockType(frontMetadata.name, {
+	...frontMetadata,
+	edit: FrontEdit,
+	save: FrontSave,
 });

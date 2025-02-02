@@ -11,13 +11,13 @@
   padding: 20px;
 }
 
-.wp-block-smfcs-smart-flashcards .flashcard {
+.wp-block-smfcs-flashcard .flashcard {
   width: 100%;
   min-height: 300px;
   margin: 20px 0;
   perspective: 1000px;
 }
-.wp-block-smfcs-smart-flashcards .flashcard-inner {
+.wp-block-smfcs-flashcard .flashcard-inner {
   position: relative;
   width: 100%;
   height: 100%;
@@ -26,11 +26,13 @@
   transform-style: preserve-3d;
   cursor: pointer;
 }
-.wp-block-smfcs-smart-flashcards .flashcard-inner.is-flipped {
+
+.wp-block-smfcs-flashcard .flashcard-inner.is-flipped {
   transform: rotateY(180deg);
 }
-.wp-block-smfcs-smart-flashcards .wp-block-smfcs-flashcard-front,
-.wp-block-smfcs-smart-flashcards .wp-block-smfcs-flashcard-back {
+
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front,
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back {
   position: absolute;
   top: 0;
   left: 0;
@@ -44,47 +46,47 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   backface-visibility: hidden;
 }
-.wp-block-smfcs-smart-flashcards .wp-block-smfcs-flashcard-front:not([style*=background]),
-.wp-block-smfcs-smart-flashcards .wp-block-smfcs-flashcard-back:not([style*=background]) {
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front:not([style*=background]),
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back:not([style*=background]) {
   background: #fff;
 }
-.wp-block-smfcs-smart-flashcards .wp-block-smfcs-flashcard-front:not([style*=padding]),
-.wp-block-smfcs-smart-flashcards .wp-block-smfcs-flashcard-back:not([style*=padding]) {
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front:not([style*=padding]),
+.wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back:not([style*=padding]) {
   padding: 2rem;
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back {
   transform: rotateY(180deg);
   background: #f8f9fa;
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back .flashcard-content {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back .flashcard-content {
   transform: rotateY(180deg);
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back .flashcard-content * {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back .flashcard-content * {
   transform: rotateY(180deg);
 }
-.wp-block-smfcs-smart-flashcards .flashcard-content {
+.wp-block-smfcs-flashcard .flashcard-content {
   width: 100%;
   max-width: 100%;
   word-wrap: break-word;
 }
 
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .flashcard-inner {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .flashcard-inner {
   position: relative;
   width: 100%;
   transition: none !important;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .wp-block-smfcs-flashcard-front,
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .wp-block-smfcs-flashcard-back {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front,
+.editor-styles-wrapper .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back {
   position: relative;
   backface-visibility: visible;
 }
 
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .flashcard-inner {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .flashcard-inner {
   position: relative;
   width: 100%;
   transition: none !important;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .flashcard-front {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .flashcard-front {
   display: block;
   background: #fff;
   border: 1px solid #ddd;
@@ -92,7 +94,7 @@
   padding: 2rem;
   margin-bottom: 1rem;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .flashcard-back {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .flashcard-back {
   display: none;
   background: #f8f9fa;
   border: 1px solid #ddd;
@@ -100,46 +102,46 @@
   padding: 2rem;
   margin-bottom: 1rem;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .flashcard-inner.is-flipped .flashcard-front {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .flashcard-inner.is-flipped .flashcard-front {
   display: none;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .flashcard-inner.is-flipped .flashcard-back {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .flashcard-inner.is-flipped .flashcard-back {
   display: block;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .block-editor-block-list__layout {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .block-editor-block-list__layout {
   min-height: 200px;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .block-editor-block-list__layout .wp-block-heading {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .block-editor-block-list__layout .wp-block-heading {
   margin: 0;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .block-editor-block-list__layout .wp-block-image {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .block-editor-block-list__layout .wp-block-image {
   margin: 0;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .block-editor-block-list__layout .wp-block-image img {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .block-editor-block-list__layout .wp-block-image img {
   max-width: 100%;
   height: auto;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .block-editor-block-list__layout .wp-block-buttons {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .block-editor-block-list__layout .wp-block-buttons {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
   margin: 1rem 0;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .block-editor-block-list__layout .wp-block-media-text {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .block-editor-block-list__layout .wp-block-media-text {
   grid-template-columns: 40% 1fr;
   gap: 1rem;
 }
-.editor-styles-wrapper .wp-block-smfcs-smart-flashcards .block-editor-block-list__block.is-selected, .editor-styles-wrapper .wp-block-smfcs-smart-flashcards .block-editor-block-list__block.has-child-selected {
+.editor-styles-wrapper .wp-block-smfcs-flashcard .block-editor-block-list__block.is-selected, .editor-styles-wrapper .wp-block-smfcs-flashcard .block-editor-block-list__block.has-child-selected {
   outline: 2px solid #007cba;
 }
 
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .flashcard {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .flashcard {
   perspective: 1000px;
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .flashcard-inner {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .flashcard-inner {
   position: relative;
   width: 100%;
   height: 100%;
@@ -148,11 +150,11 @@
   transform-style: preserve-3d;
   cursor: pointer;
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .flashcard-inner.is-flipped {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .flashcard-inner.is-flipped {
   transform: rotateY(180deg);
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .flashcard-front,
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .flashcard-back {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .flashcard-front,
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .flashcard-back {
   position: absolute;
   top: 0;
   left: 0;
@@ -165,19 +167,19 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .flashcard-back {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .flashcard-back {
   transform: rotateY(180deg);
   background: #f8f9fa;
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .flashcard-back .flashcard-content {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .flashcard-back .flashcard-content {
   transform: rotateY(180deg);
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-front:not([style*=background]),
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back:not([style*=background]) {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-front:not([style*=background]),
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back:not([style*=background]) {
   background: #fff;
 }
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-front:not([style*=padding]),
-.wp-block-smfcs-smart-flashcards:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back:not([style*=padding]) {
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-front:not([style*=padding]),
+.wp-block-smfcs-flashcard:not(.editor-styles-wrapper) .wp-block-smfcs-flashcard-back:not([style*=padding]) {
   padding: 1rem;
 }
 

@@ -1,11 +1,11 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
-	"name": "suraj-singh/flashcard-back",
+	"name": "smfcs/flashcard-back",
 	"version": "0.1.0",
 	"title": "Flashcard Back",
 	"category": "widgets",
-	"parent": ["suraj-singh/flashcard"],
+	"parent": ["smfcs/flashcard"],
 	"icon": "card",
 	"description": "Back side of the flashcard",
 	"supports": {
@@ -34,4 +34,4 @@
 	"editorStyle": "file:../../../build/editor.css",
 	"style": "file:../../../build/style.css",
 	"viewScript": "file:../../../build/frontend/index.js"
-} 
+}
