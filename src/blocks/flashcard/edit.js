@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, Button, ButtonGroup } from '@wordpress/components';
+import { useBlockProps, InnerBlocks, InspectorControls, __experimentalDimensionsControl as DimensionsControl } from '@wordpress/block-editor';
+import { PanelBody, Button, ButtonGroup, RangeControl } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import './editor.scss';
@@ -13,6 +13,7 @@ const TEMPLATE = [
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const [isFlipped, setIsFlipped] = useState(false);
+	const { width, height } = attributes;
 	const blockProps = useBlockProps();
 
 	// Get the selected block information
@@ -60,6 +61,24 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 							{__('Back', 'smart-flashcards')}
 						</Button>
 					</ButtonGroup>
+				</PanelBody>
+				<PanelBody title="Dimensions">
+					<RangeControl
+						label="Width (%)"
+						value={width}
+						onChange={(newWidth) => setAttributes({ width: newWidth })}
+						min={20}
+						max={100}
+						step={5}
+					/>
+					<RangeControl
+						label="Height (px)"
+						value={height}
+						onChange={(newHeight) => setAttributes({ height: newHeight })}
+						min={200}
+						max={800}
+						step={10}
+					/>
 				</PanelBody>
 			</InspectorControls>
 

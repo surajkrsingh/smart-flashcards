@@ -18,6 +18,14 @@
     "isFlipped": {
       "type": "boolean",
       "default": false
+    },
+    "width": {
+      "type": "number",
+      "default": 100
+    },
+    "height": {
+      "type": "number",
+      "default": 300
     }
   },
   "example": {

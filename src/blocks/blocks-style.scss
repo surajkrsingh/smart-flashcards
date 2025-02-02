@@ -19,6 +19,10 @@
 }
 
 .wp-block-smfcs-flashcard {
+    width: var(--flashcard-width, 100%);
+    height: var(--flashcard-height, 300px);
+    margin: 0 auto;
+
     .flashcard {
         width: 100%;
         min-height: 300px;

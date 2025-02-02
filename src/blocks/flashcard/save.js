@@ -1,7 +1,13 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
-export default function save() {
-	const blockProps = useBlockProps.save();
+export default function save({ attributes }) {
+	const { width, height } = attributes;
+	const blockProps = useBlockProps.save({
+		style: {
+			width: `${width}%`,
+			height: `${height}px`
+		}
+	});
 
 	return (
 		<div { ...blockProps }>

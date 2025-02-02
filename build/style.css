@@ -11,6 +11,11 @@
   padding: 20px;
 }
 
+.wp-block-smfcs-flashcard {
+  width: var(--flashcard-width, 100%);
+  height: var(--flashcard-height, 300px);
+  margin: 0 auto;
+}
 .wp-block-smfcs-flashcard .flashcard {
   width: 100%;
   min-height: 300px;
@@ -26,11 +31,9 @@
   transform-style: preserve-3d;
   cursor: pointer;
 }
-
 .wp-block-smfcs-flashcard .flashcard-inner.is-flipped {
   transform: rotateY(180deg);
 }
-
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-front,
 .wp-block-smfcs-flashcard .wp-block-smfcs-flashcard-back {
   position: absolute;
