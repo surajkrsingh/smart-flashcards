@@ -13,8 +13,10 @@ const TEMPLATE = [
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const [isFlipped, setIsFlipped] = useState(false);
-	const { width, height } = attributes;
-	const blockProps = useBlockProps();
+	const { width, height, index } = attributes;
+	const blockProps = useBlockProps({
+		'data-index': index
+	});
 
 	// Get the selected block information
 	const { selectedBlockClientId } = useSelect(select => ({
@@ -42,7 +44,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 	}, [selectedBlockClientId, innerBlocks]);
 
 	return (
-		<div { ...blockProps }>
+		<div {...blockProps}>
+			{index && <div className="flashcard-index">{index}</div>}
 			<InspectorControls>
 				<PanelBody title={__('Flashcard Settings', 'smart-flashcards')}>
 					<ButtonGroup>

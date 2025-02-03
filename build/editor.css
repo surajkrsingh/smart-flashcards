@@ -105,6 +105,29 @@
   width: 100%;
   transition: all 0.3s ease-in-out;
 }
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .wp-block-smfcs-flashcard {
+  position: relative;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .wp-block-smfcs-flashcard .flashcard-index {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background: #007cba;
+  color: #fff;
+  width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 20;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .wp-block-smfcs-flashcard.is-selected .flashcard-index, .editor-styles-wrapper .wp-block-smfcs-flashcard-set .wp-block-smfcs-flashcard.has-child-selected .flashcard-index {
+  background: #00a0d2;
+}
 
 .flashcard-set-controls {
   display: flex;

@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { useBlockProps, InnerBlocks, useInnerBlocksProps } from '@wordpress/block-editor';
 import { Button, ButtonGroup } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { trash, plus } from '@wordpress/icons';
@@ -17,10 +17,16 @@ export default function Edit({ attributes, setAttributes, clientId }) {
         innerBlocks: select('core/block-editor').getBlocks(clientId)
     }), [clientId]);
 
-    const { removeBlock, insertBlock } = useDispatch('core/block-editor');
+    const { removeBlock, insertBlock, updateBlockAttributes } = useDispatch('core/block-editor');
     const totalSlides = innerBlocks?.length || 0;
 
-    // Ensure currentSlide is valid
+    // Update index attributes for all flashcards
+    useEffect(() => {
+        innerBlocks.forEach((block, index) => {
+            updateBlockAttributes(block.clientId, { index: index + 1 });
+        });
+    }, [innerBlocks.length]);
+
     useEffect(() => {
         if (currentSlide >= totalSlides) {
             setAttributes({ currentSlide: Math.max(0, totalSlides - 1) });
@@ -28,7 +34,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     }, [totalSlides]);
 
     const handleAddSlide = () => {
-        const block = wp.blocks.createBlock('smfcs/flashcard');
+        const block = wp.blocks.createBlock('smfcs/flashcard', {
+            index: totalSlides + 1
+        });
         insertBlock(block, totalSlides, clientId);
         setAttributes({ currentSlide: totalSlides });
     };
@@ -37,7 +45,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
         if (totalSlides > 1) {
             const blockToRemove = innerBlocks[currentSlide];
             removeBlock(blockToRemove.clientId);
-            setAttributes({
+            setAttributes({ 
                 currentSlide: Math.max(0, currentSlide - 1)
             });
         }
