@@ -14,65 +14,96 @@
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-wrapper {
   position: relative;
   padding: 20px 0;
+  background: #fff;
+  border-radius: 8px;
 }
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-controls {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 0 10px;
+  padding: 0 16px 16px;
   border-bottom: 1px solid #e0e0e0;
-  padding-bottom: 15px;
-}
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-controls .block-editor-button-block-appender {
-  margin-right: 10px;
 }
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-controls .flashcard-controls {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-slides {
-  position: relative;
-  width: 100%;
-  min-height: 200px;
-  padding: 0 10px;
-}
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout {
-  position: relative;
-}
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout > .wp-block-smfcs-flashcard {
-  margin: 0;
-  width: 100%;
-}
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout > .block-list-appender {
-  display: none;
-}
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-nav {
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tabs-container .components-tab-panel__tabs {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 16px 16px 0;
+  border-bottom: 1px solid #e0e0e0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-nav .flashcard-set-counter {
-  font-size: 14px;
-  color: #555;
-  min-width: 80px;
-  text-align: center;
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tabs-container .components-tab-panel__tabs::-webkit-scrollbar {
+  height: 6px;
 }
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-nav .components-button {
-  height: auto;
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tabs-container .components-tab-panel__tabs::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tabs-container .components-tab-panel__tabs .components-tab-panel__tabs-item {
+  flex: 0 0 auto;
   padding: 8px 16px;
+  border: 1px solid transparent;
+  border-radius: 4px 4px 0 0;
+  margin-bottom: -1px;
+  font-size: 13px;
+  white-space: nowrap;
 }
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-nav .components-button:disabled {
-  opacity: 0.5;
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tabs-container .components-tab-panel__tabs .components-tab-panel__tabs-item.active-tab {
+  background: #f0f0f0;
+  border-color: #e0e0e0;
+  border-bottom-color: #f0f0f0;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tabs-container .components-tab-panel__tabs .components-tab-panel__tabs-item:focus {
+  box-shadow: none;
+  outline: 2px solid #007cba;
+  outline-offset: -2px;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tab-content {
+  padding: 20px 16px;
+  background: #f0f0f0;
+  min-height: 200px;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tab-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-tab-header h3 {
+  margin: 0;
+  font-size: 14px;
+  color: #1e1e1e;
 }
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-remove-button {
   color: #cc1818;
+  padding: 6px;
+  height: auto;
+  min-width: auto;
 }
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-remove-button:hover {
   color: #710d0d;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-editor {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 16px;
+  overflow: hidden;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-editor .block-editor-block-list__layout > .wp-block-smfcs-flashcard {
+  margin: 0;
+  width: 100%;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-editor .block-editor-block-list__layout > .block-list-appender {
+  display: none;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-content {
+  width: 100%;
+  transition: all 0.3s ease-in-out;
 }
 
 .flashcard-set-controls {
@@ -102,6 +133,102 @@
   width: 100%;
   flex-shrink: 0;
   padding: 0 10px;
+}
+
+.wp-block-smfcs-flashcard-set {
+  margin-top: 28px;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-editor {
+  background: #fff;
+  border: 1px solid #e2e4e7;
+  border-radius: 4px;
+  padding: 20px;
+  position: relative;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e2e4e7;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .slide-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .slide-selector-label {
+  font-size: 13px;
+  color: #1e1e1e;
+  font-weight: 500;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .slide-buttons {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .slide-button {
+  min-width: 36px;
+  height: 36px;
+  padding: 0;
+  justify-content: center;
+  font-size: 13px;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .slide-button.is-primary {
+  background: #007cba;
+  color: #fff;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .add-slide-button,
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .remove-slide-button {
+  min-width: 36px;
+  height: 36px;
+  padding: 0;
+  justify-content: center;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .remove-slide-button {
+  color: #cc1818;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-controls .remove-slide-button:hover {
+  color: #710d0d;
+}
+.wp-block-smfcs-flashcard-set .flashcard-editor {
+  background: #f8f9f9;
+  border: 1px solid #e2e4e7;
+  border-radius: 4px;
+  padding: 20px;
+}
+.wp-block-smfcs-flashcard-set .flashcard-editor .current-slide-info {
+  font-size: 13px;
+  color: #757575;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e2e4e7;
+}
+.wp-block-smfcs-flashcard-set .flashcard-editor .flashcard-content {
+  background: #fff;
+  border: 1px solid #e2e4e7;
+  border-radius: 4px;
+  padding: 15px;
+  min-height: 200px;
+  position: relative;
+}
+.wp-block-smfcs-flashcard-set .block-editor-block-list__block {
+  margin-top: 0;
+  position: relative;
+}
+.wp-block-smfcs-flashcard-set .block-editor-block-contextual-toolbar {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  z-index: 21;
+}
+.wp-block-smfcs-flashcard-set .wp-block-smfcs-flashcard .block-editor-block-list__layout {
+  margin: 0;
+  padding: 0;
+}
+.wp-block-smfcs-flashcard-set .wp-block-smfcs-flashcard .block-editor-default-block-appender {
+  display: none;
 }
 
 /**
