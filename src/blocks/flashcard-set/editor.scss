@@ -1,7 +1,6 @@
-.wp-block-smfcs-flashcard-set {
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set {
     .flashcard-set-wrapper {
         position: relative;
-        overflow: hidden;
         padding: 20px 0;
     }
 
@@ -11,34 +10,44 @@
         align-items: center;
         margin-bottom: 20px;
         padding: 0 10px;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 15px;
+
+        .block-editor-button-block-appender {
+            margin-right: 10px;
+        }
+
+        .flashcard-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
     }
 
     .flashcard-set-slides {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        min-height: 200px;
+    }
+
+    .flashcard-set-track {
         display: flex;
         transition: transform 0.3s ease-in-out;
-        
+        width: 100%;
+
         .block-editor-block-list__layout {
             display: flex;
             width: 100%;
-            gap: 20px;
             
             > .wp-block-smfcs-flashcard {
                 flex: 0 0 100%;
+                width: 100%;
                 max-width: 100%;
-                margin: 0;
-            }
-
-            // Style for block appender
-            > .block-list-appender {
-                flex: 0 0 100%;
-                max-width: 100%;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                min-height: 200px;
-                background: #f0f0f0;
-                border-radius: 8px;
-                margin: 0;
+                padding: 0 10px;
+                box-sizing: border-box;
+                display: block !important;
+                opacity: 1 !important;
             }
         }
     }
@@ -48,6 +57,7 @@
         justify-content: center;
         align-items: center;
         gap: 1rem;
+        margin-top: 20px;
 
         .flashcard-set-counter {
             font-size: 14px;
@@ -56,29 +66,9 @@
             text-align: center;
         }
 
-        .flashcard-nav-button {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        .components-button {
+            height: auto;
             padding: 8px 16px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-
-            &:hover:not(:disabled) {
-                transform: translateY(-1px);
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-
-            &:disabled {
-                opacity: 0.5;
-                cursor: not-allowed;
-            }
-
-            &.prev {
-                .dashicon {
-                    order: -1;
-                }
-            }
         }
     }
 

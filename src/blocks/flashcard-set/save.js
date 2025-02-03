@@ -8,14 +8,15 @@ export default function Save() {
         <div {...blockProps}>
             <div className="flashcard-set-wrapper">
                 <div className="flashcard-set-slides">
-                    <InnerBlocks.Content />
+                    <div className="flashcard-set-track">
+                        <InnerBlocks.Content />
+                    </div>
                 </div>
                 <div className="flashcard-set-nav">
                     <button 
                         type="button" 
                         className="flashcard-nav-button prev"
                         aria-label={__('Previous flashcard', 'smart-flashcards')}
-                        disabled
                     >
                         <span className="dashicons dashicons-arrow-left-alt2"></span>
                         {__('Previous', 'smart-flashcards')}
@@ -25,7 +26,6 @@ export default function Save() {
                         type="button" 
                         className="flashcard-nav-button next"
                         aria-label={__('Next flashcard', 'smart-flashcards')}
-                        disabled
                     >
                         {__('Next', 'smart-flashcards')}
                         <span className="dashicons dashicons-arrow-right-alt2"></span>

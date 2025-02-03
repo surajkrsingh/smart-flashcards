@@ -1,65 +1,77 @@
 function initializeFlashcards() {
     // Initialize flip functionality for all flashcards
-    document.querySelectorAll('.flashcard-inner').forEach(card => {
+    document.querySelectorAll('.flashcard-inner:not(.initialized)').forEach(card => {
         const frontSide = card.querySelector('.flashcard-front');
         const backSide = card.querySelector('.flashcard-back');
 
-        function toggleFlip() {
+        function toggleFlip(e) {
+            e.preventDefault(); // Prevent event bubbling
             card.classList.toggle('is-flipped');
             const isFlipped = card.classList.contains('is-flipped');
-
-            // Update ARIA hidden attributes
             frontSide.setAttribute('aria-hidden', isFlipped);
             backSide.setAttribute('aria-hidden', !isFlipped);
-
-            // Update ARIA label
-            const label = isFlipped ?
-                'Flashcard back side - Click or press Enter to flip' :
-                'Flashcard front side - Click or press Enter to flip';
-            card.setAttribute('aria-label', label);
         }
 
         card.addEventListener('click', toggleFlip);
         card.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                toggleFlip();
+                toggleFlip(e);
             }
         });
+        card.classList.add('initialized');
     });
 
-    // Initialize slider functionality for flashcard sets
-    document.querySelectorAll('.wp-block-smfcs-flashcard-set').forEach(set => {
-        const slides = set.querySelector('.flashcard-set-slides');
+    // Initialize flashcard sets
+    document.querySelectorAll('.wp-block-smfcs-flashcard-set:not(.initialized)').forEach(set => {
+        const track = set.querySelector('.flashcard-set-track');
         const prevBtn = set.querySelector('.flashcard-nav-button.prev');
         const nextBtn = set.querySelector('.flashcard-nav-button.next');
         const counter = set.querySelector('.flashcard-set-counter');
+        const slides = Array.from(set.querySelectorAll('.wp-block-smfcs-flashcard'));
         let currentSlide = 0;
-        const totalSlides = slides.children.length;
-        
+
         function updateSlides() {
-            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-            prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide === totalSlides - 1;
-            counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            if (!track) return;
+            
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            if (prevBtn) prevBtn.disabled = currentSlide === 0;
+            if (nextBtn) nextBtn.disabled = currentSlide === slides.length - 1;
+            if (counter) counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            
+            // Ensure proper z-index and visibility
+            slides.forEach((slide, index) => {
+                slide.style.zIndex = index === currentSlide ? '1' : '0';
+                slide.style.visibility = index === currentSlide ? 'visible' : 'hidden';
+            });
         }
-        
-        prevBtn?.addEventListener('click', () => {
-            currentSlide = Math.max(0, currentSlide - 1);
-            updateSlides();
-        });
-        
-        nextBtn?.addEventListener('click', () => {
-            currentSlide = Math.min(totalSlides - 1, currentSlide + 1);
-            updateSlides();
-        });
-        
-        // Initialize
+
+        function handlePrev(e) {
+            e.preventDefault();
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        }
+
+        function handleNext(e) {
+            e.preventDefault();
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        }
+
+        prevBtn?.addEventListener('click', handlePrev);
+        nextBtn?.addEventListener('click', handleNext);
+
+        // Initialize first slide
         updateSlides();
+        set.classList.add('initialized');
     });
 }
 
-// Initialize on DOM ready
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeFlashcards);
 } else {

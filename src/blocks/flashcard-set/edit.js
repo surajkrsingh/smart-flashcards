@@ -6,15 +6,12 @@ import { trash } from '@wordpress/icons';
 import './editor.scss';
 
 const ALLOWED_BLOCKS = ['smfcs/flashcard'];
-const TEMPLATE = [
-    ['smfcs/flashcard']
-];
+const TEMPLATE = [['smfcs/flashcard']];
 
 export default function Edit({ attributes, setAttributes, clientId }) {
     const { currentSlide } = attributes;
     const blockProps = useBlockProps();
 
-    // Get inner blocks and block operations
     const { innerBlocks } = useSelect(select => ({
         innerBlocks: select('core/block-editor').getBlocks(clientId)
     }), [clientId]);
@@ -48,6 +45,19 @@ export default function Edit({ attributes, setAttributes, clientId }) {
         <div {...blockProps}>
             <div className="flashcard-set-wrapper">
                 <div className="flashcard-set-controls">
+                    <div className="flashcard-controls">
+                        <InnerBlocks.ButtonBlockAppender />
+                        {totalSlides > 1 && (
+                            <Tooltip text={__('Remove current flashcard', 'smart-flashcards')}>
+                                <Button
+                                    variant="secondary"
+                                    icon={trash}
+                                    onClick={handleRemoveCard}
+                                    className="flashcard-remove-button"
+                                />
+                            </Tooltip>
+                        )}
+                    </div>
                     <div className="flashcard-set-nav">
                         <Button 
                             variant="secondary"
@@ -72,31 +82,21 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                             {__('Next', 'smart-flashcards')}
                         </Button>
                     </div>
-                    
-                    {totalSlides > 1 && (
-                        <Tooltip text={__('Remove current flashcard', 'smart-flashcards')}>
-                            <Button
-                                variant="secondary"
-                                icon={trash}
-                                onClick={handleRemoveCard}
-                                className="flashcard-remove-button"
-                            />
-                        </Tooltip>
-                    )}
                 </div>
 
-                <div 
-                    className="flashcard-set-slides"
-                    style={{
-                        transform: `translateX(-${currentSlide * 100}%)`
-                    }}
-                >
-                    <InnerBlocks
-                        allowedBlocks={ALLOWED_BLOCKS}
-                        template={TEMPLATE}
-                        orientation="horizontal"
-                        renderAppender={InnerBlocks.ButtonBlockAppender}
-                    />
+                <div className="flashcard-set-slides">
+                    <div 
+                        className="flashcard-set-track"
+                        style={{
+                            transform: `translateX(-${currentSlide * 100}%)`
+                        }}
+                    >
+                        <InnerBlocks
+                            allowedBlocks={ALLOWED_BLOCKS}
+                            template={TEMPLATE}
+                            orientation="horizontal"
+                        />
+                    </div>
                 </div>
             </div>
         </div>
