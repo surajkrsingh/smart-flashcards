@@ -35,26 +35,18 @@
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-slides {
   position: relative;
   width: 100%;
-  overflow: hidden;
   min-height: 200px;
-}
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-track {
-  display: flex;
-  transition: transform 0.3s ease-in-out;
-  width: 100%;
-}
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-track .block-editor-block-list__layout {
-  display: flex;
-  width: 100%;
-}
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-track .block-editor-block-list__layout > .wp-block-smfcs-flashcard {
-  flex: 0 0 100%;
-  width: 100%;
-  max-width: 100%;
   padding: 0 10px;
-  box-sizing: border-box;
-  display: block !important;
-  opacity: 1 !important;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout {
+  position: relative;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout > .wp-block-smfcs-flashcard {
+  margin: 0;
+  width: 100%;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout > .block-list-appender {
+  display: none;
 }
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-nav {
   display: flex;
@@ -72,6 +64,9 @@
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-nav .components-button {
   height: auto;
   padding: 8px 16px;
+}
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-set-nav .components-button:disabled {
+  opacity: 0.5;
 }
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set .flashcard-remove-button {
   color: #cc1818;

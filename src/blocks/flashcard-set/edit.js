@@ -3,6 +3,7 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { Button, Tooltip } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { trash } from '@wordpress/icons';
+import { useEffect } from '@wordpress/element';
 import './editor.scss';
 
 const ALLOWED_BLOCKS = ['smfcs/flashcard'];
@@ -18,6 +19,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
     const { removeBlock } = useDispatch('core/block-editor');
     const totalSlides = innerBlocks?.length || 0;
+
+    // Hide all slides except current one
+    useEffect(() => {
+        const slides = document.querySelectorAll(`#block-${clientId} .wp-block-smfcs-flashcard`);
+        slides.forEach((slide, index) => {
+            if (index === currentSlide) {
+                slide.style.display = 'block';
+            } else {
+                slide.style.display = 'none';
+            }
+        });
+    }, [currentSlide, totalSlides, clientId]);
 
     const handlePrev = () => {
         setAttributes({ 
@@ -42,7 +55,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     };
 
     return (
-        <div {...blockProps}>
+        <div {...blockProps} id={`block-${clientId}`}>
             <div className="flashcard-set-wrapper">
                 <div className="flashcard-set-controls">
                     <div className="flashcard-controls">
@@ -85,18 +98,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                 </div>
 
                 <div className="flashcard-set-slides">
-                    <div 
-                        className="flashcard-set-track"
-                        style={{
-                            transform: `translateX(-${currentSlide * 100}%)`
-                        }}
-                    >
-                        <InnerBlocks
-                            allowedBlocks={ALLOWED_BLOCKS}
-                            template={TEMPLATE}
-                            orientation="horizontal"
-                        />
-                    </div>
+                    <InnerBlocks
+                        allowedBlocks={ALLOWED_BLOCKS}
+                        template={TEMPLATE}
+                        orientation="horizontal"
+                        renderAppender={false}
+                    />
                 </div>
             </div>
         </div>
