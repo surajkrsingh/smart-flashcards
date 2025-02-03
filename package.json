@@ -20,8 +20,9 @@
 		"browserslist": "4.23.0"
 	},
 	"dependencies": {
-		"caniuse-lite": "1.0.30001589",
-		"@wordpress/api-fetch": "^6.47.0"
+		"@wordpress/api-fetch": "^6.47.0",
+		"@wordpress/icons": "^10.17.0",
+		"caniuse-lite": "1.0.30001589"
 	},
 	"browserslist": [
 		"extends @wordpress/browserslist-config"

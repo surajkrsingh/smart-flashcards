@@ -5,6 +5,14 @@
         padding: 20px 0;
     }
 
+    .flashcard-set-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding: 0 10px;
+    }
+
     .flashcard-set-slides {
         display: flex;
         transition: transform 0.3s ease-in-out;
@@ -40,12 +48,11 @@
         justify-content: center;
         align-items: center;
         gap: 1rem;
-        margin-top: 20px;
 
         .flashcard-set-counter {
             font-size: 14px;
             color: #555;
-            min-width: 60px;
+            min-width: 80px;
             text-align: center;
         }
 
@@ -72,6 +79,14 @@
                     order: -1;
                 }
             }
+        }
+    }
+
+    .flashcard-remove-button {
+        color: #cc1818;
+        
+        &:hover {
+            color: #710d0d;
         }
     }
 }

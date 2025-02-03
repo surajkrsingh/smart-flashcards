@@ -1,7 +1,6 @@
 function initializeFlashcards() {
-    const flashcards = document.querySelectorAll('.flashcard-inner');
-
-    flashcards.forEach(card => {
+    // Initialize flip functionality for all flashcards
+    document.querySelectorAll('.flashcard-inner').forEach(card => {
         const frontSide = card.querySelector('.flashcard-front');
         const backSide = card.querySelector('.flashcard-back');
 
@@ -21,8 +20,7 @@ function initializeFlashcards() {
         }
 
         card.addEventListener('click', toggleFlip);
-
-        card.addEventListener('keydown', function (e) {
+        card.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
                 toggleFlip();
@@ -30,21 +28,20 @@ function initializeFlashcards() {
         });
     });
 
-    // Add Flashcard Set functionality
-    const flashcardSets = document.querySelectorAll('.wp-block-smfcs-flashcard-set');
-    
-    flashcardSets.forEach(set => {
+    // Initialize slider functionality for flashcard sets
+    document.querySelectorAll('.wp-block-smfcs-flashcard-set').forEach(set => {
         const slides = set.querySelector('.flashcard-set-slides');
-        const prevBtn = set.querySelector('.flashcard-set-nav .prev');
-        const nextBtn = set.querySelector('.flashcard-set-nav .next');
+        const prevBtn = set.querySelector('.flashcard-nav-button.prev');
+        const nextBtn = set.querySelector('.flashcard-nav-button.next');
+        const counter = set.querySelector('.flashcard-set-counter');
         let currentSlide = 0;
+        const totalSlides = slides.children.length;
         
         function updateSlides() {
             slides.style.transform = `translateX(-${currentSlide * 100}%)`;
-            
-            // Update button states
             prevBtn.disabled = currentSlide === 0;
-            nextBtn.disabled = currentSlide === slides.children.length - 1;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            counter.textContent = `${currentSlide + 1} / ${totalSlides}`;
         }
         
         prevBtn?.addEventListener('click', () => {
@@ -53,11 +50,11 @@ function initializeFlashcards() {
         });
         
         nextBtn?.addEventListener('click', () => {
-            currentSlide = Math.min(slides.children.length - 1, currentSlide + 1);
+            currentSlide = Math.min(totalSlides - 1, currentSlide + 1);
             updateSlides();
         });
         
-        // Initialize button states
+        // Initialize
         updateSlides();
     });
 }
