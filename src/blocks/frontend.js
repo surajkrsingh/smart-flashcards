@@ -29,6 +29,37 @@ function initializeFlashcards() {
             }
         });
     });
+
+    // Add Flashcard Set functionality
+    const flashcardSets = document.querySelectorAll('.wp-block-smfcs-flashcard-set');
+    
+    flashcardSets.forEach(set => {
+        const slides = set.querySelector('.flashcard-set-slides');
+        const prevBtn = set.querySelector('.flashcard-set-nav .prev');
+        const nextBtn = set.querySelector('.flashcard-set-nav .next');
+        let currentSlide = 0;
+        
+        function updateSlides() {
+            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update button states
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.children.length - 1;
+        }
+        
+        prevBtn?.addEventListener('click', () => {
+            currentSlide = Math.max(0, currentSlide - 1);
+            updateSlides();
+        });
+        
+        nextBtn?.addEventListener('click', () => {
+            currentSlide = Math.min(slides.children.length - 1, currentSlide + 1);
+            updateSlides();
+        });
+        
+        // Initialize button states
+        updateSlides();
+    });
 }
 
 // Initialize on DOM ready

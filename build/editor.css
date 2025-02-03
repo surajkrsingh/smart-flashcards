@@ -11,35 +11,67 @@
   align-items: center;
 }
 
-.flashcard-set-wrapper {
+.wp-block-smfcs-flashcard-set .flashcard-set-wrapper {
+  position: relative;
   overflow: hidden;
-  width: 100%;
   padding: 20px 0;
 }
-.flashcard-set-wrapper .flashcard-set-nav {
+.wp-block-smfcs-flashcard-set .flashcard-set-slides {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout {
+  display: flex;
+  width: 100%;
+  gap: 20px;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout > .wp-block-smfcs-flashcard {
+  flex: 0 0 100%;
+  max-width: 100%;
+  margin: 0;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-slides .block-editor-block-list__layout > .block-list-appender {
+  flex: 0 0 100%;
+  max-width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
-  gap: 15px;
+  min-height: 200px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  margin: 0;
 }
-.flashcard-set-wrapper .flashcard-set-nav button {
+.wp-block-smfcs-flashcard-set .flashcard-set-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 20px;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav .flashcard-set-counter {
+  font-size: 14px;
+  color: #555;
+  min-width: 60px;
+  text-align: center;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav .flashcard-nav-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 8px 16px;
   border-radius: 4px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
-.flashcard-set-wrapper .flashcard-set-nav button:disabled {
+.wp-block-smfcs-flashcard-set .flashcard-set-nav .flashcard-nav-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav .flashcard-nav-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
-.flashcard-set-wrapper .flashcard-set-slides {
-  width: 100%;
-  overflow: visible;
-}
-.flashcard-set-wrapper .flashcard-set-slides .wp-block-smfcs-flashcard {
-  width: calc(100% - 20px);
-  margin: 0 10px;
-  flex: 0 0 auto;
+.wp-block-smfcs-flashcard-set .flashcard-set-nav .flashcard-nav-button.prev .dashicon {
+  order: -1;
 }
 
 .flashcard-set-controls {

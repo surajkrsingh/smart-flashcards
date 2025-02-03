@@ -7,7 +7,12 @@
     "category": "widgets",
     "icon": "slides",
     "description": "Create a set of flashcards with navigation",
-    "attributes": {},
+    "attributes": {
+        "currentSlide": {
+            "type": "number",
+            "default": 0
+        }
+    },
     "supports": {
         "align": ["wide", "full"],
         "html": false

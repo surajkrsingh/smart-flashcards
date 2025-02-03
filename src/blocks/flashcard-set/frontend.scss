@@ -1,36 +1,49 @@
-.flashcard-set-wrapper {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    padding: 20px 0;
+.wp-block-smfcs-flashcard-set {
+    .flashcard-set-wrapper {
+        position: relative;
+        overflow: hidden;
+        padding: 20px 0;
+    }
 
     .flashcard-set-slides {
         display: flex;
-        transition: transform 0.3s ease;
-        will-change: transform;
+        transition: transform 0.3s ease-in-out;
+        gap: 20px;
+        
+        > .wp-block-smfcs-flashcard {
+            flex: 0 0 100%;
+            max-width: 100%;
+            margin: 0;
+        }
     }
 
-    .wp-block-smfcs-flashcard {
-        flex: 0 0 calc(100% / var(--slides-per-view, 1));
-        padding: 0 10px;
-        box-sizing: border-box;
-    }
-}
+    .flashcard-set-nav {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 20px;
 
-.flashcard-set-nav {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
+        button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 8px 16px;
+            border-radius: 4px;
+            background: #f0f0f0;
+            border: 1px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s ease;
 
-    button {
-        padding: 8px 16px;
-        border-radius: 4px;
-        transition: all 0.3s ease;
+            &:hover:not(:disabled) {
+                background: #e0e0e0;
+                transform: translateY(-1px);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
 
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
         }
     }
 } 

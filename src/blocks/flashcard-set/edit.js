@@ -1,83 +1,77 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, Button } from '@wordpress/components';
-import { useState, useEffect } from '@wordpress/element';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { Button } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
+import './editor.scss';
 
 const ALLOWED_BLOCKS = ['smfcs/flashcard'];
-const TEMPLATE = [['smfcs/flashcard']];
+const TEMPLATE = [
+    ['smfcs/flashcard']
+];
 
 export default function Edit({ attributes, setAttributes, clientId }) {
-    const [currentSlide, setCurrentSlide] = useState(0);
+    const { currentSlide } = attributes;
     const blockProps = useBlockProps();
-    const { insertBlock } = useDispatch('core/block-editor');
-    
-    const { innerBlocks } = useSelect((select) => ({
+
+    // Get inner blocks count using useSelect
+    const { innerBlocks } = useSelect(select => ({
         innerBlocks: select('core/block-editor').getBlocks(clientId)
     }), [clientId]);
 
-    useEffect(() => {
-        const editorDom = document.querySelector('.block-editor-block-list__layout');
-        if (editorDom) {
-            editorDom.style.transform = `translateX(-${currentSlide * 100}%)`;
-        }
-    }, [currentSlide]);
+    const totalSlides = innerBlocks?.length || 0;
 
-    const handleAddFlashcard = () => {
-        insertBlock('smfcs/flashcard', innerBlocks.length, clientId, false)
-            .then(() => {
-                setCurrentSlide(innerBlocks.length);
-            });
+    const handlePrev = () => {
+        setAttributes({ 
+            currentSlide: Math.max(0, currentSlide - 1)
+        });
+    };
+
+    const handleNext = () => {
+        setAttributes({ 
+            currentSlide: Math.min(totalSlides - 1, currentSlide + 1)
+        });
     };
 
     return (
         <div {...blockProps}>
-            <InspectorControls>
-                <PanelBody title={__('Flashcard Management', 'smart-flashcards')}>
-                    <div className="flashcard-set-controls">
-                        <Button
-                            variant="primary"
-                            onClick={handleAddFlashcard}
-                            style={{ marginBottom: '15px' }}
-                        >
-                            {__('Add New Flashcard', 'smart-flashcards')}
-                        </Button>
-                        
-                        <div className="flashcard-set-count">
-                            {__('Total Flashcards:', 'smart-flashcards')} {innerBlocks.length}
-                        </div>
-                    </div>
-                </PanelBody>
-            </InspectorControls>
-
             <div className="flashcard-set-wrapper">
-                <div className="flashcard-set-nav">
-                    <Button 
-                        variant="secondary"
-                        disabled={currentSlide === 0}
-                        onClick={() => setCurrentSlide(Math.max(0, currentSlide - 1))}
-                    >
-                        ←
-                    </Button>
-                    
-                    <span>{__(`Card ${currentSlide + 1} of ${innerBlocks.length}`, 'smart-flashcards')}</span>
-                    
-                    <Button 
-                        variant="secondary"
-                        disabled={currentSlide >= innerBlocks.length - 1}
-                        onClick={() => setCurrentSlide(Math.min(innerBlocks.length - 1, currentSlide + 1))}
-                    >
-                        →
-                    </Button>
-                </div>
-
-                <div className="flashcard-set-slides">
+                <div 
+                    className="flashcard-set-slides"
+                    style={{
+                        transform: `translateX(-${currentSlide * 100}%)`
+                    }}
+                >
                     <InnerBlocks
                         allowedBlocks={ALLOWED_BLOCKS}
                         template={TEMPLATE}
-                        templateLock={false}
                         orientation="horizontal"
+                        renderAppender={InnerBlocks.ButtonBlockAppender}
                     />
+                </div>
+
+                <div className="flashcard-set-nav">
+                    <Button 
+                        variant="secondary"
+                        onClick={handlePrev}
+                        disabled={currentSlide === 0}
+                        icon="arrow-left-alt2"
+                        className="flashcard-nav-button prev"
+                    >
+                        {__('Previous', 'smart-flashcards')}
+                    </Button>
+                    <span className="flashcard-set-counter">
+                        {currentSlide + 1} / {totalSlides || 1}
+                    </span>
+                    <Button 
+                        variant="secondary"
+                        onClick={handleNext}
+                        disabled={currentSlide === totalSlides - 1}
+                        icon="arrow-right-alt2"
+                        iconPosition="right"
+                        className="flashcard-nav-button next"
+                    >
+                        {__('Next', 'smart-flashcards')}
+                    </Button>
                 </div>
             </div>
         </div>
