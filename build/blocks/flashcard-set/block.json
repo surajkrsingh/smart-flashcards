@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "smfcs/flashcard-set",
+  "version": "0.1.0",
+  "title": "Flashcard Set",
+  "category": "widgets",
+  "icon": "slides",
+  "description": "Create a set of flashcards with navigation",
+  "attributes": {
+    "currentSlide": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "textdomain": "smart-flashcards",
+  "editorScript": "file:../../../build/flashcard-set/index.js",
+  "editorStyle": "file:../../../build/editor.css",
+  "style": "file:../../../build/style.css",
+  "viewScript": "file:../../../build/frontend.js"
+}

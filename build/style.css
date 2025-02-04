@@ -1,3 +1,61 @@
+.wp-block-smfcs-flashcard-set .flashcard-set-wrapper {
+  position: relative;
+  padding: 20px 0;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-slides {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  min-height: 200px;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-track {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+  width: 100%;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-track .wp-block-smfcs-flashcard {
+  flex: 0 0 100%;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 20px;
+  padding: 0 10px;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 8px 16px;
+  border-radius: 4px;
+  background: #f0f0f0;
+  border: 1px solid #ddd;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav button:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav button .dashicons {
+  font-size: 16px;
+  line-height: 1;
+}
+.wp-block-smfcs-flashcard-set .flashcard-set-nav .flashcard-set-counter {
+  font-size: 14px;
+  color: #555;
+  min-width: 80px;
+  text-align: center;
+}
+
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.

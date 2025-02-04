@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Flashcard Front",
 	"category": "widgets",
-	"parent": ["smfcs/flashcards"],
+	"parent": ["smfcs/flashcard"],
 	"icon": "card",
 	"description": "Front side of the flashcard",
 	"supports": {
