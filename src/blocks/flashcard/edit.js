@@ -4,12 +4,7 @@ import { PanelBody, Button, ButtonGroup, RangeControl } from '@wordpress/compone
 import { useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import './editor.scss';
-
-const ALLOWED_BLOCKS = ['smfcs/flashcard-front', 'smfcs/flashcard-back'];
-const TEMPLATE = [
-	['smfcs/flashcard-front'],
-	['smfcs/flashcard-back']
-];
+import { FLASHCARD_ALLOWED_BLOCKS, FLASHCARD_TEMPLATE } from '../../utils/constants';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const [isFlipped, setIsFlipped] = useState(false);
@@ -88,8 +83,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 			<div className="flashcard">
 				<div className={`flashcard-inner ${isFlipped ? 'is-flipped' : ''}`}>
 					<InnerBlocks
-						allowedBlocks={ALLOWED_BLOCKS}
-						template={TEMPLATE}
+						allowedBlocks={FLASHCARD_ALLOWED_BLOCKS}
+						template={FLASHCARD_TEMPLATE}
 						templateLock="all"
 					/>
 

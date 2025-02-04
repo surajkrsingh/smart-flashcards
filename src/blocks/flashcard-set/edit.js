@@ -5,9 +5,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { trash, plus } from '@wordpress/icons';
 import { useEffect } from '@wordpress/element';
 import './editor.scss';
-
-const ALLOWED_BLOCKS = ['smfcs/flashcard'];
-const TEMPLATE = [['smfcs/flashcard']];
+import { FLASHCARD_SET_ALLOWED_BLOCKS, FLASHCARD_SET_DEFAULT_TEMPLATE } from '../../utils/constants';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
     const { currentSlide } = attributes;
@@ -98,8 +96,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                 <div className="flashcard-editor">
                     <div className="flashcard-slides">
                         <InnerBlocks
-                            allowedBlocks={ALLOWED_BLOCKS}
-                            template={TEMPLATE}
+                            allowedBlocks={FLASHCARD_SET_ALLOWED_BLOCKS}
+                            template={FLASHCARD_SET_DEFAULT_TEMPLATE}
                             orientation="horizontal"
                             renderAppender={false}
                         />
