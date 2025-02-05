@@ -8,7 +8,9 @@ module.exports = {
 		'flashcard-front/index': './src/blocks/flashcard-front/index.js',
 		'flashcard-back/index': './src/blocks/flashcard-back/index.js',
 		'frontend': './src/blocks/frontend.js',
-		'flashcard-set/index': './src/blocks/flashcard-set/index.js'
+		'flashcard-set/index': './src/blocks/flashcard-set/index.js',
+		'card-stack/index': './src/blocks/card-stack/index.js',
+		'card/index': './src/blocks/card/index.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'build'),

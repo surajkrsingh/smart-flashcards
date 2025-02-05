@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "smfcs/card",
+  "version": "1.0.0",
+  "title": "Stack Card",
+  "category": "widgets",
+  "icon": "card",
+  "description": "Individual card within the stack",
+  "supports": {
+    "html": true,
+    "reusable": true,
+    "anchor": true,
+    "color": {
+      "background": true,
+      "text": true,
+      "gradients": true
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true
+    }
+  },
+  "attributes": {
+    "index": {
+      "type": "number"
+    },
+    "backgroundColor": {
+      "type": "string"
+    },
+    "textColor": {
+      "type": "string"
+    },
+    "style": {
+      "type": "object"
+    }
+  },
+  "textdomain": "smart-flashcards",
+  "editorScript": "file:../../../build/card/index.js",
+  "editorStyle": "file:../../../build/editor.css",
+  "style": "file:../../../build/style.css",
+  "viewScript": "file:../../../build/frontend.js"
+}

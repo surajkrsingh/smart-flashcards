@@ -56,6 +56,116 @@
   text-align: center;
 }
 
+.wp-block-card-stack-stack {
+  perspective: 1000px;
+  margin: 2em auto;
+  max-width: 800px;
+}
+.wp-block-card-stack-stack .card-stack-container {
+  position: relative;
+  transform-style: preserve-3d;
+  min-height: 200px;
+}
+.wp-block-card-stack-stack .card-navigation {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 1em 0;
+}
+.wp-block-card-stack-stack .card-navigation button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f0f0f0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.wp-block-card-stack-stack .card-navigation button.active {
+  background: #007cba;
+  color: white;
+}
+.wp-block-card-stack-stack .card-navigation button:hover {
+  background: #e0e0e0;
+}
+.wp-block-card-stack-stack .card-navigation button:hover.active {
+  background: #006ba1;
+}
+
+.wp-block-card-stack-card {
+  position: relative;
+  background: var(--background-color, #ffffff);
+  color: var(--text-color, #000000);
+  padding: var(--padding, 20px);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease, opacity 0.3s ease;
+}
+.wp-block-card-stack-card .card-content {
+  position: relative;
+  z-index: 0;
+}
+.wp-block-card-stack-card .card-content h1, .wp-block-card-stack-card .card-content h2, .wp-block-card-stack-card .card-content h3, .wp-block-card-stack-card .card-content h4, .wp-block-card-stack-card .card-content h5, .wp-block-card-stack-card .card-content h6 {
+  margin-top: 0;
+  color: inherit;
+}
+.wp-block-card-stack-card .card-content p {
+  margin-bottom: 1em;
+  line-height: 1.6;
+}
+.wp-block-card-stack-card .card-content img,
+.wp-block-card-stack-card .card-content video {
+  max-width: 100%;
+  height: auto;
+  border-radius: calc(var(--border-radius, 8px) - 4px);
+}
+.wp-block-card-stack-card[data-animation=flip].is-hidden {
+  transform: rotateY(180deg);
+  opacity: 0;
+}
+.wp-block-card-stack-card[data-animation=slide].is-hidden {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+.wp-block-card-stack-card[data-animation=slide][data-direction=vertical].is-hidden {
+  transform: translateY(-100%);
+}
+.wp-block-card-stack-card[data-animation=stack].is-hidden {
+  transform: translateY(10px) scale(0.95);
+  opacity: 0.5;
+}
+@media (max-width: 768px) {
+  .wp-block-card-stack-card {
+    padding: calc(var(--padding, 20px) * 0.8);
+  }
+  .wp-block-card-stack-card .card-content {
+    font-size: 0.95em;
+  }
+}
+@media (max-width: 480px) {
+  .wp-block-card-stack-card {
+    padding: calc(var(--padding, 20px) * 0.6);
+  }
+  .wp-block-card-stack-card .card-content {
+    font-size: 0.9em;
+  }
+}
+
+@media print {
+  .wp-block-card-stack-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ddd;
+    margin-bottom: 1em;
+  }
+  .wp-block-card-stack-card.is-hidden {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
 /**
  * The following styles get applied both on the front of your site
  * and in the editor.
