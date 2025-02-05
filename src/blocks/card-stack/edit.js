@@ -45,24 +45,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
         });
     }, [innerBlocks.length, backgroundColor, textColor]);
 
-    const handleCardChange = (newIndex) => {
-        const cardElements = stackRef.current.querySelectorAll('.wp-block-smfcs-card');
-
-        switch (animationType) {
-            case 'flip':
-                animateFlip(cardElements[currentCard], animationDirection);
-                break;
-            case 'slide':
-                animateSlide(cardElements[currentCard], animationDirection);
-                break;
-            case 'stack':
-                animateStack(Array.from(cardElements), stackSpacing);
-                break;
-        }
-
-        setAttributes({ currentCard: newIndex });
-    };
-
     const blockProps = useBlockProps({
         ref: stackRef,
         style: {
@@ -129,17 +111,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                 </PanelBody>
             </InspectorControls>
             <div {...blockProps}>
-                <div className="card-stack-controls">
-                    {innerBlocks.map((_, index) => (
-                        <button
-                            key={index}
-                            className={`card-nav-button ${currentCard === index ? 'active' : ''}`}
-                            onClick={() => handleCardChange(index)}
-                        >
-                            {index + 1}
-                        </button>
-                    ))}
-                </div>
                 <div className="card-stack-container">
                     <InnerBlocks
                         allowedBlocks={CARD_STACK_ALLOWED_BLOCKS}

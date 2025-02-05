@@ -6,7 +6,10 @@ export default function save({ attributes }) {
         backgroundColor,
         textColor,
         borderRadius,
-        padding
+        padding,
+        currentCard,
+        animationType,
+        animationDirection,
     } = attributes;
 
     const blockProps = useBlockProps.save({
@@ -15,13 +18,16 @@ export default function save({ attributes }) {
             '--background-color': backgroundColor,
             '--text-color': textColor,
             '--border-radius': `${borderRadius}px`,
-            '--padding': `${padding}px`
+            '--padding': `${padding}px`,
+            '--animation-type': animationType,
+            '--animation-direction': animationDirection,
+            '--current-card': currentCard
         }
     });
 
     return (
         <div {...blockProps}>
-            <div className="card-stack-container">
+            <div className="card-stack-container" data-animation-type={animationType} data-animation-direction={animationDirection}>
                 <InnerBlocks.Content />
             </div>
         </div>
