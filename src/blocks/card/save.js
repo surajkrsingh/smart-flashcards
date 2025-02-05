@@ -9,10 +9,9 @@ export default function save({ attributes }) {
 
     return (
         <div {...blockProps}>
-            {index && <div className="card-index">{index}</div>}
-            <div className="card-content">
+            <div className="card-content" data-index={index}>
                 <InnerBlocks.Content />
             </div>
         </div>
     );
-} 
+}

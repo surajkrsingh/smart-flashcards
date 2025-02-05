@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
-import { 
-    PanelBody, 
-    RangeControl, 
+import {
+    PanelBody,
+    RangeControl,
     SelectControl,
     ColorPicker
 } from '@wordpress/components';
@@ -26,7 +26,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     } = attributes;
 
     const stackRef = useRef(null);
-    
+
     const { innerBlocks, selectedBlockClientId } = useSelect(select => ({
         innerBlocks: select('core/block-editor').getBlocks(clientId),
         selectedBlockClientId: select('core/block-editor').getSelectedBlockClientId()
@@ -46,9 +46,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     }, [innerBlocks.length, backgroundColor, textColor]);
 
     const handleCardChange = (newIndex) => {
-        const cardElements = stackRef.current.querySelectorAll('.wp-block-card-stack-card');
-        
-        switch(animationType) {
+        const cardElements = stackRef.current.querySelectorAll('.wp-block-smfcs-card');
+
+        switch (animationType) {
             case 'flip':
                 animateFlip(cardElements[currentCard], animationDirection);
                 break;
