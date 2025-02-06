@@ -8,6 +8,7 @@ import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import remarkStringify from 'remark-stringify';
 import { visit } from 'unist-util-visit';
+import remarkHtml from 'remark-html';
 
 export default function Edit({ clientId }) {
     const blockProps = useBlockProps();
@@ -17,6 +18,7 @@ export default function Edit({ clientId }) {
     const [userPrompt, setUserPrompt] = useState('');
     const [generatedContent, setGeneratedContent] = useState('');
     const [parsedBlocks, setParsedBlocks] = useState([]);
+    const [htmlContent, setHtmlContent] = useState('');
     const { askGroqAI } = useGroqAI();
 
     const handleGenerate = async () => {
@@ -39,6 +41,7 @@ export default function Edit({ clientId }) {
     useEffect(() => {
         if (generatedContent) {
             convertContentToBlocks(generatedContent).then(setParsedBlocks);
+            convertMarkdownToHtml(generatedContent).then(setHtmlContent);
         }
     }, [generatedContent]);
 
@@ -112,6 +115,20 @@ export default function Edit({ clientId }) {
         }
     };
 
+    const convertMarkdownToHtml = async (markdown) => {
+        try {
+            const result = await unified()
+                .use(remarkParse)
+                .use(remarkGfm)
+                .use(remarkHtml)
+                .process(markdown);
+            return result.toString();
+        } catch (error) {
+            console.error('Markdown to HTML conversion error:', error);
+            return markdown;
+        }
+    };
+
     const insertContent = async () => {
         if (parsedBlocks.length) {
             for (const blockConfig of parsedBlocks) {
@@ -143,17 +160,10 @@ export default function Edit({ clientId }) {
 
             {showReviewModal && (
                 <Modal title={__('Review Generated Content', 'smart-flashcards')} onRequestClose={() => setShowReviewModal(false)} style={{ minWidth: '800px' }}>
-                    <div className="generated-content-preview">
-                        {parsedBlocks.map((block, index) => (
-                            <div key={index} className={`preview-${block.name.replace('core/', '')}`}>
-                                {block.name === 'core/heading' ? <h3>{block.attributes.content}</h3> :
-                                    block.name === 'core/list' ? <ul>{block.attributes.values.map((item, i) => <li key={i}>{item}</li>)}</ul> :
-                                        block.name === 'core/quote' ? <blockquote>{block.attributes.value}</blockquote> :
-                                            block.name === 'core/code' ? <pre><code>{block.attributes.content}</code></pre> :
-                                                <p>{block.attributes.content}</p>}
-                            </div>
-                        ))}
-                    </div>
+                    <div 
+                        className="generated-content-preview"
+                        dangerouslySetInnerHTML={{ __html: htmlContent }}
+                    />
                     <div style={{ marginTop: '20px' }}>
                         <Button variant="primary" onClick={insertContent}>{__('Accept & Insert', 'smart-flashcards')}</Button>
                         <Button variant="secondary" onClick={() => setShowReviewModal(false)} style={{ marginLeft: '10px' }}>{__('Cancel', 'smart-flashcards')}</Button>
