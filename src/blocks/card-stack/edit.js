@@ -11,8 +11,6 @@ import { useEffect, useRef } from '@wordpress/element';
 import { animateFlip, animateSlide, animateStack } from '../../utils/animations';
 import { CARD_STACK_DEFAULT_TEMPLATE, CARD_STACK_ALLOWED_BLOCKS, CARD_STACK_DEFAULT_SETTINGS, ANIMATION_TYPES, ANIMATION_DIRECTIONS } from '../../utils/constants';
 
-import './editor.scss';
-
 export default function Edit({ attributes, setAttributes, clientId }) {
     const {
         currentCard,
