@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "smfcs/card-stack",
+    "version": "1.0.0",
+    "title": "Card Stack",
+    "category": "widgets",
+    "icon": "slides",
+    "description": "Create interactive stacked cards with animations",
+    "supports": {
+        "html": false,
+        "anchor": true,
+        "align": ["wide", "full"]
+    },
+    "attributes": {
+        "currentCard": {
+            "type": "number",
+            "default": 0
+        },
+        "animationType": {
+            "type": "string",
+            "default": "flip"
+        },
+        "animationDirection": {
+            "type": "string",
+            "default": "horizontal"
+        },
+        "stackSpacing": {
+            "type": "number",
+            "default": 10
+        },
+        "backgroundColor": {
+            "type": "string",
+            "default": "#ffffff"
+        },
+        "textColor": {
+            "type": "string",
+            "default": "#000000"
+        },
+        "borderRadius": {
+            "type": "number",
+            "default": 8
+        },
+        "padding": {
+            "type": "number",
+            "default": 20
+        }
+    },
+    "textdomain": "smart-flashcards",
+    "editorScript": "file:../../../build/card-stack/index.js",
+	"editorStyle": "file:../../../build/editor.css",
+	"style": "file:../../../build/style.css",
+	"viewScript": "file:../../../build/frontend.js"
+}

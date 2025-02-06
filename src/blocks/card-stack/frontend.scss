@@ -1,0 +1,11 @@
+.wp-block-smfcs-card-stack {
+    perspective: 1000px;
+    margin: 2em auto;
+    max-width: 800px;
+
+    .card-stack-container {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+    }
+}

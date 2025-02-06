@@ -22,7 +22,8 @@
 	"dependencies": {
 		"@wordpress/api-fetch": "^6.47.0",
 		"@wordpress/icons": "^10.17.0",
-		"caniuse-lite": "1.0.30001589"
+		"caniuse-lite": "1.0.30001589",
+		"gsap": "^3.12.7"
 	},
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
