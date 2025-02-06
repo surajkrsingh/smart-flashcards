@@ -18,6 +18,7 @@ use SMFCS\Features\Inc\Traits\Singleton;
  */
 class Smart_Flashcards {
 
+
 	use Singleton;
 
 	/**
@@ -49,28 +50,28 @@ class Smart_Flashcards {
 	 * Create blocks.
 	 */
 	public function register_blocks() {
-		// Register blocks in correct hierarchical order
 		$blocks = array(
 			'flashcard-front',
 			'flashcard-back',
-			'flashcard',        // Individual card
-			'flashcard-set',    // Card container (should come last)
+			'flashcard',
+			'flashcard-set',
 			'card',
 			'card-stack',
+			'smart-writer',
 		);
 
-		foreach ($blocks as $block) {
+		foreach ( $blocks as $block ) {
 			$block_path = SMFCS_PLUGIN_PATH . "/src/blocks/{$block}/block.json";
-			
-			if (!file_exists($block_path)) {
-				error_log("Smart Flashcards: Missing block.json for {$block}");
+
+			if ( ! file_exists( $block_path ) ) {
+				error_log( "Smart Flashcards: Missing block.json for {$block}" );
 				continue;
 			}
 
-			$result = register_block_type($block_path);
-			
-			if (!$result) {
-				error_log("Smart Flashcards: Failed to register block {$block}");
+			$result = register_block_type( $block_path );
+
+			if ( ! $result ) {
+				error_log( "Smart Flashcards: Failed to register block {$block}" );
 			}
 		}
 	}

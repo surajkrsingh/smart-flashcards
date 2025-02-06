@@ -1,0 +1,22 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "smfcs/smart-writer",
+    "version": "1.0.0",
+    "title": "Smart Writer",
+    "category": "widgets",
+    "icon": "edit-large",
+    "description": "Generate text using AI and insert it into the editor.",
+    "supports": {
+        "html": false
+    },
+    "attributes": {
+        "generatedText": {
+            "type": "string",
+            "default": ""
+        }
+    },
+    "textdomain": "smart-flashcards",
+    "editorScript": "file:../../../build/smart-writer/index.js",
+    "editorStyle": "file:../../../build/editor.css"
+} 
