@@ -6,8 +6,6 @@ import useGroqAI from './useGroqAI';
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
-import remarkStringify from 'remark-stringify';
-import { visit } from 'unist-util-visit';
 import remarkHtml from 'remark-html';
 
 export default function Edit({ clientId }) {
@@ -16,8 +14,6 @@ export default function Edit({ clientId }) {
     const [showPromptModal, setShowPromptModal] = useState(false);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [userPrompt, setUserPrompt] = useState('');
-    const [generatedContent, setGeneratedContent] = useState('');
-    const [parsedBlocks, setParsedBlocks] = useState([]);
     const [htmlContent, setHtmlContent] = useState('');
     const { askGroqAI } = useGroqAI();
 
@@ -27,91 +23,14 @@ export default function Edit({ clientId }) {
 
         try {
             const response = await askGroqAI(userPrompt);
-            setGeneratedContent(response);
+            convertMarkdownToHtml(response).then(setHtmlContent);
             setShowReviewModal(true);
         } catch (error) {
             console.error('Generation error:', error);
-            setGeneratedContent(__('Error generating content', 'smart-flashcards'));
+            setHtmlContent(__('Error generating content', 'smart-flashcards'));
             setShowReviewModal(true);
         } finally {
             setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        if (generatedContent) {
-            convertContentToBlocks(generatedContent).then(setParsedBlocks);
-            convertMarkdownToHtml(generatedContent).then(setHtmlContent);
-        }
-    }, [generatedContent]);
-
-    const convertContentToBlocks = async (content) => {
-        try {
-            const processor = unified()
-                .use(remarkParse)
-                .use(remarkGfm);
-
-            const tree = processor.parse(content);
-            const blocks = [];
-
-            visit(tree, (node) => {
-                switch (node.type) {
-                    case 'heading':
-                        blocks.push({
-                            name: 'core/heading',
-                            attributes: {
-                                content: unified().use(remarkStringify).stringify(node).trim(),
-                                level: node.depth
-                            }
-                        });
-                        break;
-                    case 'list':
-                        blocks.push({
-                            name: 'core/list',
-                            attributes: {
-                                values: node.children.map(item => unified().use(remarkStringify).stringify(item).trim()),
-                                ordered: node.ordered
-                            }
-                        });
-                        break;
-                    case 'paragraph':
-                        blocks.push({
-                            name: 'core/paragraph',
-                            attributes: {
-                                content: unified().use(remarkStringify).stringify(node).trim()
-                            }
-                        });
-                        break;
-                    case 'code':
-                        blocks.push({
-                            name: 'core/code',
-                            attributes: {
-                                content: node.value
-                            }
-                        });
-                        break;
-                    case 'blockquote':
-                        blocks.push({
-                            name: 'core/quote',
-                            attributes: {
-                                value: unified().use(remarkStringify).stringify(node).trim()
-                            }
-                        });
-                        break;
-                }
-            });
-
-            return blocks.length ? blocks : [{
-                name: 'core/paragraph',
-                attributes: { content: content }
-            }];
-
-        } catch (error) {
-            console.error('Markdown conversion error:', error);
-            return [{
-                name: 'core/paragraph',
-                attributes: { content: __('Error formatting content', 'smart-flashcards') }
-            }];
         }
     };
 
@@ -130,14 +49,10 @@ export default function Edit({ clientId }) {
     };
 
     const insertContent = async () => {
-        if (parsedBlocks.length) {
-            for (const blockConfig of parsedBlocks) {
-                wp.data.dispatch('core/block-editor').insertBlock(
-                    wp.blocks.createBlock(blockConfig.name, { content: blockConfig?.attributes?.content }),
-                    clientId
-                );
-            }
-        }
+        wp.data.dispatch('core/block-editor').insertBlock(
+            wp.blocks.createBlock('core/paragraph', { content: htmlContent }),
+            clientId
+        );
 
         setShowReviewModal(false);
     };
