@@ -378,6 +378,21 @@
     padding: 16px;
   }
 }
+.generated-content-preview {
+  max-height: 60vh;
+  overflow-y: auto;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  margin-bottom: 20px;
+}
+.generated-content-preview p {
+  margin: 0 0 1em 0;
+}
+.generated-content-preview p:last-child {
+  margin-bottom: 0;
+}
+
 /**
  * The following styles get applied inside the editor only.
  *
