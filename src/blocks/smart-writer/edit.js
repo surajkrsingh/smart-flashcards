@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { Button, Modal, TextareaControl, Spinner } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
 import useGroqAI from './useGroqAI';
@@ -15,6 +15,7 @@ export default function Edit({ clientId }) {
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [userPrompt, setUserPrompt] = useState('');
     const [htmlContent, setHtmlContent] = useState('');
+    const [editableContent, setEditableContent] = useState('');
     const { askGroqAI } = useGroqAI();
 
     const handleGenerate = async () => {
@@ -23,12 +24,48 @@ export default function Edit({ clientId }) {
 
         try {
             const response = await askGroqAI(userPrompt);
-            const cleanString = response.replace(/<think[^>]*>.*?<\/think>/gs, ''); 
-            convertMarkdownToHtml(cleanString).then(setHtmlContent);
+            const cleanString = response.replace(/<think[^>]*>.*?<\/think>/gs, '');
+            const html = await convertMarkdownToHtml(cleanString);
+
+            // Create a temporary div to handle HTML content
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
+
+            // Process the content for RichText
+            const processedContent = Array.from(tempDiv.children)
+                .map(element => {
+                    switch (element.tagName.toLowerCase()) {
+                        case 'h1':
+                        case 'h2':
+                        case 'h3':
+                        case 'h4':
+                        case 'h5':
+                        case 'h6':
+                            return element.innerHTML + '\n\n';
+                        case 'ul':
+                            return Array.from(element.children)
+                                .map(li => '• ' + li.innerHTML)
+                                .join('\n') + '\n\n';
+                        case 'ol':
+                            return Array.from(element.children)
+                                .map((li, index) => `${index + 1}. ` + li.innerHTML)
+                                .join('\n') + '\n\n';
+                        case 'p':
+                            return element.innerHTML + '\n\n';
+                        default:
+                            return element.innerHTML;
+                    }
+                })
+                .join('')
+                .trim();
+
+            setHtmlContent(html);
+            setEditableContent(processedContent);
             setShowReviewModal(true);
         } catch (error) {
             console.error('Generation error:', error);
             setHtmlContent(__('Error generating content', 'smart-flashcards'));
+            setEditableContent(__('Error generating content', 'smart-flashcards'));
             setShowReviewModal(true);
         } finally {
             setLoading(false);
@@ -50,8 +87,11 @@ export default function Edit({ clientId }) {
     };
 
     const insertContent = async () => {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = editableContent;
+
         wp.data.dispatch('core/block-editor').insertBlock(
-            wp.blocks.createBlock('core/paragraph', { content: htmlContent }),
+            wp.blocks.createBlock('core/paragraph', { content: tempDiv.textContent }),
             clientId
         );
 
@@ -66,17 +106,30 @@ export default function Edit({ clientId }) {
 
             {showPromptModal && (
                 <Modal title={__('AI Content Generator', 'smart-flashcards')} onRequestClose={() => setShowPromptModal(false)}>
-                    <TextareaControl label={__('Enter your prompt:', 'smart-flashcards')} value={userPrompt} onChange={setUserPrompt} rows={4} />
+                    <TextareaControl
+                        label={__('Enter your prompt:', 'smart-flashcards')}
+                        value={userPrompt}
+                        onChange={setUserPrompt}
+                        rows={4}
+                    />
                     <div style={{ marginTop: '20px' }}>
-                        <Button variant="primary" onClick={handleGenerate}>{__('Generate Content', 'smart-flashcards')}</Button>
-                        <Button variant="secondary" onClick={() => setShowPromptModal(false)} style={{ marginLeft: '10px' }}>{__('Cancel', 'smart-flashcards')}</Button>
+                        <Button variant="primary" onClick={handleGenerate}>
+                            {__('Generate Content', 'smart-flashcards')}
+                        </Button>
+                        <Button
+                            variant="secondary"
+                            onClick={() => setShowPromptModal(false)}
+                            style={{ marginLeft: '10px' }}
+                        >
+                            {__('Cancel', 'smart-flashcards')}
+                        </Button>
                     </div>
                 </Modal>
             )}
 
             {showReviewModal && (
-                <Modal 
-                    title={__('Review Generated Content', 'smart-flashcards')} 
+                <Modal
+                    title={__('Review Generated Content', 'smart-flashcards')}
                     onRequestClose={() => setShowReviewModal(false)}
                     style={{ width: '800px', maxWidth: '100%' }}
                 >
@@ -89,37 +142,29 @@ export default function Edit({ clientId }) {
                         borderRadius: '4px',
                         margin: '10px 0'
                     }}>
-                        <div 
-                            dangerouslySetInnerHTML={{ __html: htmlContent }}
+                        <TextareaControl
+                            value={editableContent}
+                            onChange={setEditableContent}
+                            rows={15}
                             style={{
-                                '& h1, & h2, & h3, & h4, & h5, & h6': {
-                                    margin: '1em 0 0.5em',
-                                    lineHeight: '1.4'
-                                },
-                                '& p': {
-                                    margin: '0 0 1em',
-                                    lineHeight: '1.6'
-                                },
-                                '& ul, & ol': {
-                                    marginBottom: '1em',
-                                    paddingLeft: '2em'
-                                },
-                                '& li': {
-                                    margin: '0.5em 0'
-                                }
+                                width: '100%',
+                                minHeight: '300px',
+                                fontFamily: 'inherit',
+                                fontSize: '14px',
+                                lineHeight: '1.6'
                             }}
                         />
                     </div>
                     <div style={{ marginTop: '20px' }}>
-                        <Button 
-                            variant="primary" 
+                        <Button
+                            variant="primary"
                             onClick={insertContent}
                         >
                             {__('Accept & Insert', 'smart-flashcards')}
                         </Button>
-                        <Button 
-                            variant="secondary" 
-                            onClick={() => setShowReviewModal(false)} 
+                        <Button
+                            variant="secondary"
+                            onClick={() => setShowReviewModal(false)}
                             style={{ marginLeft: '10px' }}
                         >
                             {__('Cancel', 'smart-flashcards')}
