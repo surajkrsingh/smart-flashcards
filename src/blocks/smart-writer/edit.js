@@ -17,6 +17,17 @@ export default function Edit({ clientId }) {
     const [editableContent, setEditableContent] = useState('');
     const { askGroqAI } = useGroqAI();
 
+    // Add state for textarea height
+    const [textareaHeight, setTextareaHeight] = useState('24px');
+
+    // Handle textarea height adjustment
+    const handleTextareaChange = (value) => {
+        setUserPrompt(value);
+        const lines = value.split('\n').length;
+        const newHeight = Math.min(Math.max(lines * 24, 24), 120) + 'px';
+        setTextareaHeight(newHeight);
+    };
+
     const handleGenerate = async () => {
         if (!userPrompt.trim()) return;
         
@@ -102,35 +113,129 @@ export default function Edit({ clientId }) {
     return (
         <div {...blockProps}>
             <div style={{
-                display: 'flex',
-                gap: '10px',
-                alignItems: 'center',
-                marginBottom: '20px'
+                position: 'relative',
+                border: '1px solid #e5e5e5',
+                borderRadius: '12px',
+                backgroundColor: '#fff',
+                boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+                overflow: 'hidden',
+                transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
+                '&:focus-within': {
+                    borderColor: '#2271b1',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
+                }
             }}>
-                <TextareaControl
-                    value={userPrompt}
-                    onChange={setUserPrompt}
-                    placeholder={__('Enter your prompt here...', 'smart-flashcards')}
-                    style={{
-                        flex: 1,
-                        margin: 0
-                    }}
-                    rows={1}
-                />
-                <Button 
-                    variant="primary" 
-                    onClick={handleGenerate} 
-                    disabled={loading || !userPrompt.trim()}
-                    style={{
-                        height: '40px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                    }}
-                >
-                    {loading && <Spinner />}
-                    {loading ? __('Generating...', 'smart-flashcards') : __('Generate', 'smart-flashcards')}
-                </Button>
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    backgroundColor: '#fff',
+                    padding: '12px 16px',
+                    gap: '12px'
+                }}>
+                    <div style={{
+                        flex: '1 1 auto',
+                        position: 'relative',
+                        minHeight: '24px'
+                    }}>
+                        <TextareaControl
+                            value={userPrompt}
+                            onChange={handleTextareaChange}
+                            placeholder={__('Write a prompt here...', 'smart-flashcards')}
+                            style={{
+                                margin: 0,
+                                padding: '0',
+                                border: 'none',
+                                borderRadius: 0,
+                                resize: 'none',
+                                height: textareaHeight,
+                                minHeight: '24px',
+                                maxHeight: '120px',
+                                width: '100%',
+                                lineHeight: '24px',
+                                fontSize: '15px',
+                                color: '#1e1e1e',
+                                backgroundColor: 'transparent',
+                                overflow: 'hidden',
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                '&:focus': {
+                                    boxShadow: 'none',
+                                    outline: 'none'
+                                },
+                                '&::placeholder': {
+                                    color: '#6e6e6e'
+                                }
+                            }}
+                            rows={1}
+                        />
+                        {/* Hidden div to calculate height */}
+                        <div style={{
+                            visibility: 'hidden',
+                            whiteSpace: 'pre-wrap',
+                            wordWrap: 'break-word',
+                            overflow: 'hidden',
+                            height: textareaHeight
+                        }}>
+                            {userPrompt + '\n'}
+                        </div>
+                    </div>
+                    <Button 
+                        variant="primary" 
+                        onClick={handleGenerate} 
+                        disabled={loading || !userPrompt.trim()}
+                        style={{
+                            flexShrink: 0,
+                            height: '40px',
+                            padding: '0 20px',
+                            border: 'none',
+                            borderRadius: '8px',
+                            boxShadow: 'none',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            fontSize: '14px',
+                            fontWeight: '500',
+                            minWidth: loading ? '120px' : '90px',
+                            justifyContent: 'center',
+                            backgroundColor: '#2271b1',
+                            color: '#fff',
+                            transition: 'all 0.2s ease',
+                            '&:hover:not(:disabled)': {
+                                backgroundColor: '#135e96'
+                            },
+                            '&:disabled': {
+                                backgroundColor: '#e0e0e0',
+                                color: '#757575',
+                                cursor: 'not-allowed'
+                            }
+                        }}
+                    >
+                        {loading ? (
+                            <>
+                                <Spinner style={{
+                                    width: '16px',
+                                    height: '16px',
+                                    margin: 0,
+                                    borderWidth: '2px',
+                                    opacity: 0.8
+                                }}/>
+                                <span>{__('Generating...', 'smart-flashcards')}</span>
+                            </>
+                        ) : (
+                            <span>{__('Generate', 'smart-flashcards')}</span>
+                        )}
+                    </Button>
+                </div>
+                <div style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    height: '1px',
+                    background: 'linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.02))'
+                }}/>
             </div>
 
             {showReviewModal && (
