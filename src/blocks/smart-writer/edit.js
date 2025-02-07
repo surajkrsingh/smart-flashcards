@@ -7,8 +7,10 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import remarkHtml from 'remark-html';
+import { createBlock } from '@wordpress/blocks';
+import { useDispatch, useSelect } from '@wordpress/data';
 
-export default function Edit({ attributes, setAttributes }) {
+export default function Edit({ attributes, setAttributes, clientId }) {
     const blockProps = useBlockProps();
     const [loading, setLoading] = useState(false);
     const [showReviewModal, setShowReviewModal] = useState(false);
@@ -17,9 +19,8 @@ export default function Edit({ attributes, setAttributes }) {
     const [editableContent, setEditableContent] = useState('');
     const { askGroqAI, getFlattenedModels } = useGroqAI();
     const { selectedModel } = attributes;
-
-    // Add state for textarea height
-    const [textareaHeight, setTextareaHeight] = useState('24px');
+    const { insertBlocks, removeBlock } = useDispatch('core/block-editor');
+    const { getBlockRootClientId } = useSelect(select => select('core/block-editor'));
 
     // Modify handleTextareaChange to prevent new lines
     const handleTextareaChange = (value) => {
@@ -98,16 +99,27 @@ export default function Edit({ attributes, setAttributes }) {
         }
     };
 
-    const insertContent = async () => {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = editableContent;
+    const insertContent = () => {
+        if (!editableContent) return;
 
-        wp.data.dispatch('core/block-editor').insertBlock(
-            wp.blocks.createBlock('core/paragraph', { content: tempDiv.textContent }),
-            clientId
-        );
+        // Get the parent block's clientId (if any)
+        const parentClientId = getBlockRootClientId(clientId);
 
+        // Create a new paragraph block with the generated content
+        const newBlock = createBlock('core/paragraph', {
+            content: editableContent,
+        });
+
+        // Insert the new block after the current block
+        insertBlocks(newBlock, undefined, parentClientId);
+
+        // Close the review modal
         setShowReviewModal(false);
+        
+        // Clear the content
+        setEditableContent('');
+        setHtmlContent('');
+        setUserPrompt('');
     };
 
     return (
