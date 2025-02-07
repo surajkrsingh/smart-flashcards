@@ -19,4 +19,4 @@
     "textdomain": "smart-flashcards",
     "editorScript": "file:../../../build/smart-writer/index.js",
     "editorStyle": "file:../../../build/editor.css"
-} 
+}

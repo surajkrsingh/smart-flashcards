@@ -20,12 +20,11 @@ export default function Edit({ clientId }) {
     // Add state for textarea height
     const [textareaHeight, setTextareaHeight] = useState('24px');
 
-    // Handle textarea height adjustment
+    // Modify handleTextareaChange to prevent new lines
     const handleTextareaChange = (value) => {
-        setUserPrompt(value);
-        const lines = value.split('\n').length;
-        const newHeight = Math.min(Math.max(lines * 24, 24), 120) + 'px';
-        setTextareaHeight(newHeight);
+        // Remove any newline characters
+        const singleLineValue = value.replace(/\n/g, '');
+        setUserPrompt(singleLineValue);
     };
 
     const handleGenerate = async () => {
@@ -118,16 +117,10 @@ export default function Edit({ clientId }) {
                         <TextareaControl
                             value={userPrompt}
                             onChange={handleTextareaChange}
-                            placeholder={__('Write a prompt here...', 'smart-flashcards')}
+                            placeholder={__('Ask AI to write something...', 'smart-flashcards')}
                             className="smart-writer-textarea"
                             rows={1}
                         />
-                        <div 
-                            className="smart-writer-hidden-div"
-                            style={{ height: textareaHeight }}
-                        >
-                            {userPrompt + '\n'}
-                        </div>
                     </div>
                     <Button 
                         variant="primary" 
@@ -145,7 +138,6 @@ export default function Edit({ clientId }) {
                         )}
                     </Button>
                 </div>
-                <div className="smart-writer-gradient-border" />
             </div>
 
             {showReviewModal && (

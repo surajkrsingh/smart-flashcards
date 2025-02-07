@@ -1,52 +1,55 @@
 // Editor styles for smart-writer block 
-.wp-block-create-block-smart-writer {
+.wp-block-smfcs-smart-writer {
     .smart-writer-prompt-container {
         position: relative;
         border: 1px solid #e5e5e5;
-        border-radius: 12px;
         background-color: #fff;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
         overflow: hidden;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-        &:focus-within {
-            border-color: #2271b1;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
+        transition: all 0.2s ease;
+        margin: 16px 0;
+        padding: 0;
     }
 
     .smart-writer-input-wrapper {
         display: flex;
-        align-items: flex-end;
-        background-color: #fff;
-        padding: 12px 16px;
+        align-items: center;
+        background-color: #f8f9fa;
+        padding: 8px;
         gap: 12px;
+        min-height: 60px;
+        transition: background-color 0.2s ease;
+
+        &:focus-within {
+            background-color: #fff;
+        }
     }
 
     .smart-writer-textarea-container {
         flex: 1 1 auto;
         position: relative;
-        min-height: 24px;
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        padding: 0 8px;
     }
 
     .smart-writer-textarea {
         margin: 0;
-        padding: 0;
+        padding: 10px 4px;
         border: none;
-        border-radius: 0;
+        border-radius: 8px;
         resize: none;
-        min-height: 24px;
-        max-height: 120px;
+        height: 60px;
+        min-height: 60px;
         width: 100%;
         line-height: 24px;
         font-size: 15px;
+        font-weight: 400;
         color: #1e1e1e;
         background-color: transparent;
         overflow: hidden;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
+        transition: all 0.2s ease;
 
         &:focus {
             box-shadow: none;
@@ -55,46 +58,57 @@
 
         &::placeholder {
             color: #6e6e6e;
+            opacity: 0.8;
         }
     }
 
     .smart-writer-hidden-div {
         visibility: hidden;
-        white-space: pre-wrap;
-        word-wrap: break-word;
+        white-space: nowrap;
         overflow: hidden;
+        height: 40px;
     }
 
     .smart-writer-generate-button {
         flex-shrink: 0;
-        height: 40px;
-        padding: 0 20px;
+        height: 44px;
+        padding: 0 24px;
         border: none;
-        border-radius: 8px;
-        box-shadow: none;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         display: flex;
         align-items: center;
         gap: 8px;
         font-size: 14px;
         font-weight: 500;
-        min-width: 90px;
+        min-width: 110px;
         justify-content: center;
         background-color: #2271b1;
         color: #fff;
         transition: all 0.2s ease;
+        margin-right: 4px;
+        border-radius: 4px;
 
         &:hover:not(:disabled) {
             background-color: #135e96;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
         }
 
         &:disabled {
             background-color: #e0e0e0;
             color: #757575;
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+            border-radius: 4px;
         }
 
         &.is-loading {
-            min-width: 120px;
+            min-width: 140px;
+            background-color: #2271b1;
+            cursor: wait;
         }
     }
 
@@ -106,13 +120,13 @@
         opacity: 0.8;
     }
 
+    .smart-writer-textarea-container:focus-within::before {
+        opacity: 1;
+    }
+
+    // Remove the gradient border as we have a new design
     .smart-writer-gradient-border {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 1px;
-        background: linear-gradient(to right, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.02));
+        display: none;
     }
 
     .generated-content-preview {
