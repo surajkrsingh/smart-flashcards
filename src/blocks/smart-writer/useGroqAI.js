@@ -6,10 +6,16 @@ import OpenAI from "openai";
  * Maintains conversation context and history for more coherent responses.
  */
 const useGroqAI = () => {
-
     const API_KEY = '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';
-    const MODEL = 'deepseek-r1-distill-llama-70b';
     const MAX_HISTORY_LENGTH = 10;
+
+    // Available models
+    const AVAILABLE_MODELS = {
+        'deepseek-r1-distill-llama-70b': 'DeepSeek Llama 70B',
+        'mixtral-8x7b-32768': 'Mixtral 8x7B',
+        'llama2-70b-4096': 'LLaMA2 70B',
+        'gemma-7b-it': 'Gemma 7B'
+    };
 
     // Store chat history in a ref to persist between renders
     const chatHistoryRef = useRef([]);
@@ -24,7 +30,7 @@ const useGroqAI = () => {
         });
     }
 
-    const askGroqAI = async (query) => {
+    const askGroqAI = async (query, model = 'deepseek-r1-distill-llama-70b') => {
         if (!query.trim()) return;
 
         const inputText = query.trim();
@@ -37,7 +43,7 @@ const useGroqAI = () => {
         try {
             // Use OpenAI client to make the request
             const completion = await clientRef.current?.chat.completions.create({
-                model: MODEL,
+                model: model,
                 messages: chatHistoryRef?.current?.slice(-MAX_HISTORY_LENGTH),
                 temperature: 0.7,
                 max_tokens: 4096,
@@ -60,7 +66,7 @@ const useGroqAI = () => {
         }
     };
 
-    return { askGroqAI };
+    return { askGroqAI, AVAILABLE_MODELS };
 };
 
 export default useGroqAI;

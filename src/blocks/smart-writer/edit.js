@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, RichText } from '@wordpress/block-editor';
-import { Button, Modal, TextareaControl, Spinner } from '@wordpress/components';
+import { useBlockProps, RichText, InspectorControls } from '@wordpress/block-editor';
+import { Button, Modal, TextareaControl, Spinner, SelectControl, PanelBody } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
 import useGroqAI from './useGroqAI';
 import { unified } from 'unified';
@@ -8,14 +8,15 @@ import remarkParse from 'remark-parse';
 import remarkGfm from 'remark-gfm';
 import remarkHtml from 'remark-html';
 
-export default function Edit({ clientId }) {
+export default function Edit({ attributes, setAttributes }) {
     const blockProps = useBlockProps();
     const [loading, setLoading] = useState(false);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [userPrompt, setUserPrompt] = useState('');
     const [htmlContent, setHtmlContent] = useState('');
     const [editableContent, setEditableContent] = useState('');
-    const { askGroqAI } = useGroqAI();
+    const { askGroqAI, AVAILABLE_MODELS } = useGroqAI();
+    const { selectedModel } = attributes;
 
     // Add state for textarea height
     const [textareaHeight, setTextareaHeight] = useState('24px');
@@ -33,7 +34,7 @@ export default function Edit({ clientId }) {
         setLoading(true);
 
         try {
-            const response = await askGroqAI(userPrompt);
+            const response = await askGroqAI(userPrompt, selectedModel);
             const cleanString = response.replace(/<think[^>]*>.*?<\/think>/gs, ''); 
             const html = await convertMarkdownToHtml(cleanString);
 
@@ -110,81 +111,101 @@ export default function Edit({ clientId }) {
     };
 
     return (
-        <div {...blockProps}>
-            <div className="smart-writer-prompt-container">
-                <div className="smart-writer-input-wrapper">
-                    <div className="smart-writer-textarea-container">
-                        <TextareaControl
-                            value={userPrompt}
-                            onChange={handleTextareaChange}
-                            placeholder={__('Ask AI to write something...', 'smart-flashcards')}
-                            className="smart-writer-textarea"
-                            rows={1}
-                        />
-                    </div>
-                    <Button 
-                        variant="primary" 
-                        onClick={handleGenerate} 
-                        disabled={loading || !userPrompt.trim()}
-                        className={`smart-writer-generate-button ${loading ? 'is-loading' : ''}`}
-                    >
-                        {loading ? (
-                            <>
-                                <Spinner className="smart-writer-spinner" />
-                                <span>{__('Generating...', 'smart-flashcards')}</span>
-                            </>
-                        ) : (
-                            <span>{__('Generate', 'smart-flashcards')}</span>
-                        )}
-                    </Button>
-                </div>
-            </div>
-
-            {showReviewModal && (
-                <Modal 
-                    title={__('Review Generated Content', 'smart-flashcards')} 
-                    onRequestClose={() => setShowReviewModal(false)}
-                    style={{ width: '800px', maxWidth: '100%' }}
+        <>
+            <InspectorControls>
+                <PanelBody
+                    title={__('AI Model Settings', 'smart-flashcards')}
+                    initialOpen={true}
                 >
-                    <div className="generated-content-preview" style={{
-                        maxHeight: '60vh',
-                        overflowY: 'auto',
-                        padding: '20px',
-                        backgroundColor: '#fff',
-                        border: '1px solid #ddd',
-                        borderRadius: '4px',
-                        margin: '10px 0'
-                    }}>
-                        <TextareaControl
-                            value={editableContent}
-                            onChange={setEditableContent}
-                            rows={15}
-                            style={{
-                                width: '100%',
-                                minHeight: '300px',
-                                fontFamily: 'inherit',
-                                fontSize: '14px',
-                                lineHeight: '1.6'
-                            }}
-                        />
-                    </div>
-                    <div style={{ marginTop: '20px' }}>
+                    <SelectControl
+                        label={__('Select AI Model', 'smart-flashcards')}
+                        value={selectedModel}
+                        options={Object.entries(AVAILABLE_MODELS).map(([value, label]) => ({
+                            value,
+                            label,
+                        }))}
+                        onChange={(model) => setAttributes({ selectedModel: model })}
+                        help={__('Choose the AI model to generate content.', 'smart-flashcards')}
+                    />
+                </PanelBody>
+            </InspectorControls>
+
+            <div {...blockProps}>
+                <div className="smart-writer-prompt-container">
+                    <div className="smart-writer-input-wrapper">
+                        <div className="smart-writer-textarea-container">
+                            <TextareaControl
+                                value={userPrompt}
+                                onChange={handleTextareaChange}
+                                placeholder={__('Ask AI to write something...', 'smart-flashcards')}
+                                className="smart-writer-textarea"
+                                rows={1}
+                            />
+                        </div>
                         <Button 
                             variant="primary" 
-                            onClick={insertContent}
+                            onClick={handleGenerate} 
+                            disabled={loading || !userPrompt.trim()}
+                            className={`smart-writer-generate-button ${loading ? 'is-loading' : ''}`}
                         >
-                            {__('Accept & Insert', 'smart-flashcards')}
-                        </Button>
-                        <Button 
-                            variant="secondary" 
-                            onClick={() => setShowReviewModal(false)} 
-                            style={{ marginLeft: '10px' }}
-                        >
-                            {__('Cancel', 'smart-flashcards')}
+                            {loading ? (
+                                <>
+                                    <Spinner className="smart-writer-spinner" />
+                                    <span>{__('Generating...', 'smart-flashcards')}</span>
+                                </>
+                            ) : (
+                                <span>{__('Generate', 'smart-flashcards')}</span>
+                            )}
                         </Button>
                     </div>
-                </Modal>
-            )}
-        </div>
+                </div>
+
+                {showReviewModal && (
+                    <Modal 
+                        title={__('Review Generated Content', 'smart-flashcards')} 
+                        onRequestClose={() => setShowReviewModal(false)}
+                        style={{ width: '800px', maxWidth: '100%' }}
+                    >
+                        <div className="generated-content-preview" style={{
+                            maxHeight: '60vh',
+                            overflowY: 'auto',
+                            padding: '20px',
+                            backgroundColor: '#fff',
+                            border: '1px solid #ddd',
+                            borderRadius: '4px',
+                            margin: '10px 0'
+                        }}>
+                            <TextareaControl
+                                value={editableContent}
+                                onChange={setEditableContent}
+                                rows={15}
+                                style={{
+                                    width: '100%',
+                                    minHeight: '300px',
+                                    fontFamily: 'inherit',
+                                    fontSize: '14px',
+                                    lineHeight: '1.6'
+                                }}
+                            />
+                        </div>
+                        <div style={{ marginTop: '20px' }}>
+                            <Button 
+                                variant="primary" 
+                                onClick={insertContent}
+                            >
+                                {__('Accept & Insert', 'smart-flashcards')}
+                            </Button>
+                            <Button 
+                                variant="secondary" 
+                                onClick={() => setShowReviewModal(false)} 
+                                style={{ marginLeft: '10px' }}
+                            >
+                                {__('Cancel', 'smart-flashcards')}
+                            </Button>
+                        </div>
+                    </Modal>
+                )}
+            </div>
+        </>
     );
 }
