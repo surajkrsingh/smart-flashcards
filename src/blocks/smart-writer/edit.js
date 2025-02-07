@@ -112,72 +112,20 @@ export default function Edit({ clientId }) {
 
     return (
         <div {...blockProps}>
-            <div style={{
-                position: 'relative',
-                border: '1px solid #e5e5e5',
-                borderRadius: '12px',
-                backgroundColor: '#fff',
-                boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
-                overflow: 'hidden',
-                transition: 'border-color 0.2s ease, box-shadow 0.2s ease',
-                '&:focus-within': {
-                    borderColor: '#2271b1',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
-                }
-            }}>
-                <div style={{
-                    display: 'flex',
-                    alignItems: 'flex-end',
-                    backgroundColor: '#fff',
-                    padding: '12px 16px',
-                    gap: '12px'
-                }}>
-                    <div style={{
-                        flex: '1 1 auto',
-                        position: 'relative',
-                        minHeight: '24px'
-                    }}>
+            <div className="smart-writer-prompt-container">
+                <div className="smart-writer-input-wrapper">
+                    <div className="smart-writer-textarea-container">
                         <TextareaControl
                             value={userPrompt}
                             onChange={handleTextareaChange}
                             placeholder={__('Write a prompt here...', 'smart-flashcards')}
-                            style={{
-                                margin: 0,
-                                padding: '0',
-                                border: 'none',
-                                borderRadius: 0,
-                                resize: 'none',
-                                height: textareaHeight,
-                                minHeight: '24px',
-                                maxHeight: '120px',
-                                width: '100%',
-                                lineHeight: '24px',
-                                fontSize: '15px',
-                                color: '#1e1e1e',
-                                backgroundColor: 'transparent',
-                                overflow: 'hidden',
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                '&:focus': {
-                                    boxShadow: 'none',
-                                    outline: 'none'
-                                },
-                                '&::placeholder': {
-                                    color: '#6e6e6e'
-                                }
-                            }}
+                            className="smart-writer-textarea"
                             rows={1}
                         />
-                        {/* Hidden div to calculate height */}
-                        <div style={{
-                            visibility: 'hidden',
-                            whiteSpace: 'pre-wrap',
-                            wordWrap: 'break-word',
-                            overflow: 'hidden',
-                            height: textareaHeight
-                        }}>
+                        <div 
+                            className="smart-writer-hidden-div"
+                            style={{ height: textareaHeight }}
+                        >
                             {userPrompt + '\n'}
                         </div>
                     </div>
@@ -185,42 +133,11 @@ export default function Edit({ clientId }) {
                         variant="primary" 
                         onClick={handleGenerate} 
                         disabled={loading || !userPrompt.trim()}
-                        style={{
-                            flexShrink: 0,
-                            height: '40px',
-                            padding: '0 20px',
-                            border: 'none',
-                            borderRadius: '8px',
-                            boxShadow: 'none',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px',
-                            fontSize: '14px',
-                            fontWeight: '500',
-                            minWidth: loading ? '120px' : '90px',
-                            justifyContent: 'center',
-                            backgroundColor: '#2271b1',
-                            color: '#fff',
-                            transition: 'all 0.2s ease',
-                            '&:hover:not(:disabled)': {
-                                backgroundColor: '#135e96'
-                            },
-                            '&:disabled': {
-                                backgroundColor: '#e0e0e0',
-                                color: '#757575',
-                                cursor: 'not-allowed'
-                            }
-                        }}
+                        className={`smart-writer-generate-button ${loading ? 'is-loading' : ''}`}
                     >
                         {loading ? (
                             <>
-                                <Spinner style={{
-                                    width: '16px',
-                                    height: '16px',
-                                    margin: 0,
-                                    borderWidth: '2px',
-                                    opacity: 0.8
-                                }}/>
+                                <Spinner className="smart-writer-spinner" />
                                 <span>{__('Generating...', 'smart-flashcards')}</span>
                             </>
                         ) : (
@@ -228,14 +145,7 @@ export default function Edit({ clientId }) {
                         )}
                     </Button>
                 </div>
-                <div style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    height: '1px',
-                    background: 'linear-gradient(to right, rgba(0,0,0,0.05), rgba(0,0,0,0.02))'
-                }}/>
+                <div className="smart-writer-gradient-border" />
             </div>
 
             {showReviewModal && (
