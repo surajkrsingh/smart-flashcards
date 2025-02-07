@@ -11,7 +11,6 @@ import remarkHtml from 'remark-html';
 export default function Edit({ clientId }) {
     const blockProps = useBlockProps();
     const [loading, setLoading] = useState(false);
-    const [showPromptModal, setShowPromptModal] = useState(false);
     const [showReviewModal, setShowReviewModal] = useState(false);
     const [userPrompt, setUserPrompt] = useState('');
     const [htmlContent, setHtmlContent] = useState('');
@@ -19,12 +18,13 @@ export default function Edit({ clientId }) {
     const { askGroqAI } = useGroqAI();
 
     const handleGenerate = async () => {
+        if (!userPrompt.trim()) return;
+        
         setLoading(true);
-        setShowPromptModal(false);
 
         try {
             const response = await askGroqAI(userPrompt);
-            const cleanString = response.replace(/<think[^>]*>.*?<\/think>/gs, '');
+            const cleanString = response.replace(/<think[^>]*>.*?<\/think>/gs, ''); 
             const html = await convertMarkdownToHtml(cleanString);
 
             // Create a temporary div to handle HTML content
@@ -62,6 +62,7 @@ export default function Edit({ clientId }) {
             setHtmlContent(html);
             setEditableContent(processedContent);
             setShowReviewModal(true);
+            setUserPrompt(''); // Clear the prompt after generation
         } catch (error) {
             console.error('Generation error:', error);
             setHtmlContent(__('Error generating content', 'smart-flashcards'));
@@ -100,36 +101,41 @@ export default function Edit({ clientId }) {
 
     return (
         <div {...blockProps}>
-            <Button variant="primary" onClick={() => setShowPromptModal(true)} disabled={loading}>
-                {loading ? (<><Spinner /> {__('Generating...', 'smart-flashcards')}</>) : __('AI Smart Writer', 'smart-flashcards')}
-            </Button>
-
-            {showPromptModal && (
-                <Modal title={__('AI Content Generator', 'smart-flashcards')} onRequestClose={() => setShowPromptModal(false)}>
-                    <TextareaControl
-                        label={__('Enter your prompt:', 'smart-flashcards')}
-                        value={userPrompt}
-                        onChange={setUserPrompt}
-                        rows={4}
-                    />
-                    <div style={{ marginTop: '20px' }}>
-                        <Button variant="primary" onClick={handleGenerate}>
-                            {__('Generate Content', 'smart-flashcards')}
-                        </Button>
-                        <Button
-                            variant="secondary"
-                            onClick={() => setShowPromptModal(false)}
-                            style={{ marginLeft: '10px' }}
-                        >
-                            {__('Cancel', 'smart-flashcards')}
-                        </Button>
-                    </div>
-                </Modal>
-            )}
+            <div style={{
+                display: 'flex',
+                gap: '10px',
+                alignItems: 'center',
+                marginBottom: '20px'
+            }}>
+                <TextareaControl
+                    value={userPrompt}
+                    onChange={setUserPrompt}
+                    placeholder={__('Enter your prompt here...', 'smart-flashcards')}
+                    style={{
+                        flex: 1,
+                        margin: 0
+                    }}
+                    rows={1}
+                />
+                <Button 
+                    variant="primary" 
+                    onClick={handleGenerate} 
+                    disabled={loading || !userPrompt.trim()}
+                    style={{
+                        height: '40px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                    }}
+                >
+                    {loading && <Spinner />}
+                    {loading ? __('Generating...', 'smart-flashcards') : __('Generate', 'smart-flashcards')}
+                </Button>
+            </div>
 
             {showReviewModal && (
-                <Modal
-                    title={__('Review Generated Content', 'smart-flashcards')}
+                <Modal 
+                    title={__('Review Generated Content', 'smart-flashcards')} 
                     onRequestClose={() => setShowReviewModal(false)}
                     style={{ width: '800px', maxWidth: '100%' }}
                 >
@@ -156,15 +162,15 @@ export default function Edit({ clientId }) {
                         />
                     </div>
                     <div style={{ marginTop: '20px' }}>
-                        <Button
-                            variant="primary"
+                        <Button 
+                            variant="primary" 
                             onClick={insertContent}
                         >
                             {__('Accept & Insert', 'smart-flashcards')}
                         </Button>
-                        <Button
-                            variant="secondary"
-                            onClick={() => setShowReviewModal(false)}
+                        <Button 
+                            variant="secondary" 
+                            onClick={() => setShowReviewModal(false)} 
                             style={{ marginLeft: '10px' }}
                         >
                             {__('Cancel', 'smart-flashcards')}
