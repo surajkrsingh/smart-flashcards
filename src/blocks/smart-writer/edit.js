@@ -23,7 +23,8 @@ export default function Edit({ clientId }) {
 
         try {
             const response = await askGroqAI(userPrompt);
-            convertMarkdownToHtml(response).then(setHtmlContent);
+            const cleanString = response.replace(/<think[^>]*>.*?<\/think>/gs, ''); 
+            convertMarkdownToHtml(cleanString).then(setHtmlContent);
             setShowReviewModal(true);
         } catch (error) {
             console.error('Generation error:', error);
@@ -74,14 +75,55 @@ export default function Edit({ clientId }) {
             )}
 
             {showReviewModal && (
-                <Modal title={__('Review Generated Content', 'smart-flashcards')} onRequestClose={() => setShowReviewModal(false)} style={{ minWidth: '800px' }}>
-                    <div 
-                        className="generated-content-preview"
-                        dangerouslySetInnerHTML={{ __html: htmlContent }}
-                    />
+                <Modal 
+                    title={__('Review Generated Content', 'smart-flashcards')} 
+                    onRequestClose={() => setShowReviewModal(false)}
+                    style={{ width: '800px', maxWidth: '100%' }}
+                >
+                    <div className="generated-content-preview" style={{
+                        maxHeight: '60vh',
+                        overflowY: 'auto',
+                        padding: '20px',
+                        backgroundColor: '#fff',
+                        border: '1px solid #ddd',
+                        borderRadius: '4px',
+                        margin: '10px 0'
+                    }}>
+                        <div 
+                            dangerouslySetInnerHTML={{ __html: htmlContent }}
+                            style={{
+                                '& h1, & h2, & h3, & h4, & h5, & h6': {
+                                    margin: '1em 0 0.5em',
+                                    lineHeight: '1.4'
+                                },
+                                '& p': {
+                                    margin: '0 0 1em',
+                                    lineHeight: '1.6'
+                                },
+                                '& ul, & ol': {
+                                    marginBottom: '1em',
+                                    paddingLeft: '2em'
+                                },
+                                '& li': {
+                                    margin: '0.5em 0'
+                                }
+                            }}
+                        />
+                    </div>
                     <div style={{ marginTop: '20px' }}>
-                        <Button variant="primary" onClick={insertContent}>{__('Accept & Insert', 'smart-flashcards')}</Button>
-                        <Button variant="secondary" onClick={() => setShowReviewModal(false)} style={{ marginLeft: '10px' }}>{__('Cancel', 'smart-flashcards')}</Button>
+                        <Button 
+                            variant="primary" 
+                            onClick={insertContent}
+                        >
+                            {__('Accept & Insert', 'smart-flashcards')}
+                        </Button>
+                        <Button 
+                            variant="secondary" 
+                            onClick={() => setShowReviewModal(false)} 
+                            style={{ marginLeft: '10px' }}
+                        >
+                            {__('Cancel', 'smart-flashcards')}
+                        </Button>
                     </div>
                 </Modal>
             )}
