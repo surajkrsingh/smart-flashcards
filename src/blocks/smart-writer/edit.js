@@ -15,7 +15,7 @@ export default function Edit({ attributes, setAttributes }) {
     const [userPrompt, setUserPrompt] = useState('');
     const [htmlContent, setHtmlContent] = useState('');
     const [editableContent, setEditableContent] = useState('');
-    const { askGroqAI, AVAILABLE_MODELS } = useGroqAI();
+    const { askGroqAI, getFlattenedModels } = useGroqAI();
     const { selectedModel } = attributes;
 
     // Add state for textarea height
@@ -120,10 +120,7 @@ export default function Edit({ attributes, setAttributes }) {
                     <SelectControl
                         label={__('Select AI Model', 'smart-flashcards')}
                         value={selectedModel}
-                        options={Object.entries(AVAILABLE_MODELS).map(([value, label]) => ({
-                            value,
-                            label,
-                        }))}
+                        options={getFlattenedModels()}
                         onChange={(model) => setAttributes({ selectedModel: model })}
                         help={__('Choose the AI model to generate content.', 'smart-flashcards')}
                     />

@@ -9,12 +9,41 @@ const useGroqAI = () => {
     const API_KEY = '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';
     const MAX_HISTORY_LENGTH = 10;
 
-    // Available models
+    // Available models grouped by provider.
     const AVAILABLE_MODELS = {
-        'deepseek-r1-distill-llama-70b': 'DeepSeek Llama 70B',
-        'mixtral-8x7b-32768': 'Mixtral 8x7B',
-        'llama2-70b-4096': 'LLaMA2 70B',
-        'gemma-7b-it': 'Gemma 7B'
+        'DeepSeek / Meta': {
+            'deepseek-r1-distill-llama-70b': 'DeepSeek Llama 70B'
+        },
+        'Google': {
+            'gemma2-9b-it': 'Gemma2 9B'
+        },
+        'Meta': {
+            'llama-3.3-70b-specdec': 'LLaMA 3.3 70B SpecDec',
+            'llama-3.3-70b-versatile': 'LLaMA 3.3 70B Versatile',
+            'llama-3.2-3b-preview': 'LLaMA 3.2 3B Preview',
+            'llama-3.2-1b-preview': 'LLaMA 3.2 1B Preview',
+            'llama-3.1-8b-instant': 'LLaMA 3.1 8B Instant',
+            'llama3-70b-8192': 'LLaMA3 70B',
+            'llama3-8b-8192': 'LLaMA3 8B'
+        },
+        'Mistral AI': {
+            'mixtral-8x7b-32768': 'Mixtral 8x7B'
+        }
+    };
+
+    // Flatten models for SelectControl
+    const getFlattenedModels = () => {
+        const options = [];
+        Object.entries(AVAILABLE_MODELS).forEach(([provider, models]) => {
+            options.push({
+                label: `── ${provider} ──`,
+                disabled: true
+            });
+            Object.entries(models).forEach(([value, label]) => {
+                options.push({ value, label });
+            });
+        });
+        return options;
     };
 
     // Store chat history in a ref to persist between renders
@@ -66,7 +95,11 @@ const useGroqAI = () => {
         }
     };
 
-    return { askGroqAI, AVAILABLE_MODELS };
+    return {
+        askGroqAI,
+        AVAILABLE_MODELS,
+        getFlattenedModels
+    };
 };
 
 export default useGroqAI;
