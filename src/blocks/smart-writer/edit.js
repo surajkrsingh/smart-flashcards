@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, RichText, InspectorControls } from '@wordpress/block-editor';
-import { Button, Modal, TextareaControl, Spinner, SelectControl, PanelBody } from '@wordpress/components';
+import { Button, Modal, TextareaControl, Spinner, SelectControl, PanelBody, TabPanel } from '@wordpress/components';
 import { useState, useEffect } from '@wordpress/element';
 import useGroqAI from './useGroqAI';
 import { unified } from 'unified';
@@ -9,6 +9,7 @@ import remarkGfm from 'remark-gfm';
 import remarkHtml from 'remark-html';
 import { createBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
+import { RichTextContent } from '@wordpress/rich-text';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
     const blockProps = useBlockProps();
@@ -21,6 +22,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     const { selectedModel } = attributes;
     const { insertBlocks, removeBlock } = useDispatch('core/block-editor');
     const { getBlockRootClientId } = useSelect(select => select('core/block-editor'));
+    const [activeEditor, setActiveEditor] = useState('visual');
 
     // Modify handleTextareaChange to prevent new lines
     const handleTextareaChange = (value) => {
@@ -122,6 +124,50 @@ export default function Edit({ attributes, setAttributes, clientId }) {
         setUserPrompt('');
     };
 
+    const renderEditorTabs = () => {
+        const tabs = [
+            {
+                name: 'visual',
+                title: __('Visual Editor', 'smart-flashcards'),
+                className: 'smart-writer-tab visual-editor-tab',
+            },
+            {
+                name: 'html',
+                title: __('HTML Editor', 'smart-flashcards'),
+                className: 'smart-writer-tab html-editor-tab',
+            }
+        ];
+
+        return (
+            <TabPanel
+                className="smart-writer-tabs"
+                activeClass="is-active"
+                tabs={tabs}
+                onSelect={(tabName) => setActiveEditor(tabName)}
+            >
+                {(tab) => (
+                    <div className="smart-writer-tab-content">
+                        {tab.name === 'visual' ? (
+                            <RichText
+                                value={editableContent}
+                                onChange={setEditableContent}
+                                placeholder={__('Generated content will appear here...', 'smart-flashcards')}
+                                className="smart-writer-visual-editor"
+                            />
+                        ) : (
+                            <TextareaControl
+                                value={editableContent}
+                                onChange={setEditableContent}
+                                rows={15}
+                                className="smart-writer-html-editor"
+                            />
+                        )}
+                    </div>
+                )}
+            </TabPanel>
+        );
+    };
+
     return (
         <>
             <InspectorControls>
@@ -173,42 +219,36 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                     <Modal 
                         title={__('Review Generated Content', 'smart-flashcards')} 
                         onRequestClose={() => setShowReviewModal(false)}
+                        className="smart-writer-modal"
                         style={{ width: '800px', maxWidth: '100%' }}
                     >
-                        <div className="generated-content-preview" style={{
-                            maxHeight: '60vh',
-                            overflowY: 'auto',
-                            backgroundColor: '#fff',
-                            border: '1px solid #ddd',
-                            borderRadius: '4px',
-                        }}>
-                            <TextareaControl
-                                value={editableContent}
-                                onChange={setEditableContent}
-                                rows={15}
-                                style={{
-                                    width: '100%',
-                                    minHeight: '300px',
-                                    fontFamily: 'inherit',
-                                    fontSize: '14px',
-                                    lineHeight: '1.6'
-                                }}
-                            />
-                        </div>
-                        <div style={{ marginTop: '20px' }}>
-                            <Button 
-                                variant="primary" 
-                                onClick={insertContent}
-                            >
-                                {__('Accept & Insert', 'smart-flashcards')}
-                            </Button>
-                            <Button 
-                                variant="secondary" 
-                                onClick={() => setShowReviewModal(false)} 
-                                style={{ marginLeft: '10px' }}
-                            >
-                                {__('Cancel', 'smart-flashcards')}
-                            </Button>
+                        <div className="smart-writer-modal-content">
+                            <div className="generated-content-preview" style={{
+                                maxHeight: '60vh',
+                                overflowY: 'auto',
+                                backgroundColor: '#fff',
+                                border: '1px solid #ddd',
+                                borderRadius: '4px',
+                                padding: '20px',
+                            }}>
+                                {renderEditorTabs()}
+                            </div>
+                            <div className="smart-writer-modal-footer">
+                                <Button 
+                                    variant="primary" 
+                                    onClick={insertContent}
+                                    className="smart-writer-accept-button"
+                                >
+                                    {__('Accept & Insert', 'smart-flashcards')}
+                                </Button>
+                                <Button 
+                                    variant="secondary" 
+                                    onClick={() => setShowReviewModal(false)} 
+                                    className="smart-writer-cancel-button"
+                                >
+                                    {__('Cancel', 'smart-flashcards')}
+                                </Button>
+                            </div>
                         </div>
                     </Modal>
                 )}
