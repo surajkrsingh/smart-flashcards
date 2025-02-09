@@ -178,11 +178,9 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         <div className="generated-content-preview" style={{
                             maxHeight: '60vh',
                             overflowY: 'auto',
-                            padding: '20px',
                             backgroundColor: '#fff',
                             border: '1px solid #ddd',
                             borderRadius: '4px',
-                            margin: '10px 0'
                         }}>
                             <TextareaControl
                                 value={editableContent}
