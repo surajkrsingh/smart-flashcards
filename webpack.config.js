@@ -11,7 +11,6 @@ module.exports = {
 		'flashcard-set/index': './src/blocks/flashcard-set/index.js',
 		'card-stack/index': './src/blocks/card-stack/index.js',
 		'card/index': './src/blocks/card/index.js',
-		'smart-writer/index': './src/blocks/smart-writer/index.js'
 	},
 	output: {
 		path: path.resolve(__dirname, 'build'),

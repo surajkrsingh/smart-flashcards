@@ -57,7 +57,6 @@ class Smart_Flashcards {
 			'flashcard-set',
 			'card',
 			'card-stack',
-			'smart-writer',
 		);
 
 		foreach ( $blocks as $block ) {
