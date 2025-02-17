@@ -7,12 +7,14 @@ module.exports = {
 		'flashcard/index': './src/blocks/flashcard/index.js',
 		'flashcard-front/index': './src/blocks/flashcard-front/index.js',
 		'flashcard-back/index': './src/blocks/flashcard-back/index.js',
-		'flashcard-set/index': './src/blocks/flashcard-set/index.js',
 		'card-stack/index': './src/blocks/card-stack/index.js',
 		'card/index': './src/blocks/card/index.js',
 		'frontend': './src/blocks/frontend.js',
 		'style': './src/blocks/blocks-style.scss',
-		'editor': './src/blocks/blocks-editor.scss'
+		'editor': './src/blocks/blocks-editor.scss',
+		'blocks/flashcard-set/index': './src/blocks/flashcard-set/index.js',
+		'blocks/flashcard-set/editor': './src/blocks/flashcard-set/editor.scss',
+		'blocks/flashcard-set/style': './src/blocks/flashcard-set/style.scss',
 	},
 	output: {
 		path: path.resolve(__dirname, 'build'),
