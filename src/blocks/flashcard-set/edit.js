@@ -13,9 +13,8 @@ import {
 import { useSelect, useDispatch } from '@wordpress/data';
 import { trash, plus } from '@wordpress/icons';
 import { useEffect, useState, useRef } from '@wordpress/element';
-import './editor.scss';
 
-// Define allowed blocks and template
+// Define allowed blocks and template.
 const ALLOWED_BLOCKS = ['smfcs/flashcard'];
 const TEMPLATE = [
     ['smfcs/flashcard', { index: 1 }]

@@ -1,3 +1,7 @@
+@use '../flashcard/style.scss' as *;
+@use '../flashcard-front/style.scss' as *;
+@use '../flashcard-back/style.scss' as *;
+
 .wp-block-smfcs-flashcard-set {
     .flashcard-set-wrapper {
         position: relative;
