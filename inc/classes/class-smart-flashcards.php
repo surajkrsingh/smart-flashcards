@@ -60,7 +60,7 @@ class Smart_Flashcards {
 		);
 
 		foreach ( $blocks as $block ) {
-			$block_path = SMFCS_PLUGIN_PATH . "/src/blocks/{$block}/block.json";
+			$block_path = SMFCS_PLUGIN_PATH . "/build/blocks/{$block}/block.json";
 
 			if ( ! file_exists( $block_path ) ) {
 				error_log( "Smart Flashcards: Missing block.json for {$block}" );

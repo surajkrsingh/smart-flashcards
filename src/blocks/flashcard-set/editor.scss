@@ -1,7 +1,102 @@
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set {
+    .flashcard-set-editor {
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+    }
+
+    // Simple Navigation in Editor
+    .flashcard-set-simple-nav {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+        padding: 10px;
+        background: #f0f0f0;
+        border-radius: 4px;
+
+        .components-button-group {
+            display: flex;
+            gap: 4px;
+        }
+
+        .current-slide-indicator {
+            cursor: default;
+            background: #fff;
+            
+            &:hover {
+                background: #fff;
+            }
+        }
+    }
+
+    // Editor Content
+    .flashcard-editor {
+        background: #f8f9f9;
+        border: 1px solid #e2e4e7;
+        border-radius: 4px;
+        padding: 20px;
+
+        .block-editor-block-list__layout {
+            > .wp-block-smfcs-flashcard {
+                margin: 0;
+                padding: 20px;
+                border: 1px solid #e2e4e7;
+                border-radius: 4px;
+                background: #fff;
+                display: none;
+
+                &.is-active {
+                    display: block;
+                }
+
+                &.is-selected {
+                    border-color: #007cba;
+                }
+            }
+        }
+    }
+}
+
+// Sidebar Controls Styling
+.flashcard-set-sidebar-controls {
+    .flashcard-navigation {
+        margin-bottom: 20px;
+
+        .components-base-control {
+            margin-bottom: 12px;
+        }
+
+        .flashcard-count {
+            color: #757575;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+    }
+
+    .flashcard-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+
+        .components-button {
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        .remove-flashcard-button {
+            color: #cc1818;
+            
+            &:hover {
+                color: #710d0d;
+            }
+        }
+    }
+}
+
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set {
     .flashcard-set-wrapper {
         position: relative;
-        padding: 20px 0;
+        padding: 20px;
         background: #fff;
         border-radius: 8px;
     }
@@ -88,25 +183,6 @@
         
         &:hover {
             color: #710d0d;
-        }
-    }
-
-    .flashcard-editor {
-        background: #fff;
-        border: 1px solid #e0e0e0;
-        border-radius: 4px;
-        padding: 16px;
-        overflow: hidden;
-
-        .block-editor-block-list__layout {
-            > .wp-block-smfcs-flashcard {
-                margin: 0;
-                width: 100%;
-            }
-
-            > .block-list-appender {
-                display: none;
-            }
         }
     }
 
