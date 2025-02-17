@@ -1,8 +1,12 @@
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set {
+    max-width: 800px;
+    margin: 0 auto;
+
     .flashcard-set-editor {
         padding: 20px;
         background: #fff;
         border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     // Simple Navigation in Editor
@@ -17,15 +21,23 @@
         .components-button-group {
             display: flex;
             gap: 4px;
+            align-items: center;
         }
 
         .current-slide-indicator {
             cursor: default;
             background: #fff;
+            min-width: 60px;
+            justify-content: center;
             
             &:hover {
                 background: #fff;
             }
+        }
+
+        .add-flashcard-button {
+            margin-left: 8px;
+            padding: 6px 12px;
         }
     }
 
@@ -35,6 +47,7 @@
         border: 1px solid #e2e4e7;
         border-radius: 4px;
         padding: 20px;
+        overflow: hidden; // Prevent content overflow
 
         .block-editor-block-list__layout {
             > .wp-block-smfcs-flashcard {
@@ -44,6 +57,8 @@
                 border-radius: 4px;
                 background: #fff;
                 display: none;
+                max-width: 100%; // Ensure flashcard doesn't exceed container
+                box-sizing: border-box; // Include padding in width calculation
 
                 &.is-active {
                     display: block;
@@ -51,6 +66,19 @@
 
                 &.is-selected {
                     border-color: #007cba;
+                }
+
+                // Ensure inner content doesn't overflow
+                .block-editor-block-list__layout {
+                    max-width: 100%;
+                    overflow: hidden;
+                }
+
+                // Adjust inner block margins
+                .wp-block {
+                    margin-left: 0;
+                    margin-right: 0;
+                    max-width: 100%;
                 }
             }
         }
@@ -73,23 +101,9 @@
         }
     }
 
-    .flashcard-actions {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-
-        .components-button {
-            justify-content: flex-start;
-            width: 100%;
-        }
-
-        .remove-flashcard-button {
-            color: #cc1818;
-            
-            &:hover {
-                color: #710d0d;
-            }
-        }
+    .remove-flashcard-button {
+        width: 100%;
+        justify-content: center;
     }
 }
 

@@ -107,28 +107,17 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                             </div>
                         </div>
                         
-                        <div className="flashcard-actions">
+                        {totalSlides > 1 && (
                             <Button
                                 variant="secondary"
-                                onClick={handleAddSlide}
-                                icon={plus}
-                                className="add-flashcard-button"
+                                onClick={handleRemoveSlide}
+                                icon={trash}
+                                className="remove-flashcard-button"
+                                isDestructive
                             >
-                                {__('Add Flashcard', 'smart-flashcards')}
+                                {__('Remove Current Flashcard', 'smart-flashcards')}
                             </Button>
-                            
-                            {totalSlides > 1 && (
-                                <Button
-                                    variant="secondary"
-                                    onClick={handleRemoveSlide}
-                                    icon={trash}
-                                    className="remove-flashcard-button"
-                                    isDestructive
-                                >
-                                    {__('Remove Current Flashcard', 'smart-flashcards')}
-                                </Button>
-                            )}
-                        </div>
+                        )}
                     </div>
                 </PanelBody>
             </InspectorControls>
@@ -157,6 +146,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                                 disabled={currentSlide === totalSlides - 1}
                             >
                                 {__('Next', 'smart-flashcards')}
+                            </Button>
+                            <Button
+                                variant="primary"
+                                onClick={handleAddSlide}
+                                icon={plus}
+                                className="add-flashcard-button"
+                            >
+                                {__('Add', 'smart-flashcards')}
                             </Button>
                         </ButtonGroup>
                     </div>
