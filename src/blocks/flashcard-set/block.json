@@ -11,6 +11,15 @@
         "currentSlide": {
             "type": "number",
             "default": 0
+        },
+        "displayMode": {
+            "type": "string",
+            "default": "slide",
+            "enum": ["slide", "stack"]
+        },
+        "enableShuffle": {
+            "type": "boolean",
+            "default": false
         }
     },
     "supports": {

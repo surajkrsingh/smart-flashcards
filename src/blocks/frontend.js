@@ -1,4 +1,13 @@
 function initializeFlashcards() {
+    // Shuffle array utility function
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
     // Initialize flip functionality for all flashcards
     document.querySelectorAll('.flashcard-inner:not(.initialized)').forEach(card => {
         const frontSide = card.querySelector('.flashcard-front');
@@ -28,23 +37,57 @@ function initializeFlashcards() {
         const prevBtn = set.querySelector('.flashcard-nav-button.prev');
         const nextBtn = set.querySelector('.flashcard-nav-button.next');
         const counter = set.querySelector('.flashcard-set-counter');
-        const slides = Array.from(set.querySelectorAll('.wp-block-smfcs-flashcard'));
+        const shuffleBtn = set.querySelector('.flashcard-shuffle-button');
+        let slides = Array.from(set.querySelectorAll('.wp-block-smfcs-flashcard'));
         let currentSlide = 0;
+        
+        const displayMode = set.dataset.displayMode || 'slide';
+        const enableShuffle = set.dataset.enableShuffle === 'true';
+
+        function updateCounter() {
+            if (counter) {
+                counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            }
+        }
 
         function updateSlides() {
             if (!track) return;
             
-            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            if (displayMode === 'slide') {
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                slides.forEach((slide, index) => {
+                    slide.style.transform = '';
+                    slide.style.zIndex = '';
+                    slide.style.opacity = '';
+                });
+            } else if (displayMode === 'stack') {
+                track.style.transform = '';
+                slides.forEach((slide, index) => {
+                    const offset = index - currentSlide;
+                    const scale = 1 - Math.abs(offset) * 0.05;
+                    const translateY = offset * 10;
+                    const translateZ = -Math.abs(offset) * 20;
+                    
+                    slide.style.transform = `translateY(${translateY}px) translateZ(${translateZ}px) scale(${scale})`;
+                    slide.style.zIndex = slides.length - Math.abs(offset);
+                    slide.style.opacity = 1 - Math.abs(offset) * 0.2;
+                });
+            }
             
+            // Update navigation state
             if (prevBtn) prevBtn.disabled = currentSlide === 0;
             if (nextBtn) nextBtn.disabled = currentSlide === slides.length - 1;
-            if (counter) counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            updateCounter();
+        }
+
+        function handleShuffle() {
+            slides = shuffleArray([...slides]);
+            currentSlide = 0;
             
-            // Ensure proper z-index and visibility
-            slides.forEach((slide, index) => {
-                slide.style.zIndex = index === currentSlide ? '1' : '0';
-                slide.style.visibility = index === currentSlide ? 'visible' : 'hidden';
-            });
+            // Reorder DOM elements
+            slides.forEach(slide => track.appendChild(slide));
+            updateSlides();
+            updateCounter(); // Update counter after shuffle
         }
 
         function handlePrev(e) {
@@ -63,12 +106,24 @@ function initializeFlashcards() {
             }
         }
 
+        // Add event listeners
         prevBtn?.addEventListener('click', handlePrev);
         nextBtn?.addEventListener('click', handleNext);
+        
+        if (enableShuffle && shuffleBtn) {
+            shuffleBtn.addEventListener('click', handleShuffle);
+            shuffleBtn.style.display = 'block';
+        }
 
         // Initialize first slide
         updateSlides();
         set.classList.add('initialized');
+
+        // Add keyboard navigation
+        set.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') handlePrev(e);
+            if (e.key === 'ArrowRight') handleNext(e);
+        });
     });
 }
 

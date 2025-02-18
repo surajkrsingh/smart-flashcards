@@ -1,8 +1,12 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
-export default function Save() {
-    const blockProps = useBlockProps.save();
+export default function Save({ attributes }) {
+    const { displayMode, enableShuffle } = attributes;
+    const blockProps = useBlockProps.save({
+        'data-display-mode': displayMode,
+        'data-enable-shuffle': enableShuffle
+    });
 
     return (
         <div {...blockProps}>
@@ -13,6 +17,16 @@ export default function Save() {
                     </div>
                 </div>
                 <div className="flashcard-set-nav">
+                    {enableShuffle && (
+                        <button 
+                            type="button" 
+                            className="flashcard-shuffle-button"
+                            aria-label={__('Shuffle flashcards', 'smart-flashcards')}
+                        >
+                            <span className="dashicons dashicons-randomize"></span>
+                            {__('Shuffle', 'smart-flashcards')}
+                        </button>
+                    )}
                     <button 
                         type="button" 
                         className="flashcard-nav-button prev"
