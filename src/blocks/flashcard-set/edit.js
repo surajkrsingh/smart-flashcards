@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import './editor.scss';
 import { FLASHCARD_SET_ALLOWED_BLOCKS, FLASHCARD_SET_DEFAULT_TEMPLATE } from '../../utils/constants';
+import { trash, plus } from '@wordpress/icons';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
     const { currentSlide = 0 } = attributes;
@@ -69,6 +70,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
             <div className="flashcard-set-nav">
                 <ButtonGroup>
                     <Button
+                        icon={trash}
+                        variant="secondary"
+                        onClick={handleRemoveSlide}
+                        disabled={totalSlides <= 1}
+                        className="remove-slide-button"
+                        isDestructive
+                    />
+                    <Button
                         variant="secondary"
                         onClick={() => selectSlide(Math.max(0, currentSlide - 1))}
                         disabled={currentSlide === 0}
@@ -90,12 +99,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         {__('Next', 'smart-flashcards')}
                     </Button>
                     <Button
+                        icon={plus}
                         variant="primary"
                         onClick={handleAddSlide}
-                        icon="plus"
-                    >
-                        {__('Add', 'smart-flashcards')}
-                    </Button>
+                        className="add-slide-button"
+                    />
                 </ButtonGroup>
             </div>
 
