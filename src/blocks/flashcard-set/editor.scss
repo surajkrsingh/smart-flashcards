@@ -3,18 +3,10 @@
 @use '../flashcard-back/editor.scss' as *;
 
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set {
-    max-width: 800px !important;
+    max-width: 800px;
     margin: 0 auto;
 
-    .flashcard-set-editor {
-        padding: 20px;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    // Simple Navigation in Editor
-    .flashcard-set-simple-nav {
+    .flashcard-set-nav {
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
@@ -38,76 +30,18 @@
                 background: #fff;
             }
         }
-
-        .add-flashcard-button {
-            margin-left: 8px;
-            padding: 6px 12px;
-        }
     }
 
-    // Editor Content
-    .flashcard-editor {
-        background: #f8f9f9;
-        border: 1px solid #e2e4e7;
-        border-radius: 4px;
-        padding: 20px;
-        overflow: hidden; // Prevent content overflow
+    // Inner blocks styling
+    .block-editor-block-list__layout {
+        > .wp-block-smfcs-flashcard {
+            margin: 0;
+            display: none;
 
-        .block-editor-block-list__layout {
-            > .wp-block-smfcs-flashcard {
-                margin: 0;
-                padding: 20px;
-                border: 1px solid #e2e4e7;
-                border-radius: 4px;
-                background: #fff;
-                display: none;
-                max-width: 100%; // Ensure flashcard doesn't exceed container
-                box-sizing: border-box; // Include padding in width calculation
-
-                &.is-active {
-                    display: block;
-                }
-
-                &.is-selected {
-                    border-color: #007cba;
-                }
-
-                // Ensure inner content doesn't overflow
-                .block-editor-block-list__layout {
-                    max-width: 100%;
-                    overflow: hidden;
-                }
-
-                // Adjust inner block margins
-                .wp-block {
-                    margin-left: 0;
-                    margin-right: 0;
-                    max-width: 100%;
-                }
+            &.is-active {
+                display: block;
             }
         }
-    }
-}
-
-// Sidebar Controls Styling
-.flashcard-set-sidebar-controls {
-    .flashcard-navigation {
-        margin-bottom: 20px;
-
-        .components-base-control {
-            margin-bottom: 12px;
-        }
-
-        .flashcard-count {
-            color: #757575;
-            font-size: 13px;
-            margin-top: 8px;
-        }
-    }
-
-    .remove-flashcard-button {
-        width: 100%;
-        justify-content: center;
     }
 }
 

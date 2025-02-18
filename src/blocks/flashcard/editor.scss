@@ -140,7 +140,7 @@
 .editor-styles-wrapper .wp-block-smfcs-flashcard {
     .flashcard-inner {
         position: relative;
-        width: 100%;
+        width: -webkit-fill-available;
         transition: none !important; // Prevent any transition
     }
 
