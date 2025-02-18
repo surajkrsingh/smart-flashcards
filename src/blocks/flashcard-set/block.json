@@ -18,8 +18,5 @@
         "html": false
     },
     "textdomain": "smart-flashcards",
-    "editorScript": "file:../../../build/blocks/flashcard-set/index.js",
-    "editorStyle": "file:../../../build/blocks/flashcard-set/editor.css",
-    "style": "file:../../../build/blocks/flashcard-set/style.css",
-    "viewScript": "file:../../../build/frontend.js"   
+    "editorScript": "file:../../../build/blocks/flashcard-set/index.js"
 }
