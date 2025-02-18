@@ -6,7 +6,10 @@ const ALLOWED_BLOCKS = [
 	'core/paragraph',
 	'core/image',
 	'core/buttons',
-	'core/media-text'
+	'core/media-text',
+	'core/list',
+	'core/quote',
+	'core/code'
 ];
 
 const TEMPLATE = [
