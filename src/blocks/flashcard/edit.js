@@ -5,6 +5,8 @@ import { useState, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import './editor.scss';
 import { FLASHCARD_ALLOWED_BLOCKS, FLASHCARD_TEMPLATE } from '../../utils/constants';
+import { flipHorizontal } from '@wordpress/icons';
+import { Icon } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const [activeSide, setActiveSide] = useState('front');
@@ -103,12 +105,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 
 					<Button 
-						className="smfcs-flashcard-flip-button"
+						className="smfcs-flashcard-control-button"
 						isPrimary
 						onClick={() => handleSideChange(activeSide === 'front' ? 'back' : 'front')}
 						aria-label={activeSide === 'back' ? __('Show front side', 'smart-flashcards') : __('Show back side', 'smart-flashcards')}
 					>
-						<span className="dashicons dashicons-image-flip-horizontal"></span>
+						<Icon icon={flipHorizontal} />
 					</Button>
 				</div>
 			</div>
