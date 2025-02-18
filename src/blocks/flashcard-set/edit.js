@@ -46,11 +46,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     // Update flashcard visibility
     useEffect(() => {
         if (isInitialized && wrapperRef.current) {
-
-            console.log( 'wrapperRef.current', wrapperRef.current);
             const cards = wrapperRef.current.querySelectorAll('.wp-block-smfcs-flashcard');
-
-            console.log( 'cards', cards);
             cards.forEach((card, index) => {
                 if (index === currentSlide) {
                     card.classList.add('is-active');
