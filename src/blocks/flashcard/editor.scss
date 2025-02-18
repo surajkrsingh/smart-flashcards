@@ -1,8 +1,8 @@
 // Make this button rounded and and floating style with shadow
 .smfcs-flashcard-control-button {
     position: absolute;
-    right: 1rem;
-    top: 1rem;
+    right: 2rem;
+    top: 2rem;
     border-radius: 50%;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     width: 2.5rem;
@@ -107,6 +107,8 @@
         transform: none !important;
         transform-style: flat !important;
         transition: none !important;
+        padding: 16px;
+        box-shadow: none;
     }
 
     // Override frontend display properties for both sides
