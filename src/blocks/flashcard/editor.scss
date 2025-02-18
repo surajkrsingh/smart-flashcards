@@ -4,7 +4,6 @@
     right: 2rem;
     top: 2rem;
     border-radius: 50%;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     width: 2.5rem;
     height: 2.5rem;
     display: flex;
@@ -44,7 +43,6 @@
         min-height: 100%;
         background: #fff;
         border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         overflow: visible;
         
         // Remove all transform styles in editor
@@ -108,7 +106,6 @@
         transform-style: flat !important;
         transition: none !important;
         padding: 16px;
-        box-shadow: none;
     }
 
     // Override frontend display properties for both sides

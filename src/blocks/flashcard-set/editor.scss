@@ -13,7 +13,7 @@
         padding: 12px;
         background: #f0f0f0;
         border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e0e0e0;
 
         .components-button-group {
             display: flex;
@@ -237,7 +237,6 @@
             font-size: 12px;
             font-weight: 600;
             z-index: 20;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         &.is-selected .flashcard-index,
