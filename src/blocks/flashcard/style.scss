@@ -56,11 +56,34 @@ body:not(.editor-styles-wrapper) {
         .wp-block-smfcs-flashcard-back {
             transform: rotateY(180deg);
 
-            // Fix mirrored content
-            > * {
-                transform: rotateY(180deg);
+            // Fix mirrored content by counter-rotating all content
+            .block-editor-block-list__layout,
+            .wp-block-paragraph,
+            .wp-block-heading,
+            .wp-block-image,
+            .wp-block-buttons,
+            .wp-block-media-text,
+            p, h1, h2, h3, h4, h5, h6,
+            img, figure,
+            * {
+                transform: rotateY(-180deg);
                 display: inline-block;
                 width: 100%;
+            }
+
+            // Specific fixes for certain block types
+            .wp-block-buttons {
+                display: flex;
+                justify-content: center;
+            }
+
+            .wp-block-media-text {
+                display: grid;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
             }
         }
 
