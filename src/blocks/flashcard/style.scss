@@ -13,76 +13,56 @@
 }
 
 .wp-block-smfcs-flashcard {
+    position: relative;
     width: var(--flashcard-width, 100%);
-    height: var(--flashcard-height, 300px);
-    margin: 0 auto;
-
-    .flashcard {
-        width: 100%;
-        min-height: 200px;
-        margin: 20px 0;
-        perspective: 1000px;
-    }
+    margin: 0 auto 20px;
+    perspective: 1000px;
 
     .flashcard-inner {
         position: relative;
         width: 100%;
-        height: 100%;
-        text-align: center;
-        transition: transform 0.8s;
         transform-style: preserve-3d;
+        transition: transform 0.8s;
         cursor: pointer;
-        padding: inherit;
-        font-size: inherit;
-        font-family: inherit;
-
-        &.is-flipped {
-            transform: rotateY(180deg);
-        }
     }
 
+    // Target both editor and frontend selectors
+    .flashcard-front,
+    .flashcard-back,
     .wp-block-smfcs-flashcard-front,
     .wp-block-smfcs-flashcard-back {
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
-        min-height: 200px;
-        height: auto;
-        padding: 2rem;
-        background: #fff;
-        border: 1px solid #ddd;
         backface-visibility: hidden;
-
-        &:not([style*="background"]) {
-            background: #fff;
-        }
-
-        &:not([style*="padding"]) {
-            padding: 2rem;
+        padding: 20px;
+        box-sizing: border-box;
+        background: #fff;
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        
+        > * {
+            width: 100%;
+            max-width: 100%;
         }
     }
 
-    // Only apply transforms on frontend
-    &:not(.editor-styles-wrapper) {
-        .wp-block-smfcs-flashcard-back {
+    // Target both editor and frontend back side selectors
+    .flashcard-back,
+    .wp-block-smfcs-flashcard-back {
+        transform: rotateY(180deg);
+        
+        // Counter-rotate all content inside back face
+        > * {
             transform: rotateY(180deg);
-            background: #f8f9fa;
-
-            .flashcard-content {
-                transform: rotateY(180deg);
-
-                * {
-                    transform: rotateY(180deg);
-                }
-            }
         }
     }
 
-    .flashcard-content {
-        width: 100%;
-        max-width: 100%;
-        word-wrap: break-word;
+    &.is-flipped .flashcard-inner {
+        transform: rotateY(180deg);
     }
 }
 

@@ -10,7 +10,7 @@ import { Icon } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
 	const [activeSide, setActiveSide] = useState('front');
-	const { width, height, index } = attributes;
+	const { width, index } = attributes;
 	const blockProps = useBlockProps({
 		'data-index': index
 	});
@@ -84,14 +84,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 						min={20}
 						max={100}
 						step={5}
-					/>
-					<RangeControl
-						label="Height (px)"
-						value={height}
-						onChange={(newHeight) => setAttributes({ height: newHeight })}
-						min={200}
-						max={800}
-						step={10}
 					/>
 				</PanelBody>
 			</InspectorControls>
