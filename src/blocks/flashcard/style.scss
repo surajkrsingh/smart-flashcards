@@ -12,57 +12,61 @@
     padding: 20px;
 }
 
-.wp-block-smfcs-flashcard {
-    position: relative;
-    width: var(--flashcard-width, 100%);
-    margin: 0 auto 20px;
-    perspective: 1000px;
-
-    .flashcard-inner {
+// Frontend-only styles - explicitly exclude editor
+body:not(.editor-styles-wrapper) {
+    .wp-block-smfcs-flashcard {
         position: relative;
-        width: 100%;
-        transform-style: preserve-3d;
-        transition: transform 0.8s;
-        cursor: pointer;
-    }
+        width: var(--flashcard-width, 100%);
+        margin: 0 auto 20px;
+        perspective: 1000px;
 
-    // Target both editor and frontend selectors
-    .flashcard-front,
-    .flashcard-back,
-    .wp-block-smfcs-flashcard-front,
-    .wp-block-smfcs-flashcard-back {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        backface-visibility: hidden;
-        padding: 20px;
-        box-sizing: border-box;
-        background: #fff;
-        
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        
-        > * {
+        .flashcard-inner {
+            position: relative;
             width: 100%;
-            max-width: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+            cursor: pointer;
         }
-    }
 
-    // Target both editor and frontend back side selectors
-    .flashcard-back,
-    .wp-block-smfcs-flashcard-back {
-        transform: rotateY(180deg);
-        
-        // Counter-rotate all content inside back face
-        > * {
+        .flashcard-front,
+        .flashcard-back,
+        .wp-block-smfcs-flashcard-front,
+        .wp-block-smfcs-flashcard-back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            backface-visibility: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+            background: #fff;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            
+            > * {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
+        // Back side rotation and content fix for frontend
+        .flashcard-back,
+        .wp-block-smfcs-flashcard-back {
+            transform: rotateY(180deg);
+
+            // Fix mirrored content
+            > * {
+                transform: rotateY(180deg);
+                display: inline-block;
+                width: 100%;
+            }
+        }
+
+        &.is-flipped .flashcard-inner {
             transform: rotateY(180deg);
         }
-    }
-
-    &.is-flipped .flashcard-inner {
-        transform: rotateY(180deg);
     }
 }
 
