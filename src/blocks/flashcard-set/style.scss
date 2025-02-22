@@ -65,19 +65,87 @@
 
     // Stack mode styles
     &[data-display-mode="stack"] {
-        .flashcard-set-inner,
         .flashcard-set-track {
-            padding-top: 30px;
+            position: relative;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            padding-top: 20px;
+            overflow: hidden;
         }
 
         .wp-block-smfcs-flashcard {
-            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            visibility: hidden; // Hide all cards by default
+            opacity: 0;
+            transform-origin: center center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             background: #fff;
-            cursor: pointer;
+
+            // Active and stacked cards
+            &.is-active,
+            &.stack-1,
+            &.stack-2 {
+                visibility: visible;
+                opacity: 1;
+            }
 
             &.is-active {
-                display: block;
+                position: relative;
+                transform: translateX(0) translateY(0) scale(1);
+                z-index: 3;
+            }
+
+            // Only show 2 stacked cards
+            &.stack-1 {
+                transform: translateY(3px) scale(0.98);
+                opacity: 0.7;
+                z-index: 2;
+            }
+
+            &.stack-2 {
+                transform: translateY(6px) scale(0.96);
+                opacity: 0.4;
+                z-index: 1;
+            }
+
+            // Swipe left animation
+            .swipe-left & {
+                &.is-active {
+                    transform: translateX(-120%) scale(0.9);
+                    opacity: 0;
+                }
+                &.stack-1 {
+                    transform: translateX(0) translateY(0) scale(1);
+                    opacity: 1;
+                    z-index: 3;
+                }
+                &.stack-2 {
+                    transform: translateY(3px) scale(0.98);
+                    opacity: 0.7;
+                    z-index: 2;
+                }
+            }
+
+            // Swipe right animation
+            .swipe-right & {
+                &.is-active {
+                    transform: translateX(120%) scale(0.9);
+                    opacity: 0;
+                }
+                &.stack-1 {
+                    transform: translateX(0) translateY(0) scale(1);
+                    opacity: 1;
+                    z-index: 3;
+                }
+                &.stack-2 {
+                    transform: translateY(3px) scale(0.98);
+                    opacity: 0.7;
+                    z-index: 2;
+                }
             }
         }
     }

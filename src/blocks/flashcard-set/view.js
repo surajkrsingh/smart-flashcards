@@ -101,45 +101,124 @@ function initializeSlideMode(set, inner, flashcards) {
 }
 
 function initializeStackMode(set, inner, flashcards) {
-    // Set initial stacked positions
-    const stackOffset = 5; // pixels to offset each card
-    const maxOffset = 30; // maximum total offset
+    let currentIndex = 0;
+    let isAnimating = false;
 
-    flashcards.forEach((card, index) => {
-        const offset = Math.min(index * stackOffset, maxOffset);
-        card.style.transform = `translateY(${offset}px)`;
-        card.style.zIndex = flashcards.length - index;
-        card.style.position = 'absolute';
-        card.style.top = '0';
-        card.style.left = '0';
-        card.style.width = '100%';
-        card.style.visibility = 'visible';
-        card.style.opacity = '1';
-    });
+    function updateStackPositions(direction = null) {
+        if (isAnimating) return;
+        isAnimating = true;
 
-    // Set container height to accommodate stacked cards
-    const maxHeight = flashcards[0]?.offsetHeight + maxOffset;
-    inner.style.height = `${maxHeight}px`;
-    inner.style.position = 'relative';
+        // Add direction for animation
+        if (direction) {
+            inner.classList.add(`swipe-${direction}`);
+        }
 
-    // Handle click to move to bottom
+        // Update all cards
+        flashcards.forEach((card, index) => {
+            // Remove all classes first
+            card.classList.remove('is-active', 'stack-1', 'stack-2');
+            
+            // Only show current and next 2 cards
+            if (index === currentIndex) {
+                card.classList.add('is-active');
+            } else if (index === currentIndex + 1) {
+                card.classList.add('stack-1');
+            } else if (index === currentIndex + 2) {
+                card.classList.add('stack-2');
+            }
+        });
+
+        // Update navigation
+        const prevBtn = set.querySelector('.flashcard-nav-button.prev');
+        const nextBtn = set.querySelector('.flashcard-nav-button.next');
+        const counter = set.querySelector('.flashcard-set-counter');
+
+        function updateCounter() {
+            if (counter) {
+                counter.textContent = `${currentIndex + 1} / ${flashcards.length}`;
+            }
+        }
+
+        if (prevBtn) prevBtn.disabled = currentIndex === 0;
+        if (nextBtn) nextBtn.disabled = currentIndex === flashcards.length - 1;
+        updateCounter();
+
+        // Reset animation state
+        setTimeout(() => {
+            isAnimating = false;
+            inner.classList.remove('swipe-left', 'swipe-right');
+        }, 400);
+    }
+
+    // Handle click on active card
     flashcards.forEach(card => {
         card.addEventListener('click', () => {
-            if (card === inner.firstElementChild) {
-                inner.appendChild(card);
-                updateStackPositions(inner, stackOffset, maxOffset);
+            if (card.classList.contains('is-active') && !isAnimating && currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateStackPositions();
             }
         });
     });
-}
 
-function updateStackPositions(inner, stackOffset, maxOffset) {
-    const cards = Array.from(inner.children);
-    cards.forEach((card, index) => {
-        const offset = Math.min(index * stackOffset, maxOffset);
-        card.style.transform = `translateY(${offset}px)`;
-        card.style.zIndex = cards.length - index;
-    });
+    // Initialize stack
+    updateStackPositions();
+
+    // Add navigation support
+    const nav = set.querySelector('.flashcard-set-nav');
+    if (nav) {
+        const prevBtn = nav.querySelector('.flashcard-nav-button.prev');
+        const nextBtn = nav.querySelector('.flashcard-nav-button.next');
+        const counter = nav.querySelector('.flashcard-set-counter');
+
+        function updateCounter() {
+            if (counter) {
+                counter.textContent = `${currentIndex + 1} / ${flashcards.length}`;
+            }
+        }
+
+        prevBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isAnimating && currentIndex > 0) {
+                currentIndex--;
+                updateStackPositions('right'); // Swipe right for previous
+                updateCounter();
+            }
+        });
+
+        nextBtn?.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!isAnimating && currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateStackPositions('left'); // Swipe left for next
+                updateCounter();
+            }
+        });
+
+        // Update buttons state
+        function updateButtons() {
+            if (prevBtn) prevBtn.disabled = currentIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentIndex === flashcards.length - 1;
+        }
+
+        // Initialize counter and buttons
+        updateCounter();
+        updateButtons();
+
+        // Add keyboard navigation
+        set.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' && currentIndex > 0 && !isAnimating) {
+                currentIndex--;
+                updateStackPositions('right');
+                updateCounter();
+                updateButtons();
+            } else if (e.key === 'ArrowRight' && currentIndex < flashcards.length - 1 && !isAnimating) {
+                currentIndex++;
+                updateStackPositions('left');
+                updateCounter();
+                updateButtons();
+            }
+        });
+    }
 }
 
 // Debounce helper function
