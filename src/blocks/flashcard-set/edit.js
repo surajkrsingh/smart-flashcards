@@ -14,11 +14,12 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     const blockProps = useBlockProps();
     const wrapperRef = useRef(null);
 
-    const { innerBlocks } = useSelect(select => ({
-        innerBlocks: select('core/block-editor').getBlocks(clientId)
+    const { innerBlocks, selectedBlockClientId } = useSelect(select => ({
+        innerBlocks: select('core/block-editor').getBlocks(clientId),
+        selectedBlockClientId: select('core/block-editor').getSelectedBlockClientId()
     }), [clientId]);
 
-    const { removeBlock, insertBlock } = useDispatch('core/block-editor');
+    const { removeBlock, insertBlock, selectBlock } = useDispatch('core/block-editor');
     const totalSlides = innerBlocks?.length || 0;
 
     useEffect(() => {
@@ -46,10 +47,14 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     }, [currentSlide, innerBlocks, isInitialized]);
 
     const handleAddSlide = () => {
-        const block = wp.blocks.createBlock('smfcs/flashcard', {
+        const newBlock = wp.blocks.createBlock('smfcs/flashcard', {
             index: totalSlides + 1
         });
-        insertBlock(block, totalSlides, clientId);
+
+        insertBlock(newBlock, totalSlides, clientId).then(() => {
+            selectBlock(newBlock.clientId);
+            setAttributes({ currentSlide: totalSlides });
+        });
     };
 
     const handleRemoveSlide = () => {
