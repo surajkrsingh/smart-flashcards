@@ -104,6 +104,9 @@ function initializeStackMode(set, inner, flashcards) {
     let currentIndex = 0;
     let isAnimating = false;
 
+    // Set total cards attribute for visual stack effect
+    inner.setAttribute('data-total-cards', flashcards.length);
+
     function updateStackPositions(direction = null) {
         if (isAnimating) return;
         isAnimating = true;
