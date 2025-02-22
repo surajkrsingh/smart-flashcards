@@ -4,148 +4,127 @@
 
 .wp-block-smfcs-flashcard-set {
     position: relative;
+    width: 100%;
+    margin: 2em auto;
     max-width: 800px;
-    margin: 0 auto;
-    padding-bottom: 80px; // Space for navigation
 
-    .flashcard-set-wrapper {
+    .flashcard-set-inner {
         position: relative;
         width: 100%;
-    }
-
-    .flashcard-set-slides {
-        width: 100%;
+        min-height: 300px;
         overflow: hidden;
-        position: relative;
     }
 
-    .flashcard-set-track {
-        display: flex;
-        transition: transform 0.5s ease;
+    // Base styles for all flashcards
+    .wp-block-smfcs-flashcard {
         width: 100%;
+        margin: 0;
     }
 
-    // Stack mode styles
-    &[data-display-mode="stack"] {
-        .flashcard-set-slides {
-            min-height: 350px; // Ensure space for stacked cards
-        }
+    // Slide mode
+    &.is-style-slide {
+        .flashcard-set-inner {
+            .wp-block-smfcs-flashcard {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateX(100%);
+                transition: transform 0.5s ease, opacity 0.3s ease, visibility 0.3s ease;
 
-        .flashcard-set-track {
-            position: relative;
-            transform-style: preserve-3d;
-            perspective: 1000px;
-        }
+                // Previous card
+                &.prev {
+                    transform: translateX(-100%);
+                    opacity: 0;
+                    visibility: hidden;
+                }
 
-        .wp-block-smfcs-flashcard {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            transition: all 0.5s ease;
-            will-change: transform, opacity;
+                // Active card
+                &.is-active {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateX(0);
+                    position: relative;
+                }
+
+                // Next card
+                &.next {
+                    transform: translateX(100%);
+                    opacity: 0;
+                    visibility: hidden;
+                }
+            }
         }
     }
 
-    // Navigation styles - Fixed at bottom
-    .flashcard-set-nav {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
+    // Grid mode
+    &.is-style-grid {
+        .flashcard-set-inner {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+
+            .wp-block-smfcs-flashcard {
+                position: relative;
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+
+    // Navigation controls
+    .flashcard-set-controls {
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 10px;
+        gap: 1rem;
+        margin-top: 2rem;
         padding: 1rem;
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 0.5rem;
-        z-index: 100;
-
-        .flashcard-nav-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 8px 16px;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            line-height: 1.4;
-
-            &:hover:not(:disabled) {
-                background: #f0f0f0;
-                border-color: #999;
-            }
-
-            &:disabled {
-                opacity: 0.6;
-                cursor: not-allowed;
-            }
-
-            .dashicons {
-                font-size: 16px;
-                width: 16px;
-                height: 16px;
-                line-height: 1;
-            }
-        }
-
-        .flashcard-set-counter {
-            padding: 8px 16px;
-            background: #f0f0f0;
-            border-radius: 4px;
-            font-weight: 500;
-            min-width: 60px;
-            text-align: center;
-        }
-
-        .flashcard-shuffle-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 8px 16px;
-            background: #007cba;
+        
+        button {
+            background: var(--wp--preset--color--primary, #007cba);
             color: white;
             border: none;
+            padding: 0.5rem 1rem;
             border-radius: 4px;
             cursor: pointer;
-            transition: background 0.2s ease;
-            font-size: 14px;
-            line-height: 1.4;
-
-            .dashicons {
-                font-size: 16px;
-                width: 16px;
-                height: 16px;
-                line-height: 1;
+            transition: background-color 0.3s ease;
+            min-width: 100px;
+            
+            &:hover:not(:disabled) {
+                background: var(--wp--preset--color--primary-dark, #006ba1);
             }
-
-            &:hover {
-                background: #006ba1;
-            }
-
+            
             &:disabled {
-                opacity: 0.6;
+                background: #ccc;
                 cursor: not-allowed;
+                opacity: 0.7;
             }
         }
+        
+        .flashcard-counter {
+            font-size: 0.9rem;
+            color: #666;
+            padding: 0.5rem 1rem;
+            background: #f0f0f0;
+            border-radius: 4px;
+            min-width: 80px;
+            text-align: center;
+        }
     }
+}
 
-    // Responsive styles
-    @media (max-width: 600px) {
-        padding-bottom: 120px; // More space for stacked navigation on mobile
-
-        .flashcard-set-nav {
-            flex-wrap: wrap;
-            gap: 8px;
-
-            .flashcard-shuffle-button {
-                order: -1; // Move shuffle button to top on mobile
-                width: 100%;
+// Responsive styles
+@media (max-width: 768px) {
+    .wp-block-smfcs-flashcard-set {
+        padding: 0 1rem;
+        
+        &.is-style-grid {
+            .flashcard-set-inner {
+                grid-template-columns: 1fr;
+                gap: 1rem;
             }
         }
     }

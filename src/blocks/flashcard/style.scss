@@ -40,11 +40,8 @@ body:not(.editor-styles-wrapper) {
             padding: 20px;
             box-sizing: border-box;
             background: #fff;
-            
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            
             > * {
                 width: 100%;
                 max-width: 100%;

@@ -1,4 +1,5 @@
 import './flashcard/view';
+import './flashcard-set/view';
 
 function initializeFlashcards() {
     // Shuffle array utility function
