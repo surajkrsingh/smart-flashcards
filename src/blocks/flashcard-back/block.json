@@ -8,6 +8,12 @@
 	"parent": ["smfcs/flashcard"],
 	"icon": "card",
 	"description": "Back side of the flashcard",
+	"attributes": {
+		"borderStyle": {
+			"type": "string",
+			"default": "default"
+		}
+	},
 	"supports": {
 		"html": false,
 		"color": {
