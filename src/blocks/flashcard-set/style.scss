@@ -183,6 +183,40 @@
         gap: 1rem;
         padding: 1rem;
 
+        .flashcard-shuffle-button {
+            background: var(--wp--preset--color--secondary, #6c757d);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 100px;
+            justify-content: center;
+
+            .dashicons {
+                font-size: 1.2em;
+                line-height: 1;
+                transition: transform 0.3s ease;
+            }
+
+            &:hover:not(:disabled) {
+                background: var(--wp--preset--color--secondary-dark, #5a6268);
+                .dashicons {
+                    transform: rotate(180deg);
+                }
+            }
+
+            &:disabled {
+                background: #ccc;
+                cursor: not-allowed;
+                opacity: 0.7;
+            }
+        }
+
         .flashcard-nav-button {
             background: var(--wp--preset--color--primary, #007cba);
             color: white;
