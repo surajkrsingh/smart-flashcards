@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
             initializeSlideMode(set, inner, flashcards);
         } else if (displayMode === 'stack') {
             initializeStackMode(set, inner, flashcards);
+        } else if (displayMode === 'grid') {
+            initializeGridMode(set, inner, flashcards);
         }
     });
 });
@@ -406,4 +408,20 @@ if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeFlashcards);
 } else {
     initializeFlashcards();
+}
+
+// Add new function for grid mode
+function initializeGridMode(set, inner, flashcards) {
+    // Show all cards
+    flashcards.forEach(card => {
+        card.style.display = 'block';
+        card.style.opacity = '1';
+        card.style.visibility = 'visible';
+    });
+
+    // Remove navigation if it exists
+    const nav = set.querySelector('.flashcard-set-nav');
+    if (nav) {
+        nav.style.display = 'none';
+    }
 }

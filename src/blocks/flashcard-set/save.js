@@ -16,35 +16,37 @@ export default function Save({ attributes }) {
                         <InnerBlocks.Content />
                     </div>
                 </div>
-                <div className="flashcard-set-nav">
-                    {enableShuffle && (
+                {displayMode !== 'grid' && (
+                    <div className="flashcard-set-nav">
+                        {enableShuffle && (
+                            <button 
+                                type="button" 
+                                className="flashcard-shuffle-button"
+                                aria-label={__('Shuffle flashcards', 'smart-flashcards')}
+                            >
+                                <span className="dashicons dashicons-randomize"></span>
+                                {__('Shuffle', 'smart-flashcards')}
+                            </button>
+                        )}
                         <button 
                             type="button" 
-                            className="flashcard-shuffle-button"
-                            aria-label={__('Shuffle flashcards', 'smart-flashcards')}
+                            className="flashcard-nav-button prev"
+                            aria-label={__('Previous flashcard', 'smart-flashcards')}
                         >
-                            <span className="dashicons dashicons-randomize"></span>
-                            {__('Shuffle', 'smart-flashcards')}
+                            <span className="dashicons dashicons-arrow-left-alt2"></span>
+                            {__('Previous', 'smart-flashcards')}
                         </button>
-                    )}
-                    <button 
-                        type="button" 
-                        className="flashcard-nav-button prev"
-                        aria-label={__('Previous flashcard', 'smart-flashcards')}
-                    >
-                        <span className="dashicons dashicons-arrow-left-alt2"></span>
-                        {__('Previous', 'smart-flashcards')}
-                    </button>
-                    <span className="flashcard-set-counter">1 / 1</span>
-                    <button 
-                        type="button" 
-                        className="flashcard-nav-button next"
-                        aria-label={__('Next flashcard', 'smart-flashcards')}
-                    >
-                        {__('Next', 'smart-flashcards')}
-                        <span className="dashicons dashicons-arrow-right-alt2"></span>
-                    </button>
-                </div>
+                        <span className="flashcard-set-counter">1 / 1</span>
+                        <button 
+                            type="button" 
+                            className="flashcard-nav-button next"
+                            aria-label={__('Next flashcard', 'smart-flashcards')}
+                        >
+                            {__('Next', 'smart-flashcards')}
+                            <span className="dashicons dashicons-arrow-right-alt2"></span>
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

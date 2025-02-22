@@ -75,7 +75,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         value={displayMode}
                         options={[
                             { label: __('Slide', 'smart-flashcards'), value: 'slide' },
-                            { label: __('Stack', 'smart-flashcards'), value: 'stack' }
+                            { label: __('Stack', 'smart-flashcards'), value: 'stack' },
+                            { label: __('Grid', 'smart-flashcards'), value: 'grid' }
                         ]}
                         onChange={(value) => setAttributes({ displayMode: value })}
                     />

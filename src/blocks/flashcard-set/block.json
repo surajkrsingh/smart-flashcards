@@ -15,7 +15,7 @@
         "displayMode": {
             "type": "string",
             "default": "slide",
-            "enum": ["slide", "stack"]
+            "enum": ["slide", "stack", "grid"]
         },
         "enableShuffle": {
             "type": "boolean",

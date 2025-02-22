@@ -17,7 +17,8 @@
       "default": "slide",
       "enum": [
         "slide",
-        "stack"
+        "stack",
+        "grid"
       ]
     },
     "enableShuffle": {

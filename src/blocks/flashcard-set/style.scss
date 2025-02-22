@@ -175,6 +175,36 @@
         }
     }
 
+    // Add this new section for grid mode
+    &[data-display-mode="grid"] {
+        .flashcard-set-track {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1rem;
+            position: relative;
+            overflow: visible;
+
+            .wp-block-smfcs-flashcard {
+                position: relative;
+                visibility: visible;
+                opacity: 1;
+                transform: none;
+                transition: transform 0.3s ease;
+                margin-bottom: 0;
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
+            }
+        }
+
+        // Hide navigation in grid mode
+        .flashcard-set-nav {
+            display: none;
+        }
+    }
+
     // Navigation styles
     .flashcard-set-nav {
         display: flex;
@@ -288,9 +318,16 @@
     }
 }
 
-// Responsive styles
+// Update responsive styles
 @media (max-width: 768px) {
     .wp-block-smfcs-flashcard-set {
         padding: 0 1rem;
+
+        &[data-display-mode="grid"] {
+            .flashcard-set-track {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
     }
 } 
