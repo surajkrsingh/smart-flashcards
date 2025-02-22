@@ -1,14 +1,15 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
-import { Button, ButtonGroup } from '@wordpress/components';
+import { Button, ButtonGroup, PanelBody, ToggleControl, SelectControl } from '@wordpress/components';
 import { useState, useRef, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import './editor.scss';
 import { FLASHCARD_SET_ALLOWED_BLOCKS, FLASHCARD_SET_DEFAULT_TEMPLATE } from '../../utils/constants';
 import { trash, plus } from '@wordpress/icons';
+import { InspectorControls } from '@wordpress/block-editor';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
-    const { currentSlide = 0 } = attributes;
+    const { currentSlide = 0, displayMode, enableShuffle } = attributes;
     const [isInitialized, setIsInitialized] = useState(false);
     const blockProps = useBlockProps();
     const wrapperRef = useRef(null);
@@ -67,6 +68,24 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
     return (
         <div {...blockProps} ref={wrapperRef}>
+            <InspectorControls>
+                <PanelBody title={__('Flashcard Set Settings', 'smart-flashcards')}>
+                    <SelectControl
+                        label={__('Display Mode', 'smart-flashcards')}
+                        value={displayMode}
+                        options={[
+                            { label: __('Slide', 'smart-flashcards'), value: 'slide' },
+                            { label: __('Stack', 'smart-flashcards'), value: 'stack' }
+                        ]}
+                        onChange={(value) => setAttributes({ displayMode: value })}
+                    />
+                    <ToggleControl
+                        label={__('Enable Shuffle', 'smart-flashcards')}
+                        checked={enableShuffle}
+                        onChange={(value) => setAttributes({ enableShuffle: value })}
+                    />
+                </PanelBody>
+            </InspectorControls>
             <div className="flashcard-set-nav">
                 <ButtonGroup>
                     <Button
