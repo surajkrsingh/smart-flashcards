@@ -41,34 +41,33 @@ function initializeNavigation(set, nav) {
     let currentIndex = 0;
     let isAnimating = false;
 
-    function updateDisplay(direction = 'next') {
+    function updateDisplay() {
         if (isAnimating) return;
         isAnimating = true;
 
-        flashcards.forEach((card, index) => {
-            if (index === currentIndex) {
-                card.classList.add('is-active');
-                card.style.transform = 'translateX(0)';
-                card.style.opacity = '1';
-                card.style.visibility = 'visible';
-            } else {
-                card.classList.remove('is-active');
-                card.style.transform = index < currentIndex ? 'translateX(-100%)' : 'translateX(100%)';
-                card.style.opacity = '0';
-                card.style.visibility = 'hidden';
-            }
+        // Hide all cards first
+        flashcards.forEach(card => {
+            card.classList.remove('is-active');
+            // Remove any inline styles
+            card.removeAttribute('style');
         });
 
+        // Show current card
+        const activeCard = flashcards[currentIndex];
+        activeCard.classList.add('is-active');
+
+        // Update counter and buttons
         counter.textContent = `${currentIndex + 1} / ${flashcards.length}`;
         prevButton.disabled = currentIndex === 0;
         nextButton.disabled = currentIndex === flashcards.length - 1;
 
-        // Update container height
-        inner.style.height = `${flashcards[currentIndex].offsetHeight}px`;
+        // Update container height using a class
+        inner.style.height = `${activeCard.offsetHeight}px`;
 
+        // Reset animation flag after transition
         setTimeout(() => {
             isAnimating = false;
-        }, 500);
+        }, 400);
     }
 
     // Initialize first card
@@ -78,14 +77,14 @@ function initializeNavigation(set, nav) {
     prevButton?.addEventListener('click', () => {
         if (currentIndex > 0 && !isAnimating) {
             currentIndex--;
-            updateDisplay('prev');
+            updateDisplay();
         }
     });
 
     nextButton?.addEventListener('click', () => {
         if (currentIndex < flashcards.length - 1 && !isAnimating) {
             currentIndex++;
-            updateDisplay('next');
+            updateDisplay();
         }
     });
 
@@ -154,4 +153,145 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
-} 
+}
+
+function initializeFlashcards() {
+    // Initialize flip functionality for all flashcards
+    document.querySelectorAll('.flashcard-inner:not(.initialized)').forEach(card => {
+        const frontSide = card.querySelector('.flashcard-front');
+        const backSide = card.querySelector('.flashcard-back');
+
+        function toggleFlip(e) {
+            e.preventDefault();
+            card.classList.toggle('is-flipped');
+            const isFlipped = card.classList.contains('is-flipped');
+            frontSide.setAttribute('aria-hidden', isFlipped);
+            backSide.setAttribute('aria-hidden', !isFlipped);
+        }
+
+        card.addEventListener('click', toggleFlip);
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleFlip(e);
+            }
+        });
+        card.classList.add('initialized');
+    });
+
+    // Initialize flashcard sets
+    document.querySelectorAll('.wp-block-smfcs-flashcard-set:not(.initialized)').forEach(initializeFlashcardSet);
+}
+
+function initializeFlashcardSet(set) {
+    const track = set.querySelector('.flashcard-set-track');
+    if (!track) return;
+
+    const prevBtn = set.querySelector('.flashcard-nav-button.prev');
+    const nextBtn = set.querySelector('.flashcard-nav-button.next');
+    const counter = set.querySelector('.flashcard-set-counter');
+    const shuffleBtn = set.querySelector('.flashcard-shuffle-button');
+    
+    let slides = Array.from(track.querySelectorAll('.wp-block-smfcs-flashcard'));
+    if (!slides.length) return;
+
+    let currentSlide = 0;
+    let isAnimating = false;
+    
+    const enableShuffle = set.dataset.enableShuffle === 'true';
+
+    function updateCounter() {
+        if (counter) {
+            counter.textContent = `${currentSlide + 1} / ${slides.length}`;
+        }
+    }
+
+    function updateSlides() {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // Hide all slides
+        slides.forEach(slide => {
+            slide.classList.remove('is-active');
+            slide.style.display = 'none';
+        });
+
+        // Show current slide
+        const activeSlide = slides[currentSlide];
+        activeSlide.classList.add('is-active');
+        activeSlide.style.display = 'block';
+
+        // Update navigation
+        if (prevBtn) prevBtn.disabled = currentSlide === 0;
+        if (nextBtn) nextBtn.disabled = currentSlide === slides.length - 1;
+        updateCounter();
+
+        // Update track height
+        track.style.height = `${activeSlide.offsetHeight}px`;
+
+        setTimeout(() => isAnimating = false, 400);
+    }
+
+    function handleShuffle() {
+        if (isAnimating) return;
+        slides = shuffleArray([...slides]);
+        currentSlide = 0;
+        slides.forEach(slide => track.appendChild(slide));
+        updateSlides();
+    }
+
+    function handleNavigation(e, direction) {
+        e.preventDefault();
+        if (isAnimating) return;
+
+        if (direction === 'prev' && currentSlide > 0) {
+            currentSlide--;
+            updateSlides();
+        } else if (direction === 'next' && currentSlide < slides.length - 1) {
+            currentSlide++;
+            updateSlides();
+        }
+    }
+
+    // Event listeners
+    prevBtn?.addEventListener('click', e => handleNavigation(e, 'prev'));
+    nextBtn?.addEventListener('click', e => handleNavigation(e, 'next'));
+    
+    if (enableShuffle && shuffleBtn) {
+        shuffleBtn.addEventListener('click', handleShuffle);
+        shuffleBtn.style.display = 'block';
+    }
+
+    // Keyboard navigation
+    set.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') handleNavigation(e, 'prev');
+        if (e.key === 'ArrowRight') handleNavigation(e, 'next');
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', debounce(() => {
+        if (slides[currentSlide]) {
+            track.style.height = `${slides[currentSlide].offsetHeight}px`;
+        }
+    }, 250));
+
+    // Initialize
+    updateSlides();
+    set.classList.add('initialized');
+}
+
+// Utility functions
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+// Initialize on DOM ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeFlashcards);
+} else {
+    initializeFlashcards();
+}

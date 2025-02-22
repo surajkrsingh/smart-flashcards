@@ -13,7 +13,6 @@
         position: relative;
         width: 100%;
         min-height: 300px;
-        overflow: hidden;
         transition: height 0.3s ease;
     }
 
@@ -26,20 +25,15 @@
     // Slide mode styles
     &[data-display-mode="slide"] {
         .wp-block-smfcs-flashcard {
-            position: absolute;
-            top: 0;
-            left: 0;
+            display: none; // Hide by default
             width: 100%;
             opacity: 0;
-            visibility: hidden;
-            transform: translateX(100%);
-            transition: all 0.5s ease;
+            transition: opacity 0.4s ease;
 
+            // Active card
             &.is-active {
+                display: block;
                 opacity: 1;
-                visibility: visible;
-                transform: translateX(0);
-                position: relative;
             }
         }
     }
@@ -48,17 +42,17 @@
     &[data-display-mode="stack"] {
         .flashcard-set-inner,
         .flashcard-set-track {
-            padding-top: 30px; // Space for card offset
-            
-            .wp-block-smfcs-flashcard {
-                transition: transform 0.3s ease, z-index 0.3s ease;
-                cursor: pointer;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-                background: #fff;
+            padding-top: 30px;
+        }
 
-                &:hover {
-                    transform: translateY(-5px) !important;
-                }
+        .wp-block-smfcs-flashcard {
+            display: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            cursor: pointer;
+
+            &.is-active {
+                display: block;
             }
         }
     }
