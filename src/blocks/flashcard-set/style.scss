@@ -8,11 +8,13 @@
     margin: 2em auto;
     max-width: 800px;
 
-    .flashcard-set-inner {
+    .flashcard-set-inner,
+    .flashcard-set-track {
         position: relative;
         width: 100%;
         min-height: 300px;
         overflow: hidden;
+        transition: height 0.3s ease;
     }
 
     // Base styles for all flashcards
@@ -21,69 +23,56 @@
         margin: 0;
     }
 
-    // Slide mode
-    &.is-style-slide {
-        .flashcard-set-inner {
-            .wp-block-smfcs-flashcard {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                opacity: 0;
-                visibility: hidden;
-                transform: translateX(100%);
-                transition: transform 0.5s ease, opacity 0.3s ease, visibility 0.3s ease;
+    // Slide mode styles
+    &[data-display-mode="slide"] {
+        .wp-block-smfcs-flashcard {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(100%);
+            transition: all 0.5s ease;
 
-                // Previous card
-                &.prev {
-                    transform: translateX(-100%);
-                    opacity: 0;
-                    visibility: hidden;
-                }
-
-                // Active card
-                &.is-active {
-                    opacity: 1;
-                    visibility: visible;
-                    transform: translateX(0);
-                    position: relative;
-                }
-
-                // Next card
-                &.next {
-                    transform: translateX(100%);
-                    opacity: 0;
-                    visibility: hidden;
-                }
-            }
-        }
-    }
-
-    // Grid mode
-    &.is-style-grid {
-        .flashcard-set-inner {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-
-            .wp-block-smfcs-flashcard {
-                position: relative;
+            &.is-active {
                 opacity: 1;
                 visibility: visible;
+                transform: translateX(0);
+                position: relative;
             }
         }
     }
 
-    // Navigation controls
-    .flashcard-set-controls {
+    // Stack mode styles
+    &[data-display-mode="stack"] {
+        .flashcard-set-inner,
+        .flashcard-set-track {
+            padding-top: 30px; // Space for card offset
+            
+            .wp-block-smfcs-flashcard {
+                transition: transform 0.3s ease, z-index 0.3s ease;
+                cursor: pointer;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                background: #fff;
+
+                &:hover {
+                    transform: translateY(-5px) !important;
+                }
+            }
+        }
+    }
+
+    // Navigation styles
+    .flashcard-set-nav {
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 1rem;
         margin-top: 2rem;
         padding: 1rem;
-        
-        button {
+
+        .flashcard-nav-button {
             background: var(--wp--preset--color--primary, #007cba);
             color: white;
             border: none;
@@ -92,19 +81,27 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             min-width: 100px;
-            
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
             &:hover:not(:disabled) {
                 background: var(--wp--preset--color--primary-dark, #006ba1);
             }
-            
+
             &:disabled {
                 background: #ccc;
                 cursor: not-allowed;
                 opacity: 0.7;
             }
+
+            .dashicons {
+                font-size: 1.2em;
+                line-height: 1;
+            }
         }
-        
-        .flashcard-counter {
+
+        .flashcard-set-counter {
             font-size: 0.9rem;
             color: #666;
             padding: 0.5rem 1rem;
@@ -120,12 +117,5 @@
 @media (max-width: 768px) {
     .wp-block-smfcs-flashcard-set {
         padding: 0 1rem;
-        
-        &.is-style-grid {
-            .flashcard-set-inner {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-        }
     }
 } 
