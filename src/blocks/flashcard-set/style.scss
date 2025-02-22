@@ -24,16 +24,41 @@
 
     // Slide mode styles
     &[data-display-mode="slide"] {
+        .flashcard-set-track {
+            position: relative;
+            overflow: hidden; // Contain the sliding animation
+        }
+
         .wp-block-smfcs-flashcard {
-            display: none; // Hide by default
+            display: block; // Always display but hide with opacity
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            visibility: hidden;
+            transform: translateX(100%); // Start from right
+            transition: transform 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
 
-            // Active card
+            // Previous slide
+            &.prev {
+                transform: translateX(-100%);
+                z-index: 1;
+            }
+
+            // Active slide
             &.is-active {
-                display: block;
                 opacity: 1;
+                visibility: visible;
+                transform: translateX(0);
+                position: relative;
+                z-index: 2;
+            }
+
+            // Next slide
+            &.next {
+                transform: translateX(100%);
+                z-index: 1;
             }
         }
     }
@@ -63,7 +88,6 @@
         justify-content: center;
         align-items: center;
         gap: 1rem;
-        margin-top: 2rem;
         padding: 1rem;
 
         .flashcard-nav-button {
@@ -103,6 +127,36 @@
             border-radius: 4px;
             min-width: 80px;
             text-align: center;
+        }
+    }
+
+    .flashcard-set-track {
+        &.sliding-left {
+            .wp-block-smfcs-flashcard {
+                &.prev {
+                    transform: translateX(-200%);
+                }
+                &.is-active {
+                    transform: translateX(0);
+                }
+                &.next {
+                    transform: translateX(100%);
+                }
+            }
+        }
+
+        &.sliding-right {
+            .wp-block-smfcs-flashcard {
+                &.prev {
+                    transform: translateX(-100%);
+                }
+                &.is-active {
+                    transform: translateX(0);
+                }
+                &.next {
+                    transform: translateX(200%);
+                }
+            }
         }
     }
 }

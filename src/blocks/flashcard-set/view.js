@@ -210,16 +210,25 @@ function initializeFlashcardSet(set) {
         if (isAnimating) return;
         isAnimating = true;
 
-        // Hide all slides
+        const prevSlide = slides[currentSlide - 1];
+        const nextSlide = slides[currentSlide + 1];
+
+        // Remove all state classes first
         slides.forEach(slide => {
-            slide.classList.remove('is-active');
-            slide.style.display = 'none';
+            slide.classList.remove('is-active', 'prev', 'next');
         });
+
+        // Set states for relevant slides
+        if (prevSlide) {
+            prevSlide.classList.add('prev');
+        }
+        if (nextSlide) {
+            nextSlide.classList.add('next');
+        }
 
         // Show current slide
         const activeSlide = slides[currentSlide];
         activeSlide.classList.add('is-active');
-        activeSlide.style.display = 'block';
 
         // Update navigation
         if (prevBtn) prevBtn.disabled = currentSlide === 0;
@@ -229,7 +238,19 @@ function initializeFlashcardSet(set) {
         // Update track height
         track.style.height = `${activeSlide.offsetHeight}px`;
 
-        setTimeout(() => isAnimating = false, 400);
+        // Reset animation flag after transition completes
+        setTimeout(() => {
+            isAnimating = false;
+            
+            // Clean up slides not in view
+            slides.forEach((slide, index) => {
+                if (index !== currentSlide && 
+                    index !== currentSlide - 1 && 
+                    index !== currentSlide + 1) {
+                    slide.classList.remove('prev', 'next');
+                }
+            });
+        }, 400); // Match this with CSS transition duration
     }
 
     function handleShuffle() {
@@ -244,6 +265,10 @@ function initializeFlashcardSet(set) {
         e.preventDefault();
         if (isAnimating) return;
 
+        // Add direction class to container for animation
+        track.classList.remove('sliding-left', 'sliding-right');
+        track.classList.add(direction === 'prev' ? 'sliding-right' : 'sliding-left');
+
         if (direction === 'prev' && currentSlide > 0) {
             currentSlide--;
             updateSlides();
@@ -251,6 +276,11 @@ function initializeFlashcardSet(set) {
             currentSlide++;
             updateSlides();
         }
+
+        // Remove direction class after animation
+        setTimeout(() => {
+            track.classList.remove('sliding-left', 'sliding-right');
+        }, 400);
     }
 
     // Event listeners
