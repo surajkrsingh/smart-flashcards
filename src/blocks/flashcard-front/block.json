@@ -12,6 +12,14 @@
 		"borderStyle": {
 			"type": "string",
 			"default": "default"
+		},
+		"primaryBorderColor": {
+			"type": "string",
+			"default": "#8B7355"
+		},
+		"secondaryBorderColor": {
+			"type": "string",
+			"default": "#D4B886"
 		}
 	},
 	"supports": {

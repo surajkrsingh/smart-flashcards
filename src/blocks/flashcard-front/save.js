@@ -1,9 +1,13 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
 export default function FrontSave({ attributes }) {
-	const { borderStyle } = attributes;
+	const { borderStyle, primaryBorderColor, secondaryBorderColor } = attributes;
 	const blockProps = useBlockProps.save({
-		className: `flashcard-front border-style-${borderStyle}`
+		className: `flashcard-front border-style-${borderStyle}`,
+		style: {
+			'--primary-border-color': primaryBorderColor,
+			'--secondary-border-color': secondaryBorderColor
+		}
 	});
 
 	return (

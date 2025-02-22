@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InnerBlocks, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import { PanelBody, SelectControl, ColorPicker } from '@wordpress/components';
 
 const ALLOWED_BLOCKS = [
 	'core/heading',
@@ -29,9 +29,13 @@ const BORDER_STYLES = [
 ];
 
 export default function Edit({ attributes, setAttributes }) {
-	const { borderStyle } = attributes;
+	const { borderStyle, primaryBorderColor, secondaryBorderColor } = attributes;
 	const blockProps = useBlockProps({
-		className: `flashcard-back border-style-${borderStyle}`
+		className: `flashcard-back border-style-${borderStyle}`,
+		style: {
+			'--primary-border-color': primaryBorderColor,
+			'--secondary-border-color': secondaryBorderColor
+		}
 	});
 
 	return (
@@ -44,6 +48,26 @@ export default function Edit({ attributes, setAttributes }) {
 						options={BORDER_STYLES}
 						onChange={(value) => setAttributes({ borderStyle: value })}
 					/>
+					{borderStyle !== 'default' && (
+						<>
+							<div className="smfcs-color-picker-wrapper">
+								<label>{__('Primary Border Color', 'smart-flashcards')}</label>
+								<ColorPicker
+									color={primaryBorderColor}
+									onChange={(color) => setAttributes({ primaryBorderColor: color })}
+									enableAlpha
+								/>
+							</div>
+							<div className="smfcs-color-picker-wrapper">
+								<label>{__('Secondary Border Color', 'smart-flashcards')}</label>
+								<ColorPicker
+									color={secondaryBorderColor}
+									onChange={(color) => setAttributes({ secondaryBorderColor: color })}
+									enableAlpha
+								/>
+							</div>
+						</>
+					)}
 				</PanelBody>
 			</InspectorControls>
 			<div {...blockProps}>
