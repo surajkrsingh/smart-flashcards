@@ -11,12 +11,9 @@ module.exports = {
 		'blocks/flashcard-set/editor': './src/blocks/flashcard-set/editor.scss',
 		'blocks/flashcard-set/style': './src/blocks/flashcard-set/style.scss',
 
-		'card-stack/index': './src/blocks/card-stack/index.js',
-		'card/index': './src/blocks/card/index.js',
 		'frontend': './src/blocks/frontend.js',
-		'style': './src/blocks/blocks-style.scss',
-		'editor': './src/blocks/blocks-editor.scss',
-		
+		'style': './src/style.scss',
+		'editor': './src/editor.scss',
 	},
 	output: {
 		path: path.resolve(__dirname, 'build'),
