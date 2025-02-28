@@ -3,19 +3,19 @@
  * Smart Flashcards
  *
  * @package           smart-flashcards
- * @author            Suraj Singh
- * @copyright         2022 by Suraj Singh
+ * @author            SurajWP
+ * @copyright         2025 by SurajWP
  * @license           GPL-2.0+
  *
  * @wordpress-plugin
  * Plugin Name:       Smart Flashcards
- * Plugin URI:        https://profiles.wordpress.org/surajkumarsingh/
+ * Plugin URI:        https://surajwp.com/smart-flashcards/
  * Description:       Simple flashcards
- * Version:           0.0.1
+ * Version:           1.0.0
  * Requires PHP:      7.4
  * Requires at least: 5.8
- * Author:            Suraj Singh
- * Author URI:        https://profiles.wordpress.org/surajkumarsingh/
+ * Author:            SurajWP
+ * Author URI:        https://surajwp.com/
  * Text Domain:       smart-flashcards
  * Domain Path:       /languages
  *
