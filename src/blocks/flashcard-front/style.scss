@@ -11,7 +11,7 @@ body {
                     inset 0 0 0 1px $secondary-border-color,
                     inset 0 0 0 5px $border-color,
                     inset 0 0 0 6px $secondary-border-color,
-                    2px 2px 10px rgba(0,0,0,0.2) !important;
+                    2px 2px 10px rgba(0,0,0,0.1) !important;
                 background: 
                     repeating-linear-gradient(45deg, $secondary-border-color 0px, $secondary-border-color 2px, transparent 2px, transparent 4px),
                     #fff !important;
@@ -22,13 +22,6 @@ body {
                     position: absolute;
                     inset: -8px;
                     border: 1px solid $border-color;
-                    background: 
-                        linear-gradient(45deg, $border-color 25%, transparent 25%) -2px 0,
-                        linear-gradient(-45deg, $border-color 25%, transparent 25%) -2px 0,
-                        linear-gradient(45deg, transparent 75%, $border-color 75%),
-                        linear-gradient(-45deg, transparent 75%, $border-color 75%);
-                    background-size: 4px 4px;
-                    z-index: -1;
                     pointer-events: none;
                 }
             }

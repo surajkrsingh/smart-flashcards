@@ -4,6 +4,16 @@
         .wp-block-smfcs-flashcard-back {
             $border-color: var(--primary-border-color);
             $secondary-border-color: var(--secondary-border-color);
+            position: relative;
+            background: #fff !important;
+
+            // Base styles for all border styles
+            &[class*="border-style-"] {
+                .flashcard-content {
+                    position: relative;
+                    z-index: 2;
+                }
+            }
 
             &.border-style-vintage {
                 border: 12px solid $border-color !important;
@@ -11,24 +21,18 @@
                     inset 0 0 0 1px $secondary-border-color,
                     inset 0 0 0 5px $border-color,
                     inset 0 0 0 6px $secondary-border-color,
-                    2px 2px 10px rgba(0,0,0,0.2) !important;
+                    2px 2px 10px rgba(0,0,0,0.1) !important;
                 background: 
                     repeating-linear-gradient(45deg, $secondary-border-color 0px, $secondary-border-color 2px, transparent 2px, transparent 4px),
                     #fff !important;
                 border-radius: 2px !important;
+                position: relative;
 
                 &::before {
                     content: '';
                     position: absolute;
                     inset: -8px;
                     border: 1px solid $border-color;
-                    background: 
-                        linear-gradient(45deg, $border-color 25%, transparent 25%) -2px 0,
-                        linear-gradient(-45deg, $border-color 25%, transparent 25%) -2px 0,
-                        linear-gradient(45deg, transparent 75%, $border-color 75%),
-                        linear-gradient(-45deg, transparent 75%, $border-color 75%);
-                    background-size: 4px 4px;
-                    z-index: -1;
                     pointer-events: none;
                 }
             }
@@ -47,6 +51,16 @@
                     inset: -20px;
                     border: 2px solid $border-color;
                     border-radius: 10px;
+                    background: #fff;
+                    z-index: 0;
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    inset: -15px;
+                    border: 1px solid $secondary-border-color;
+                    border-radius: 8px;
                     background: 
                         radial-gradient(circle at 0 0, transparent 15px, $border-color 15px, $border-color 17px, transparent 17px),
                         radial-gradient(circle at 100% 0, transparent 15px, $border-color 15px, $border-color 17px, transparent 17px),
@@ -56,17 +70,6 @@
                     background-position: 0 0, 100% 0, 0 100%, 100% 100%;
                     background-repeat: no-repeat;
                     z-index: -1;
-                }
-
-                &::after {
-                    content: '';
-                    position: absolute;
-                    inset: -15px;
-                    border: 1px solid $secondary-border-color;
-                    border-radius: 8px;
-                    background: linear-gradient(45deg, transparent 48%, $secondary-border-color 48%, $secondary-border-color 52%, transparent 52%);
-                    background-size: 20px 20px;
-                    z-index: -2;
                 }
             }
 
