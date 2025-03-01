@@ -313,3 +313,36 @@
         }
     }
 }
+
+// Target the root flashcard block element with maximum specificity
+.editor-styles-wrapper [data-type="smfcs/flashcard"].wp-block-smfcs-flashcard {
+    height: auto !important;
+    min-height: auto !important;
+    position: static !important;
+    display: block !important;
+    overflow: visible !important;
+
+    // Ensure all parent containers respect content height
+    > div {
+        height: auto !important;
+        min-height: auto !important;
+        position: relative !important;
+    }
+
+    // Force all nested elements to respect height
+    .flashcard,
+    .flashcard-inner,
+    .wp-block-smfcs-flashcard-front,
+    .wp-block-smfcs-flashcard-back {
+        height: auto !important;
+        min-height: auto !important;
+        position: relative !important;
+    }
+}
+
+// Additional specificity for block editor
+.block-editor-block-list__layout [data-type="smfcs/flashcard"] {
+    height: auto !important;
+    min-height: auto !important;
+    position: static !important;
+}
