@@ -234,6 +234,32 @@ body {
                     z-index: -2;
                 }
             }
+
+            // 15. Ribbon Style
+            &.border-style-ribbon {
+                border: none !important;
+                background: #fff !important;
+                position: relative;
+                padding: 20px !important;
+                        box-shadow: 0 0 15px rgba(0,0,0,0.1) !important;
+        
+                        &::before, &::after {
+                            content: '';
+                            position: absolute;
+                            top: -10px;
+                            left: -10px;
+                            right: -10px;
+                            bottom: -10px;
+                            border: 2px solid $border-color;
+                            border-radius: 2px;
+                            transform: skew(2deg, 2deg);
+                        }
+        
+                        &::after {
+                            border-color: $secondary-border-color;
+                    transform: skew(-2deg, -2deg);
+                }
+            }
         }
     }
 }
