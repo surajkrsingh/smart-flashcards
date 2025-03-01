@@ -30,27 +30,27 @@
         },
         "showContent": {
             "type": "boolean",
-            "default": true
+            "default": false
         },
         "showExcerpt": {
             "type": "boolean",
-            "default": false
+            "default": true
         },
         "showFeaturedImage": {
             "type": "boolean",
-            "default": true
+            "default": false
         },
         "showMeta": {
             "type": "boolean",
-            "default": true
+            "default": false
         },
         "showDate": {
             "type": "boolean",
-            "default": true
+            "default": false
         },
         "showAuthor": {
             "type": "boolean",
-            "default": true
+            "default": false
         },
         "imageSize": {
             "type": "string",
@@ -62,7 +62,7 @@
         },
         "showReadMore": {
             "type": "boolean",
-            "default": true
+            "default": false
         },
         "readMoreText": {
             "type": "string",
