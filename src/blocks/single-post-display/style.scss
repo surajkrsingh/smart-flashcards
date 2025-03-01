@@ -1,0 +1,94 @@
+/**
+ * Frontend styles for the Single Post Display block
+ */
+.wp-block-smfcs-single-post-display {
+
+    .post-featured-image {
+        margin-bottom: 1em;
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+    }
+
+    .post-title {
+        margin-top: 0;
+        margin-bottom: 0.5em;
+        font-size: 1.5em;
+        font-weight: 600;
+
+        a {
+            text-decoration: none;
+            color: inherit;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .post-meta {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 1em;
+
+        .post-author,
+        .post-date {
+            display: inline-block;
+            margin-right: 1em;
+        }
+    }
+
+    .post-content {
+        margin-top: 1em;
+
+        p:first-child {
+            margin-top: 0;
+        }
+
+        p:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    .post-excerpt {
+        margin-top: 1em;
+        font-style: italic;
+    }
+
+    .post-read-more {
+        margin-top: 1.5em;
+
+        // Alignment classes
+        &.align-left {
+            text-align: left;
+        }
+
+        &.align-center {
+            text-align: center;
+        }
+
+        &.align-right {
+            text-align: right;
+        }
+
+        .read-more-button {
+            display: inline-block;
+            padding: 0.5em 1.5em;
+            background-color: #0073aa;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+
+            &:hover,
+            &:focus {
+                background-color: #005177;
+                color: #fff;
+                text-decoration: none;
+            }
+        }
+    }
+}

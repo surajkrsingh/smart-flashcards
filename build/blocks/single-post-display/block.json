@@ -1,0 +1,84 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "smfcs/single-post-display",
+  "version": "1.0.0",
+  "title": "Single Post Display",
+  "category": "widgets",
+  "icon": "welcome-widgets-menus",
+  "description": "Display a single post with customizable elements",
+  "supports": {
+    "html": false,
+    "align": [
+      "wide",
+      "full"
+    ]
+  },
+  "textdomain": "smart-flashcards",
+  "editorScript": "file:../../../build/blocks/single-post-display/index.js",
+  "editorStyle": "file:../../../build/blocks/single-post-display/editor.css",
+  "style": "file:../../../build/blocks/single-post-display/style.css",
+  "attributes": {
+    "postId": {
+      "type": "number",
+      "default": 0
+    },
+    "postType": {
+      "type": "string",
+      "default": "post"
+    },
+    "showTitle": {
+      "type": "boolean",
+      "default": true
+    },
+    "showContent": {
+      "type": "boolean",
+      "default": true
+    },
+    "showExcerpt": {
+      "type": "boolean",
+      "default": false
+    },
+    "showFeaturedImage": {
+      "type": "boolean",
+      "default": true
+    },
+    "showMeta": {
+      "type": "boolean",
+      "default": true
+    },
+    "showDate": {
+      "type": "boolean",
+      "default": true
+    },
+    "showAuthor": {
+      "type": "boolean",
+      "default": true
+    },
+    "imageSize": {
+      "type": "string",
+      "default": "large"
+    },
+    "timestamp": {
+      "type": "number",
+      "default": 0
+    },
+    "showReadMore": {
+      "type": "boolean",
+      "default": true
+    },
+    "readMoreText": {
+      "type": "string",
+      "default": "Read More"
+    },
+    "readMoreAlignment": {
+      "type": "string",
+      "default": "center",
+      "enum": [
+        "left",
+        "center",
+        "right"
+      ]
+    }
+  }
+}

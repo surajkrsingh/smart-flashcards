@@ -11,6 +11,10 @@ module.exports = {
 		'blocks/flashcard-set/editor': './src/blocks/flashcard-set/editor.scss',
 		'blocks/flashcard-set/style': './src/blocks/flashcard-set/style.scss',
 
+		'blocks/single-post-display/index': './src/blocks/single-post-display/index.js',
+		'blocks/single-post-display/editor': './src/blocks/single-post-display/editor.scss',
+		'blocks/single-post-display/style': './src/blocks/single-post-display/style.scss',
+
 		'frontend': './src/blocks/frontend.js',
 		'style': './src/style.scss',
 		'editor': './src/editor.scss',

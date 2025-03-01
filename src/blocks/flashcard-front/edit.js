@@ -10,7 +10,8 @@ const ALLOWED_BLOCKS = [
 	'core/media-text',
 	'core/list',
 	'core/quote',
-	'core/code'
+	'core/code',
+	'smfcs/single-post-display'
 ];
 
 const TEMPLATE = [
