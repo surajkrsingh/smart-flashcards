@@ -99,6 +99,11 @@ body:not(.editor-styles-wrapper) {
                     transform: none;
                 }
 
+                .post-read-more {
+                    width: max-content;
+                    margin: 8px auto;
+                }
+
                 /* Ensure images display correctly */
                 img {
                     transform: none;
