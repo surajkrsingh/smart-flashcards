@@ -98,12 +98,10 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 					<Button 
 						className="smfcs-flashcard-control-button"
-						isPrimary
+						icon={<Icon icon={flipHorizontal} />}
 						onClick={() => handleSideChange(activeSide === 'front' ? 'back' : 'front')}
 						aria-label={activeSide === 'back' ? __('Show front side', 'smart-flashcards') : __('Show back side', 'smart-flashcards')}
-					>
-						<Icon icon={flipHorizontal} />
-					</Button>
+					/>
 				</div>
 			</div>
 		</div>

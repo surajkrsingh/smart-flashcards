@@ -22,11 +22,9 @@ const TEMPLATE = [
 const BORDER_STYLES = [
 	{ label: __('Default', 'smart-flashcards'), value: 'default' },
 	{ label: __('Vintage', 'smart-flashcards'), value: 'vintage' },
-	{ label: __('Art Nouveau', 'smart-flashcards'), value: 'art-nouveau' },
 	{ label: __('Celtic', 'smart-flashcards'), value: 'celtic' },
 	{ label: __('Japanese', 'smart-flashcards'), value: 'japanese' },
 	{ label: __('Geometric', 'smart-flashcards'), value: 'geometric' },
-	{ label: __('Royal', 'smart-flashcards'), value: 'royal' },
 	{ label: __('Moroccan', 'smart-flashcards'), value: 'moroccan' },
 	{ label: __('Art Deco', 'smart-flashcards'), value: 'art-deco' },
 	{ label: __('Mandala', 'smart-flashcards'), value: 'mandala' }

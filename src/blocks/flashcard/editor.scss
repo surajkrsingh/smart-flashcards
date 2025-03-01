@@ -19,10 +19,26 @@
     border-radius: 50%;
     width: 2.5rem !important;
     height: 2.5rem !important;
-    display: flex;
+    display: flex !important;
     justify-content: center;
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    opacity: 1 !important;
+    visibility: visible !important;
+    background: #fff !important;
+    border: 1px solid #ddd !important;
+
+    &:hover {
+        background: #f8f8f8 !important;
+        transform: scale(1.05);
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
 }
 
 .wp-block-smfcs-flashcard {

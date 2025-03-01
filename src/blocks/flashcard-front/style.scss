@@ -33,43 +33,6 @@ body {
                 }
             }
 
-            // 2. Art Nouveau
-            &.border-style-art-nouveau {
-                border: none !important;
-                padding: 3rem !important;
-                background: #fff !important;
-                position: relative;
-                overflow: visible;
-
-                &::before {
-                    content: '';
-                    position: absolute;
-                    inset: -20px;
-                    border: 2px solid $border-color;
-                    border-radius: 10px;
-                    background: 
-                        radial-gradient(circle at 0 0, transparent 15px, $border-color 15px, $border-color 17px, transparent 17px),
-                        radial-gradient(circle at 100% 0, transparent 15px, $border-color 15px, $border-color 17px, transparent 17px),
-                        radial-gradient(circle at 0 100%, transparent 15px, $border-color 15px, $border-color 17px, transparent 17px),
-                        radial-gradient(circle at 100% 100%, transparent 15px, $border-color 15px, $border-color 17px, transparent 17px);
-                    background-size: 50% 50%;
-                    background-position: 0 0, 100% 0, 0 100%, 100% 100%;
-                    background-repeat: no-repeat;
-                    z-index: -1;
-                }
-
-                &::after {
-                    content: '';
-                    position: absolute;
-                    inset: -15px;
-                    border: 1px solid $secondary-border-color;
-                    border-radius: 8px;
-                    background: linear-gradient(45deg, transparent 48%, $secondary-border-color 48%, $secondary-border-color 52%, transparent 52%);
-                    background-size: 20px 20px;
-                    z-index: -2;
-                }
-            }
-
             // 3. Celtic Knot
             &.border-style-celtic {
                 border: 15px solid $border-color !important;
@@ -152,35 +115,6 @@ body {
                         0% 5%, 5% 0%, 95% 0%, 100% 5%,
                         100% 95%, 95% 100%, 5% 100%, 0% 95%
                     );
-                }
-            }
-
-            // 6. Royal Frame
-            &.border-style-royal {
-                border: 4px solid $border-color !important;
-                box-shadow: 
-                    inset 0 0 0 2px $secondary-border-color,
-                    0 0 0 4px $secondary-border-color,
-                    0 0 15px rgba(184, 134, 11, 0.5) !important;
-                background: 
-                    linear-gradient(45deg, $border-color 25%, transparent 25%, transparent 75%, $border-color 75%),
-                    linear-gradient(-45deg, $border-color 25%, #fff 25%, #fff 75%, $border-color 75%) !important;
-                background-size: 4px 4px !important;
-                background-position: 0 0, 2px 2px !important;
-                border-radius: 8px !important;
-
-                &::before {
-                    content: '';
-                    position: absolute;
-                    inset: -8px;
-                    border: 2px solid $secondary-border-color;
-                    border-radius: 12px;
-                    background: 
-                        radial-gradient(circle at 50% 0, $border-color 5px, transparent 5px),
-                        radial-gradient(circle at 50% 100%, $border-color 5px, transparent 5px),
-                        radial-gradient(circle at 0 50%, $border-color 5px, transparent 5px),
-                        radial-gradient(circle at 100% 50%, $border-color 5px, transparent 5px);
-                    z-index: -1;
                 }
             }
 
