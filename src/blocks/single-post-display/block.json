@@ -55,6 +55,10 @@
         "imageSize": {
             "type": "string",
             "default": "large"
+        },
+        "timestamp": {
+            "type": "number",
+            "default": 0
         }
     }
 }

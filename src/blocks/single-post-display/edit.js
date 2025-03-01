@@ -3,9 +3,9 @@
  */
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { 
-    PanelBody, 
-    SelectControl, 
+import {
+    PanelBody,
+    SelectControl,
     ToggleControl,
     Spinner,
     Placeholder,
@@ -28,12 +28,12 @@ const Edit = ({ attributes, setAttributes }) => {
     const [availablePosts, setAvailablePosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
-    
+
     // Get available post types
     const postTypes = useSelect(select => {
         const { getPostTypes } = select('core');
         const allPostTypes = getPostTypes() || [];
-        
+
         // Filter to include public and viewable post types
         return allPostTypes
             .filter(type => type.viewable && type.rest_base)
@@ -43,53 +43,143 @@ const Edit = ({ attributes, setAttributes }) => {
                 restBase: type.rest_base
             }));
     }, []);
-    
+
+    // Load selected post data when component mounts or postId changes
+    useEffect(() => {
+        if (!attributes.postId) return;
+
+        setIsLoading(true);
+        setError('');
+
+        // First, ensure we have the post types loaded
+        const loadPostData = async () => {
+            try {
+                // Get all post types first
+                const types = await apiFetch({
+                    path: '/wp/v2/types',
+                    method: 'GET'
+                });
+
+                // If we don't have a post type, try to determine it
+                if (!attributes.postType) {
+                    // Try each post type until we find the post
+                    for (const [typeSlug, typeData] of Object.entries(types)) {
+                        try {
+                            const response = await apiFetch({
+                                path: `/wp/v2/${typeData.rest_base}/${attributes.postId}`,
+                                method: 'GET'
+                            });
+
+                            if (response) {
+                                setAttributes({ postType: typeSlug });
+                                setAvailablePosts([{
+                                    label: response.title.rendered || `Post #${response.id}`,
+                                    value: response.id
+                                }]);
+                                setError('');
+                                break;
+                            }
+                        } catch (e) {
+                            // Continue trying other post types
+                            continue;
+                        }
+                    }
+                } else {
+                    // We have the post type, so use it directly
+                    const type = types[attributes.postType];
+                    if (type && type.rest_base) {
+                        const response = await apiFetch({
+                            path: `/wp/v2/${type.rest_base}/${attributes.postId}`,
+                            method: 'GET'
+                        });
+
+                        if (response) {
+                            setAvailablePosts([{
+                                label: response.title.rendered || `Post #${response.id}`,
+                                value: response.id
+                            }]);
+                            setError('');
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching post:', error);
+                if (error.code === 'rest_post_invalid_id') {
+                    setError(__('The selected post could not be found.', 'smart-flashcards'));
+                } else {
+                    setError(__('Error loading post. Please try selecting it again.', 'smart-flashcards'));
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadPostData();
+    }, [attributes.postId]);
+
     // Fetch posts when post type changes
     useEffect(() => {
         if (!attributes.postType) {
             setAvailablePosts([]);
             return;
         }
-        
+
         setIsLoading(true);
         setError('');
         setAvailablePosts([]);
-        
-        // Find the selected post type object
-        const selectedPostType = postTypes.find(type => type.value === attributes.postType);
-        if (!selectedPostType) {
-            setError(__('Invalid post type selected.', 'smart-flashcards'));
-            setIsLoading(false);
-            return;
-        }
 
-        // Use the REST base from the post type object
-        const restBase = selectedPostType.restBase || attributes.postType;
-        
+        // First get the post type data to get the correct REST base
         apiFetch({
-            path: `/wp/v2/${restBase}?per_page=50&_fields=id,title,type&status=publish`,
+            path: '/wp/v2/types',
             method: 'GET'
-        }).then(posts => {
-            if (Array.isArray(posts) && posts.length > 0) {
-                const options = posts.map(post => ({
-                    label: post.title.rendered || post.title || `Post #${post.id}`,
-                    value: post.id
-                }));
-                setAvailablePosts(options);
-                
-                // If current postId is not in the new list of posts, reset it
-                if (attributes.postId && !options.find(p => p.value === attributes.postId)) {
-                    setAttributes({ postId: 0 });
-                }
-            } else {
-                setError(__('No published posts found for this post type.', 'smart-flashcards'));
-                setAttributes({ postId: 0 });
+        }).then(types => {
+            const type = types[attributes.postType];
+            if (!type || !type.rest_base) {
+                setError(__('Invalid post type selected.', 'smart-flashcards'));
+                setIsLoading(false);
+                return;
             }
-            setIsLoading(false);
+
+            // Now fetch posts using the correct REST base
+            apiFetch({
+                path: `/wp/v2/${type.rest_base}?per_page=50&_fields=id,title`,
+                method: 'GET'
+            }).then(posts => {
+                if (Array.isArray(posts) && posts.length > 0) {
+                    const options = posts.map(post => ({
+                        label: post.title.rendered || `Post #${post.id}`,
+                        value: post.id
+                    }));
+                    setAvailablePosts(options);
+
+                    // If current postId exists, make sure it's in the list
+                    if (attributes.postId && !options.find(p => p.value === attributes.postId)) {
+                        apiFetch({
+                            path: `/wp/v2/${type.rest_base}/${attributes.postId}`,
+                            method: 'GET'
+                        }).then(post => {
+                            if (post) {
+                                setAvailablePosts([
+                                    ...options,
+                                    {
+                                        label: post.title.rendered || `Post #${post.id}`,
+                                        value: post.id
+                                    }
+                                ]);
+                            }
+                        }).catch(() => {
+                            // If we can't find the post, reset the postId
+                            setAttributes({ postId: 0 });
+                        });
+                    }
+                } else {
+                    setError(__('No published posts found for this post type.', 'smart-flashcards'));
+                }
+                setIsLoading(false);
+            });
         }).catch(error => {
             console.error('Error fetching posts:', error);
             setError(__('Error fetching posts. Please check if the post type has REST API support.', 'smart-flashcards'));
-            setAttributes({ postId: 0 });
             setIsLoading(false);
         });
     }, [attributes.postType]);
@@ -97,13 +187,12 @@ const Edit = ({ attributes, setAttributes }) => {
     // Handle post selection change
     const handlePostChange = (postId) => {
         const numericId = parseInt(postId, 10);
-        // Force re-render by updating both postId and a timestamp
-        setAttributes({ 
+        setAttributes({
             postId: isNaN(numericId) ? 0 : numericId,
-            timestamp: Date.now() // Add this to force re-render
+            timestamp: Date.now()
         });
     };
-    
+
     // Image size options
     const imageSizeOptions = [
         { label: __('Thumbnail', 'smart-flashcards'), value: 'thumbnail' },
@@ -124,19 +213,19 @@ const Edit = ({ attributes, setAttributes }) => {
                             ...postTypes
                         ]}
                         onChange={postType => {
-                            setAttributes({ 
+                            setAttributes({
                                 postType,
                                 postId: 0 // Reset post ID when post type changes
                             });
                         }}
                     />
-                    
+
                     {error && (
                         <Notice status="error" isDismissible={false}>
                             {error}
                         </Notice>
                     )}
-                    
+
                     {isLoading ? (
                         <Spinner />
                     ) : (
@@ -152,7 +241,7 @@ const Edit = ({ attributes, setAttributes }) => {
                         />
                     )}
                 </PanelBody>
-                
+
                 <PanelBody title={__('Display Options', 'smart-flashcards')} initialOpen={true}>
                     <ToggleControl
                         label={__('Show Title', 'smart-flashcards')}
@@ -203,7 +292,7 @@ const Edit = ({ attributes, setAttributes }) => {
                     )}
                 </PanelBody>
             </InspectorControls>
-            
+
             {attributes.postId ? (
                 <ServerSideRender
                     block="smfcs/single-post-display"
@@ -223,7 +312,7 @@ const Edit = ({ attributes, setAttributes }) => {
                             icon={<Icon icon={post} />}
                             label={__('Error', 'smart-flashcards')}
                             instructions={
-                                response?.message || 
+                                response?.message ||
                                 __('Error loading post content. Please try again.', 'smart-flashcards')
                             }
                         />

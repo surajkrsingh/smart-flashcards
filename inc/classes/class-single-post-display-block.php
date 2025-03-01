@@ -117,22 +117,21 @@ class Single_Post_Display_Block {
 	 * @return string
 	 */
 	public function render_block( $attributes ) {
-
-		error_log( print_r( $attributes, true ) );
+		// Ensure we have all attributes with defaults.
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
-				'postId'            => 0,
-				'postType'          => 'post',
-				'showTitle'         => true,
-				'showContent'       => true,
-				'showExcerpt'       => false,
+				'postId'           => 0,
+				'postType'         => 'post',
+				'showTitle'        => true,
+				'showContent'      => true,
+				'showExcerpt'      => false,
 				'showFeaturedImage' => true,
-				'showMeta'          => true,
-				'showDate'          => true,
-				'showAuthor'        => true,
-				'imageSize'         => 'large',
-				'timestamp'         => 0,
+				'showMeta'         => true,
+				'showDate'         => true,
+				'showAuthor'       => true,
+				'imageSize'        => 'large',
+				'timestamp'        => 0,
 			)
 		);
 
