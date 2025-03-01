@@ -30,7 +30,8 @@ const BORDER_STYLES = [
 	{ label: __('Royal', 'smart-flashcards'), value: 'royal' },
 	{ label: __('Moroccan', 'smart-flashcards'), value: 'moroccan' },
 	{ label: __('Art Deco', 'smart-flashcards'), value: 'art-deco' },
-	{ label: __('Mandala', 'smart-flashcards'), value: 'mandala' }
+	{ label: __('Mandala', 'smart-flashcards'), value: 'mandala' },
+	{ label: __('Ribbon', 'smart-flashcards'), value: 'ribbon' }
 ];
 
 export default function Edit({ attributes, setAttributes }) {
