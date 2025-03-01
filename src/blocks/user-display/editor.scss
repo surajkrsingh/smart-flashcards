@@ -1,0 +1,97 @@
+/**
+ * Editor styles for the User Display block
+ */
+
+.wp-block-smfcs-user-display {
+    border: 1px dashed #ccc;
+    padding: 20px;
+    
+    .components-placeholder {
+        min-height: 150px;
+    }
+
+    .user-search-container {
+        margin-bottom: 16px;
+        position: relative;
+
+        .components-combobox-control {
+            width: 100%;
+
+            .components-combobox-control__input {
+                width: 100%;
+                min-height: 36px;
+
+                &:focus {
+                    box-shadow: 0 0 0 1px #007cba;
+                    outline: 2px solid transparent;
+                }
+            }
+
+            .components-combobox-control__suggestions-container {
+                border: 1px solid #757575;
+                border-radius: 2px;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        .components-notice {
+            margin: 8px 0;
+        }
+    }
+    
+    .user-avatar {
+        margin-bottom: 1em;
+        text-align: center;
+        
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+    }
+    
+    .user-name {
+        margin-top: 0;
+        margin-bottom: 0.5em;
+        text-align: center;
+        font-size: 1.5em;
+    }
+    
+    .user-email,
+    .user-website {
+        text-align: center;
+        margin-bottom: 0.5em;
+        
+        a {
+            color: #0073aa;
+            text-decoration: none;
+            
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+    
+    .user-bio {
+        margin-top: 1em;
+        text-align: center;
+        font-style: italic;
+    }
+    
+    .user-social-links {
+        margin-top: 1em;
+        text-align: center;
+        
+        .social-link {
+            display: inline-block;
+            margin: 0 0.5em;
+            padding: 0.5em;
+            color: #0073aa;
+            text-decoration: none;
+            
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+} 

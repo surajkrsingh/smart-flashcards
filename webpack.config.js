@@ -15,6 +15,10 @@ module.exports = {
 		'blocks/single-post-display/editor': './src/blocks/single-post-display/editor.scss',
 		'blocks/single-post-display/style': './src/blocks/single-post-display/style.scss',
 
+		'blocks/user-display/index': './src/blocks/user-display/index.js',
+		'blocks/user-display/editor': './src/blocks/user-display/editor.scss',
+		'blocks/user-display/style': './src/blocks/user-display/style.scss',	
+
 		'frontend': './src/blocks/frontend.js',
 		'style': './src/style.scss',
 		'editor': './src/editor.scss',

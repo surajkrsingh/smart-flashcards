@@ -1,0 +1,56 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 2,
+    "name": "smfcs/user-display",
+    "version": "1.0.0",
+    "title": "User Display",
+    "category": "widgets",
+    "icon": "admin-users",
+    "description": "Display a user profile with customizable elements",
+    "supports": {
+        "html": false,
+        "align": ["wide", "full"]
+    },
+    "textdomain": "smart-flashcards",
+    "editorScript": "file:../../../build/blocks/user-display/index.js",
+    "editorStyle": "file:../../../build/blocks/user-display/editor.css",
+    "style": "file:../../../build/blocks/user-display/style.css",
+    "attributes": {
+        "userId": {
+            "type": "number",
+            "default": 0
+        },
+        "showName": {
+            "type": "boolean",
+            "default": true
+        },
+        "showAvatar": {
+            "type": "boolean",
+            "default": true
+        },
+        "showBio": {
+            "type": "boolean",
+            "default": true
+        },
+        "showEmail": {
+            "type": "boolean",
+            "default": false
+        },
+        "showWebsite": {
+            "type": "boolean",
+            "default": false
+        },
+        "showSocialLinks": {
+            "type": "boolean",
+            "default": false
+        },
+        "avatarSize": {
+            "type": "number",
+            "default": 96
+        },
+        "timestamp": {
+            "type": "number",
+            "default": 0
+        }
+    }
+} 
