@@ -10,13 +10,15 @@ import {
     Spinner,
     Placeholder,
     Icon,
-    Notice
+    Notice,
+    ComboboxControl
 } from '@wordpress/components';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, useCallback } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import ServerSideRender from '@wordpress/server-side-render';
 import { post } from '@wordpress/icons';
+import { debounce } from 'lodash';
 
 /**
  * Internal dependencies
@@ -28,6 +30,8 @@ const Edit = ({ attributes, setAttributes }) => {
     const [availablePosts, setAvailablePosts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
     // Get available post types
     const postTypes = useSelect(select => {
@@ -44,92 +48,18 @@ const Edit = ({ attributes, setAttributes }) => {
             }));
     }, []);
 
-    // Load selected post data when component mounts or postId changes
-    useEffect(() => {
-        if (!attributes.postId) return;
-
-        setIsLoading(true);
-        setError('');
-
-        // First, ensure we have the post types loaded
-        const loadPostData = async () => {
-            try {
-                // Get all post types first
-                const types = await apiFetch({
-                    path: '/wp/v2/types',
-                    method: 'GET'
-                });
-
-                // If we don't have a post type, try to determine it
-                if (!attributes.postType) {
-                    // Try each post type until we find the post
-                    for (const [typeSlug, typeData] of Object.entries(types)) {
-                        try {
-                            const response = await apiFetch({
-                                path: `/wp/v2/${typeData.rest_base}/${attributes.postId}`,
-                                method: 'GET'
-                            });
-
-                            if (response) {
-                                setAttributes({ postType: typeSlug });
-                                setAvailablePosts([{
-                                    label: response.title.rendered || `Post #${response.id}`,
-                                    value: response.id
-                                }]);
-                                setError('');
-                                break;
-                            }
-                        } catch (e) {
-                            // Continue trying other post types
-                            continue;
-                        }
-                    }
-                } else {
-                    // We have the post type, so use it directly
-                    const type = types[attributes.postType];
-                    if (type && type.rest_base) {
-                        const response = await apiFetch({
-                            path: `/wp/v2/${type.rest_base}/${attributes.postId}`,
-                            method: 'GET'
-                        });
-
-                        if (response) {
-                            setAvailablePosts([{
-                                label: response.title.rendered || `Post #${response.id}`,
-                                value: response.id
-                            }]);
-                            setError('');
-                        }
-                    }
-                }
-            } catch (error) {
-                console.error('Error fetching post:', error);
-                if (error.code === 'rest_post_invalid_id') {
-                    setError(__('The selected post could not be found.', 'smart-flashcards'));
-                } else {
-                    setError(__('Error loading post. Please try selecting it again.', 'smart-flashcards'));
-                }
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        loadPostData();
-    }, [attributes.postId]);
-
-    // Fetch posts when post type changes
+    // Load initial posts when post type changes
     useEffect(() => {
         if (!attributes.postType) {
             setAvailablePosts([]);
             return;
         }
-
+        
         setIsLoading(true);
         setError('');
-        setAvailablePosts([]);
 
-        // First get the post type data to get the correct REST base
-        apiFetch({
+        // Get post type data
+        apiFetch({ 
             path: '/wp/v2/types',
             method: 'GET'
         }).then(types => {
@@ -140,55 +70,83 @@ const Edit = ({ attributes, setAttributes }) => {
                 return;
             }
 
-            // Now fetch posts using the correct REST base
+            // Fetch initial posts
             apiFetch({
-                path: `/wp/v2/${type.rest_base}?per_page=50&_fields=id,title`,
+                // Fetch recent posts with title and author
+                path: `/wp/v2/${type.rest_base}?per_page=20&_fields=id,title,author&orderby=date&order=desc`,
                 method: 'GET'
             }).then(posts => {
                 if (Array.isArray(posts) && posts.length > 0) {
                     const options = posts.map(post => ({
                         label: post.title.rendered || `Post #${post.id}`,
-                        value: post.id
+                        value: post.id.toString()
                     }));
                     setAvailablePosts(options);
-
-                    // If current postId exists, make sure it's in the list
-                    if (attributes.postId && !options.find(p => p.value === attributes.postId)) {
+                    
+                    // If we have a selected post, make sure it's in the list
+                    if (attributes.postId && !options.find(p => p.value === attributes.postId.toString())) {
                         apiFetch({
                             path: `/wp/v2/${type.rest_base}/${attributes.postId}`,
                             method: 'GET'
                         }).then(post => {
                             if (post) {
                                 setAvailablePosts([
-                                    ...options,
                                     {
                                         label: post.title.rendered || `Post #${post.id}`,
-                                        value: post.id
-                                    }
+                                        value: post.id.toString()
+                                    },
+                                    ...options
                                 ]);
                             }
-                        }).catch(() => {
-                            // If we can't find the post, reset the postId
-                            setAttributes({ postId: 0 });
                         });
                     }
-                } else {
-                    setError(__('No published posts found for this post type.', 'smart-flashcards'));
                 }
                 setIsLoading(false);
             });
         }).catch(error => {
             console.error('Error fetching posts:', error);
-            setError(__('Error fetching posts. Please check if the post type has REST API support.', 'smart-flashcards'));
+            setError(__('Error fetching posts.', 'smart-flashcards'));
             setIsLoading(false);
         });
     }, [attributes.postType]);
 
-    // Handle post selection change
-    const handlePostChange = (postId) => {
-        const numericId = parseInt(postId, 10);
-        setAttributes({
-            postId: isNaN(numericId) ? 0 : numericId,
+    // Handle post search
+    const searchPosts = useCallback(debounce(async (searchText) => {
+        if (!attributes.postType || !searchText) {
+            setSearchResults([]);
+            return;
+        }
+
+        try {
+            const types = await apiFetch({ 
+                path: '/wp/v2/types',
+                method: 'GET'
+            });
+
+            const type = types[attributes.postType];
+            if (!type || !type.rest_base) return;
+
+            const posts = await apiFetch({
+                path: `/wp/v2/${type.rest_base}?search=${encodeURIComponent(searchText)}&per_page=20&_fields=id,title`,
+                method: 'GET'
+            });
+
+            if (Array.isArray(posts)) {
+                const options = posts.map(post => ({
+                    label: post.title.rendered || `Post #${post.id}`,
+                    value: post.id.toString()
+                }));
+                setSearchResults(options);
+            }
+        } catch (error) {
+            console.error('Error searching posts:', error);
+        }
+    }, 300), [attributes.postType]);
+
+    // Handle post selection
+    const handlePostSelection = (postId) => {
+        setAttributes({ 
+            postId: parseInt(postId, 10),
             timestamp: Date.now()
         });
     };
@@ -213,31 +171,37 @@ const Edit = ({ attributes, setAttributes }) => {
                             ...postTypes
                         ]}
                         onChange={postType => {
-                            setAttributes({
+                            setAttributes({ 
                                 postType,
-                                postId: 0 // Reset post ID when post type changes
+                                postId: 0
                             });
+                            setSearchQuery('');
+                            setSearchResults([]);
                         }}
                     />
-
+                    
                     {error && (
                         <Notice status="error" isDismissible={false}>
                             {error}
                         </Notice>
                     )}
-
+                    
                     {isLoading ? (
                         <Spinner />
                     ) : (
-                        <SelectControl
-                            label={__('Select Post', 'smart-flashcards')}
-                            value={attributes.postId || 0}
-                            options={[
-                                { label: __('Select a post', 'smart-flashcards'), value: 0 },
-                                ...availablePosts
-                            ]}
-                            onChange={handlePostChange}
-                            disabled={availablePosts.length === 0}
+                        <ComboboxControl
+                            label={__('Search and Select Post', 'smart-flashcards')}
+                            value={attributes.postId ? attributes.postId.toString() : ''}
+                            options={searchQuery ? searchResults : availablePosts}
+                            onFilterValueChange={(inputValue) => {
+                                setSearchQuery(inputValue);
+                                if (inputValue) {
+                                    searchPosts(inputValue);
+                                }
+                            }}
+                            onChange={handlePostSelection}
+                            allowReset={true}
+                            help={__('Type to search posts or select from recent posts', 'smart-flashcards')}
                         />
                     )}
                 </PanelBody>
