@@ -15,18 +15,21 @@ const ALLOWED_BLOCKS = [
 ];
 
 const TEMPLATE = [
-	['core/heading', { level: 2, placeholder: __('Add front side title...', 'smart-flashcards') }],
-	['core/paragraph', { placeholder: __('Add front side content...', 'smart-flashcards') }]
+	['core/heading', { level: 2, placeholder: 'Flashcard Title' }],
+	['core/paragraph', { placeholder: 'Add your content here...' }]
 ];
 
 const BORDER_STYLES = [
 	{ label: __('Default', 'smart-flashcards'), value: 'default' },
-	{ label: __('Vintage Frame', 'smart-flashcards'), value: 'vintage' },
+	{ label: __('Vintage', 'smart-flashcards'), value: 'vintage' },
 	{ label: __('Art Nouveau', 'smart-flashcards'), value: 'art-nouveau' },
-	{ label: __('Celtic Pattern', 'smart-flashcards'), value: 'celtic' },
-	{ label: __('Japanese Style', 'smart-flashcards'), value: 'japanese' },
-	{ label: __('Modern Geometric', 'smart-flashcards'), value: 'geometric' },
-	{ label: __('Royal Frame', 'smart-flashcards'), value: 'royal' }
+	{ label: __('Celtic', 'smart-flashcards'), value: 'celtic' },
+	{ label: __('Japanese', 'smart-flashcards'), value: 'japanese' },
+	{ label: __('Geometric', 'smart-flashcards'), value: 'geometric' },
+	{ label: __('Royal', 'smart-flashcards'), value: 'royal' },
+	{ label: __('Moroccan', 'smart-flashcards'), value: 'moroccan' },
+	{ label: __('Art Deco', 'smart-flashcards'), value: 'art-deco' },
+	{ label: __('Mandala', 'smart-flashcards'), value: 'mandala' }
 ];
 
 export default function Edit({ attributes, setAttributes }) {

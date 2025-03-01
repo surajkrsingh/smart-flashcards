@@ -4,11 +4,11 @@
  * Replace them with your own styles or remove the file completely.
  */
 
- .wp-block-create-block-smart-flashcards {
-	border: 1px dotted #f00;
-	background-color: #090;
-	color: #fff !important;
-	padding: 20px;
+.wp-block-create-block-smart-flashcards {
+    border: 1px dotted #f00;
+    background-color: #090;
+    color: #fff !important;
+    padding: 20px;
 }
 
 // Make this button rounded and and floating style with shadow.
@@ -45,7 +45,7 @@
         background: #fff;
         border-radius: 8px;
         overflow: visible;
-        
+
         // Remove all transform styles in editor
         transform: none !important;
         transform-style: flat !important;
@@ -64,7 +64,7 @@
         margin: 0;
         padding: 2rem;
         box-sizing: border-box;
-        
+
         // Remove all transform properties
         transform: none !important;
         backface-visibility: visible !important;
@@ -75,6 +75,7 @@
         .wp-block-smfcs-flashcard-front {
             display: block;
         }
+
         .wp-block-smfcs-flashcard-back {
             display: none;
         }
@@ -84,6 +85,7 @@
         .wp-block-smfcs-flashcard-front {
             display: none;
         }
+
         .wp-block-smfcs-flashcard-back {
             display: block;
         }
@@ -101,6 +103,7 @@
 
 // Override frontend styles specifically for editor
 .editor-styles-wrapper .wp-block-smfcs-flashcard {
+
     // Reset frontend styles that affect editor
     .flashcard-inner {
         transform: none !important;
@@ -138,8 +141,38 @@
 .editor-styles-wrapper .wp-block-smfcs-flashcard {
     .flashcard-inner {
         position: relative;
-        width: -webkit-fill-available;
-        transition: none !important; // Prevent any transition
+        width: 100%;
+        transition: none !important;
+    }
+
+    .wp-block-smfcs-flashcard-front,
+    .wp-block-smfcs-flashcard-back {
+        position: relative !important;
+        backface-visibility: visible !important;
+        transform: none !important;
+        z-index: 1;
+        min-height: 200px;
+        margin-bottom: 2rem;
+
+        // Ensure border styles are visible
+        &[class*="border-style-"] {
+            position: relative !important;
+
+            &::before,
+            &::after {
+                content: '' !important;
+                display: block !important;
+                position: absolute !important;
+                pointer-events: none !important;
+            }
+        }
+
+        // Force show decorative elements
+        &::before,
+        &::after {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
     }
 
     // Toggle visibility based on settings
@@ -250,6 +283,7 @@
             .wp-block-smfcs-flashcard-front {
                 display: block;
             }
+
             .wp-block-smfcs-flashcard-back {
                 display: none;
             }
@@ -259,6 +293,7 @@
             .wp-block-smfcs-flashcard-front {
                 display: none;
             }
+
             .wp-block-smfcs-flashcard-back {
                 display: block;
             }
@@ -285,6 +320,7 @@
 
             .wp-block-image {
                 margin: 0;
+
                 img {
                     max-width: 100%;
                     height: auto;
@@ -306,6 +342,7 @@
 
         // Selected block styles
         .block-editor-block-list__block {
+
             &.is-selected,
             &.has-child-selected {
                 outline: 2px solid #007cba;
@@ -323,7 +360,7 @@
     overflow: visible !important;
 
     // Ensure all parent containers respect content height
-    > div {
+    >div {
         height: auto !important;
         min-height: auto !important;
         position: relative !important;
