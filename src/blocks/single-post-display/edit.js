@@ -20,11 +20,6 @@ import ServerSideRender from '@wordpress/server-side-render';
 import { post } from '@wordpress/icons';
 import { debounce } from 'lodash';
 
-/**
- * Internal dependencies
- */
-import './editor.scss';
-
 const Edit = ({ attributes, setAttributes }) => {
     const blockProps = useBlockProps();
     const [availablePosts, setAvailablePosts] = useState([]);
