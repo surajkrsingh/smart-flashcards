@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const flashcardSets = document.querySelectorAll('.wp-block-smfcs-flashcard-set');
-    
+
     flashcardSets.forEach(set => {
         // Get existing navigation if it exists
         const existingNav = set.querySelector('.flashcard-set-nav');
@@ -39,7 +39,7 @@ function initializeNavigation(set, nav) {
     const prevButton = nav.querySelector('.flashcard-nav-button.prev');
     const nextButton = nav.querySelector('.flashcard-nav-button.next');
     const counter = nav.querySelector('.flashcard-set-counter');
-    
+
     let currentIndex = 0;
     let isAnimating = false;
 
@@ -122,7 +122,7 @@ function initializeStackMode(set, inner, flashcards) {
         flashcards.forEach((card, index) => {
             // Remove all classes first
             card.classList.remove('is-active', 'stack-1', 'stack-2');
-            
+
             // Only show current and next 2 cards
             if (index === currentIndex) {
                 card.classList.add('is-active');
@@ -240,27 +240,43 @@ function debounce(func, wait) {
 }
 
 function initializeFlashcards() {
-    // Initialize flip functionality for all flashcards
-    document.querySelectorAll('.flashcard-inner:not(.initialized)').forEach(card => {
-        const frontSide = card.querySelector('.flashcard-front');
-        const backSide = card.querySelector('.flashcard-back');
+    const flashcards = document.querySelectorAll('.wp-block-smfcs-flashcard');
 
-        function toggleFlip(e) {
-            e.preventDefault();
+    flashcards.forEach(function (card) {
+        const toggleFlip = (e) => {
+            // Check if the clicked element or its parents is a link or button
+            const clickedElement = e.target;
+            const isClickableElement = clickedElement.closest('a, button, .read-more-button');
+
+            // Don't flip if clicking on a link or button
+            if (isClickableElement) {
+                return;
+            }
+
             card.classList.toggle('is-flipped');
-            const isFlipped = card.classList.contains('is-flipped');
-            frontSide.setAttribute('aria-hidden', isFlipped);
-            backSide.setAttribute('aria-hidden', !isFlipped);
-        }
+        };
 
-        card.addEventListener('click', toggleFlip);
-        card.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
+        // Handle click events
+        card.addEventListener('click', function (e) {
+            // Only handle clicks directly on the flashcard or non-interactive elements
+            const clickedElement = e.target;
+            const isClickableElement = clickedElement.closest('a, button, .read-more-button');
+            if (!isClickableElement) {
+                toggleFlip(e);
+            }
+        });
+
+        // Handle keyboard events
+        card.addEventListener('keydown', function (e) {
+            // Only handle keyboard events if not focused on interactive elements
+            const focusedElement = document.activeElement;
+            const isInteractiveElement = focusedElement.matches('a, button, .read-more-button, [role="button"], [tabindex]');
+
+            if (!isInteractiveElement && (e.key === 'Enter' || e.key === ' ')) {
                 e.preventDefault();
                 toggleFlip(e);
             }
         });
-        card.classList.add('initialized');
     });
 
     // Initialize flashcard sets
@@ -275,13 +291,13 @@ function initializeFlashcardSet(set) {
     const nextBtn = set.querySelector('.flashcard-nav-button.next');
     const counter = set.querySelector('.flashcard-set-counter');
     const shuffleBtn = set.querySelector('.flashcard-shuffle-button');
-    
+
     let slides = Array.from(track.querySelectorAll('.wp-block-smfcs-flashcard'));
     if (!slides.length) return;
 
     let currentSlide = 0;
     let isAnimating = false;
-    
+
     const enableShuffle = set.dataset.enableShuffle === 'true';
 
     function updateCounter() {
@@ -325,11 +341,11 @@ function initializeFlashcardSet(set) {
         // Reset animation flag after transition completes
         setTimeout(() => {
             isAnimating = false;
-            
+
             // Clean up slides not in view
             slides.forEach((slide, index) => {
-                if (index !== currentSlide && 
-                    index !== currentSlide - 1 && 
+                if (index !== currentSlide &&
+                    index !== currentSlide - 1 &&
                     index !== currentSlide + 1) {
                     slide.classList.remove('prev', 'next');
                 }
@@ -370,7 +386,7 @@ function initializeFlashcardSet(set) {
     // Event listeners
     prevBtn?.addEventListener('click', e => handleNavigation(e, 'prev'));
     nextBtn?.addEventListener('click', e => handleNavigation(e, 'next'));
-    
+
     if (enableShuffle && shuffleBtn) {
         shuffleBtn.addEventListener('click', handleShuffle);
         shuffleBtn.style.display = 'block';
