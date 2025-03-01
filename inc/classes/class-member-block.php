@@ -1,6 +1,6 @@
 <?php
 /**
- * User Display Block
+ * Member Block
  *
  * @package smart-flashcards
  */
@@ -8,9 +8,9 @@
 namespace SMFCS\Features\Inc;
 
 /**
- * Class User_Display_Block
+ * Class Member_Block
  */
-class User_Display_Block {
+class Member_Block {
 
 	/**
 	 * Instance of this class.
@@ -63,7 +63,7 @@ class User_Display_Block {
 					return get_the_author_meta( 'display_name', $user['id'] );
 				},
 				'schema'       => array(
-					'description' => __( 'User display name rendered', 'smart-flashcards' ),
+					'description' => __( 'Member display name rendered', 'smart-flashcards' ),
 					'type'        => 'string',
 				),
 			)
@@ -76,7 +76,7 @@ class User_Display_Block {
 	 * @return void
 	 */
 	public function register_block() {
-		$block_path = SMFCS_PLUGIN_PATH . '/build/blocks/user-display/block.json';
+		$block_path = SMFCS_PLUGIN_PATH . '/build/blocks/member/block.json';
 		if ( ! file_exists( $block_path ) ) {
 			return;
 		}
@@ -96,26 +96,26 @@ class User_Display_Block {
 	 * @return string
 	 */
 	public function render_block( $attributes ) {
-		// Ensure we have all attributes with defaults
+		// Ensure we have all attributes with defaults.
 		$attributes = wp_parse_args(
 			$attributes,
 			array(
-				'userId'            => 0,
-				'showName'          => true,
-				'showAvatar'        => true,
-				'showBio'           => true,
-				'showEmail'         => false,
-				'showWebsite'       => false,
-				'showSocialLinks'   => false,
-				'avatarSize'        => 96,
-				'timestamp'         => 0,
+				'userId'          => 0,
+				'showName'        => true,
+				'showAvatar'      => true,
+				'showBio'         => true,
+				'showEmail'       => false,
+				'showWebsite'     => false,
+				'showSocialLinks' => false,
+				'avatarSize'      => 96,
+				'timestamp'       => 0,
 			)
 		);
 
 		if ( empty( $attributes['userId'] ) ) {
 			return sprintf(
-				'<div class="wp-block-smfcs-user-display"><p>%s</p></div>',
-				esc_html__( 'Please select a user to display.', 'smart-flashcards' )
+				'<div class="wp-block-smfcs-member"><p>%s</p></div>',
+				esc_html__( 'Please select a member to display.', 'smart-flashcards' )
 			);
 		}
 
@@ -124,14 +124,14 @@ class User_Display_Block {
 
 		if ( ! $user ) {
 			return sprintf(
-				'<div class="wp-block-smfcs-user-display"><p>%s</p></div>',
-				esc_html__( 'Selected user not found.', 'smart-flashcards' )
+				'<div class="wp-block-smfcs-member"><p>%s</p></div>',
+				esc_html__( 'Selected member not found.', 'smart-flashcards' )
 			);
 		}
 
 		ob_start();
 		?>
-		<div class="wp-block-smfcs-user-display">
+		<div class="wp-block-smfcs-member">
 			<?php if ( $attributes['showAvatar'] ) : ?>
 				<div class="user-avatar">
 					<?php echo get_avatar( $user_id, $attributes['avatarSize'] ); ?>
@@ -193,4 +193,4 @@ class User_Display_Block {
 		<?php
 		return ob_get_clean();
 	}
-} 
+}

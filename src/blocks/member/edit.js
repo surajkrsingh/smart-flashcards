@@ -62,15 +62,15 @@ const Edit = ({ attributes, setAttributes }) => {
     return (
         <div {...blockProps}>
             <InspectorControls>
-                <PanelBody title={__('User Settings', 'smart-flashcards')}>
+                <PanelBody title={__('Member Settings', 'smart-flashcards')}>
                     <div className="user-search-container">
                         <ComboboxControl
-                            label={__('Select or Search User', 'smart-flashcards')}
+                            label={__('Select or Search Member', 'smart-flashcards')}
                             value={attributes.userId ? attributes.userId.toString() : ''}
                             options={availableUsers}
                             onFilterValueChange={(inputValue) => debouncedFetchUsers(inputValue)}
                             onChange={(value) => setAttributes({ userId: parseInt(value) })}
-                            placeholder={__('Type to search users...', 'smart-flashcards')}
+                            placeholder={__('Type to search members...', 'smart-flashcards')}
                             __experimentalShowLoading={isLoading}
                         />
                         {error && (
@@ -131,13 +131,13 @@ const Edit = ({ attributes, setAttributes }) => {
 
             {attributes.userId ? (
                 <ServerSideRender
-                    block="smfcs/user-display"
+                    block="smfcs/member"
                     attributes={attributes}
                     EmptyResponsePlaceholder={() => (
                         <Placeholder
                             icon={<Icon icon={commentAuthorAvatar} />}
-                            label={__('User Display', 'smart-flashcards')}
-                            instructions={__('Loading user content...', 'smart-flashcards')}
+                            label={__('Member', 'smart-flashcards')}
+                            instructions={__('Loading member content...', 'smart-flashcards')}
                         >
                             <Spinner />
                         </Placeholder>
@@ -148,7 +148,7 @@ const Edit = ({ attributes, setAttributes }) => {
                             label={__('Error', 'smart-flashcards')}
                             instructions={
                                 response?.message ||
-                                __('Error loading user content. Please try again.', 'smart-flashcards')
+                                __('Error loading member content. Please try again.', 'smart-flashcards')
                             }
                         />
                     )}
@@ -156,12 +156,12 @@ const Edit = ({ attributes, setAttributes }) => {
             ) : (
                 <Placeholder
                     icon={<Icon icon={commentAuthorAvatar} />}
-                    label={__('User Display', 'smart-flashcards')}
-                    instructions={__('Select a user to display', 'smart-flashcards')}
+                    label={__('Member', 'smart-flashcards')}
+                    instructions={__('Select a member to display', 'smart-flashcards')}
                 />
             )}
         </div>
     );
 };
 
-export default Edit; 
+export default Edit;

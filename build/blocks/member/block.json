@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 2,
-  "name": "smfcs/user-display",
+  "name": "smfcs/member",
   "version": "1.0.0",
-  "title": "User Display",
+  "title": "Member",
   "category": "widgets",
   "icon": "admin-users",
-  "description": "Display a user profile with customizable elements",
+  "description": "Display a member profile with customizable elements",
   "supports": {
     "html": false,
     "align": [
@@ -15,9 +15,9 @@
     ]
   },
   "textdomain": "smart-flashcards",
-  "editorScript": "file:../../../build/blocks/user-display/index.js",
-  "editorStyle": "file:../../../build/blocks/user-display/editor.css",
-  "style": "file:../../../build/blocks/user-display/style.css",
+  "editorScript": "file:../../../build/blocks/member/index.js",
+  "editorStyle": "file:../../../build/blocks/member/editor.css",
+  "style": "file:../../../build/blocks/member/style.css",
   "attributes": {
     "userId": {
       "type": "number",
