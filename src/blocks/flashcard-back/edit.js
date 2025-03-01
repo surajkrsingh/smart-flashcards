@@ -11,7 +11,8 @@ const ALLOWED_BLOCKS = [
 	'core/list',
 	'core/quote',
 	'core/code',
-	'smfcs/single-post-display'
+	'smfcs/single-post-display',
+	'smfcs/member'
 ];
 
 const TEMPLATE = [
