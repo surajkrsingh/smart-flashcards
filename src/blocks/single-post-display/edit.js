@@ -32,20 +32,35 @@ const Edit = ({ attributes, setAttributes }) => {
     const [error, setError] = useState('');
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState([]);
+    const [postTypes, setPostTypes] = useState([]);
 
-    // Get available post types
-    const postTypes = useSelect(select => {
-        const { getPostTypes } = select('core');
-        const allPostTypes = getPostTypes() || [];
+    // Fetch all public post types.
+    useEffect(() => {
+        apiFetch({
+            path: '/wp/v2/types',
+            method: 'GET',
+        }).then(types => {
+            const availableTypes = Object.entries(types)
+                .filter(([slug, type]) => {
+                    return type?.rest_base ? true : false;
+                })
+                .map(([slug, type]) => {
+                    return {
+                        label: type.labels?.singular_name || type.name,
+                        value: slug,
+                        restBase: type.rest_base || slug
+                    };
+                });
 
-        // Filter to include public and viewable post types
-        return allPostTypes
-            .filter(type => type.viewable && type.rest_base)
-            .map(type => ({
-                label: type.labels.singular_name,
-                value: type.slug,
-                restBase: type.rest_base
-            }));
+            if (availableTypes.length !== 0) {
+                setError('');
+                setPostTypes(availableTypes);
+            } else {
+                setError(__('No public post types available.', 'smart-flashcards'));
+            }
+        }).catch(error => {
+            setError(__('Error fetching post types.', 'smart-flashcards'));
+        });
     }, []);
 
     // Load initial posts when post type changes
@@ -54,7 +69,7 @@ const Edit = ({ attributes, setAttributes }) => {
             setAvailablePosts([]);
             return;
         }
-        
+
         setIsLoading(true);
         setError('');
 
