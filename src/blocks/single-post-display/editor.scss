@@ -1,0 +1,47 @@
+/**
+ * Editor styles for the Single Post Display block
+ */
+
+.wp-block-smfcs-single-post-display {
+    border: 1px dashed #ccc;
+    padding: 20px;
+    
+    .components-placeholder {
+        min-height: 150px;
+    }
+    
+    .post-featured-image {
+        margin-bottom: 1em;
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    }
+    
+    .post-title {
+        margin-top: 0;
+        margin-bottom: 0.5em;
+    }
+    
+    .post-meta {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 1em;
+        
+        .post-author,
+        .post-date {
+            display: inline-block;
+            margin-right: 1em;
+        }
+    }
+    
+    .post-content {
+        margin-top: 1em;
+    }
+    
+    .post-excerpt {
+        margin-top: 1em;
+        font-style: italic;
+    }
+} 

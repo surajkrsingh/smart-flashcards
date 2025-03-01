@@ -89,6 +89,7 @@ if ( ! defined( 'SMFCS_PLUGIN_TEMPLATE_PATH' ) ) {
 /** Include the required files only*/
 require_once SMFCS_PLUGIN_PATH . '/inc/helpers/autoloader.php';
 require_once SMFCS_PLUGIN_PATH . '/inc/helpers/custom-functions.php';
+require_once SMFCS_PLUGIN_PATH . '/inc/classes/class-single-post-display-block.php';
 
 /**
  * To load plugin main class.
@@ -97,6 +98,7 @@ require_once SMFCS_PLUGIN_PATH . '/inc/helpers/custom-functions.php';
  */
 function smfcs_main_class_loader() {
 	\SMFCS\Features\Inc\Smart_Flashcards::get_instance();
+	\SMFCS\Features\Inc\Single_Post_Display_Block::get_instance();
 }
 
 smfcs_main_class_loader();
