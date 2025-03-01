@@ -11,13 +11,18 @@ import {
     Placeholder,
     Icon,
     Notice,
-    ComboboxControl
+    ComboboxControl,
+    TextControl,
+    ButtonGroup,
+    Button,
+    Flex,
+    FlexItem,
 } from '@wordpress/components';
 import { useState, useEffect, useCallback } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 import ServerSideRender from '@wordpress/server-side-render';
-import { post } from '@wordpress/icons';
+import { post, alignLeft, alignCenter, alignRight } from '@wordpress/icons';
 import { debounce } from 'lodash';
 
 const Edit = ({ attributes, setAttributes }) => {
@@ -247,6 +252,58 @@ const Edit = ({ attributes, setAttributes }) => {
                                 checked={attributes.showAuthor}
                                 onChange={showAuthor => setAttributes({ showAuthor })}
                             />
+                        </>
+                    )}
+                    <ToggleControl
+                        label={__('Show Read More Button', 'smart-flashcards')}
+                        checked={attributes.showReadMore}
+                        onChange={showReadMore => setAttributes({ showReadMore })}
+                    />
+                    
+                    {attributes.showReadMore && (
+                        <>
+                            <TextControl
+                                label={__('Read More Text', 'smart-flashcards')}
+                                value={attributes.readMoreText}
+                                onChange={readMoreText => setAttributes({ readMoreText })}
+                                help={__('Customize the text for the read more button', 'smart-flashcards')}
+                            />
+                            
+                            <Flex align="flex-start" justify="space-between">
+                                <FlexItem>
+                                    <label className="components-base-control__label">
+                                        {__('Button Alignment', 'smart-flashcards')}
+                                    </label>
+                                </FlexItem>
+                                <FlexItem>
+                                    <ButtonGroup>
+                                        <Button
+                                            icon={alignLeft}
+                                            isSmall
+                                            isPrimary={attributes.readMoreAlignment === 'left'}
+                                            isSecondary={attributes.readMoreAlignment !== 'left'}
+                                            onClick={() => setAttributes({ readMoreAlignment: 'left' })}
+                                            label={__('Align Left', 'smart-flashcards')}
+                                        />
+                                        <Button
+                                            icon={alignCenter}
+                                            isSmall
+                                            isPrimary={attributes.readMoreAlignment === 'center'}
+                                            isSecondary={attributes.readMoreAlignment !== 'center'}
+                                            onClick={() => setAttributes({ readMoreAlignment: 'center' })}
+                                            label={__('Align Center', 'smart-flashcards')}
+                                        />
+                                        <Button
+                                            icon={alignRight}
+                                            isSmall
+                                            isPrimary={attributes.readMoreAlignment === 'right'}
+                                            isSecondary={attributes.readMoreAlignment !== 'right'}
+                                            onClick={() => setAttributes({ readMoreAlignment: 'right' })}
+                                            label={__('Align Right', 'smart-flashcards')}
+                                        />
+                                    </ButtonGroup>
+                                </FlexItem>
+                            </Flex>
                         </>
                     )}
                 </PanelBody>

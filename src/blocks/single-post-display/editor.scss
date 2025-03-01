@@ -44,4 +44,46 @@
         margin-top: 1em;
         font-style: italic;
     }
+
+    .post-read-more {
+        margin-top: 1.5em;
+        
+        // Alignment classes
+        &.align-left {
+            text-align: left;
+        }
+        
+        &.align-center {
+            text-align: center;
+        }
+        
+        &.align-right {
+            text-align: right;
+        }
+
+        .read-more-button {
+            display: inline-block;
+            padding: 0.5em 1.5em;
+            background-color: #0073aa;
+            color: #fff !important; // Force color in editor
+            text-decoration: none;
+            border-radius: 4px;
+            pointer-events: none; // Prevent clicking in editor
+            cursor: default;
+        }
+    }
+}
+
+// Style the alignment control buttons
+.components-button-group {
+    .components-button {
+        &.is-primary {
+            background-color: #007cba;
+            color: #fff;
+            
+            &:hover {
+                background-color: #006ba1;
+            }
+        }
+    }
 } 

@@ -132,6 +132,9 @@ class Single_Post_Display_Block {
 				'showAuthor'       => true,
 				'imageSize'        => 'large',
 				'timestamp'        => 0,
+				'showReadMore'     => true,
+				'readMoreText'     => __('Read More', 'smart-flashcards'),
+				'readMoreAlignment' => 'center',
 			)
 		);
 
@@ -210,6 +213,14 @@ class Single_Post_Display_Block {
 			<?php if ( $attributes['showContent'] ) : ?>
 				<div class="post-content">
 					<?php echo apply_filters( 'the_content', $post->post_content ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+				</div>
+			<?php endif; ?>
+
+			<?php if ( $attributes['showReadMore'] ) : ?>
+				<div class="post-read-more align-<?php echo esc_attr( $attributes['readMoreAlignment'] ); ?>">
+					<a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" class="read-more-button">
+						<?php echo esc_html( $attributes['readMoreText'] ); ?>
+					</a>
 				</div>
 			<?php endif; ?>
 		</div>
