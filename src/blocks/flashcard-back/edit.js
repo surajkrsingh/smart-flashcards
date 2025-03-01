@@ -23,8 +23,6 @@ const TEMPLATE = [
 const BORDER_STYLES = [
 	{ label: __('Default', 'smart-flashcards'), value: 'default' },
 	{ label: __('Vintage', 'smart-flashcards'), value: 'vintage' },
-	{ label: __('Art Nouveau', 'smart-flashcards'), value: 'art-nouveau' },
-	{ label: __('Celtic', 'smart-flashcards'), value: 'celtic' },
 	{ label: __('Japanese', 'smart-flashcards'), value: 'japanese' },
 	{ label: __('Geometric', 'smart-flashcards'), value: 'geometric' },
 	{ label: __('Royal', 'smart-flashcards'), value: 'royal' },

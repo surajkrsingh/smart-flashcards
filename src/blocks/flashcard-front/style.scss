@@ -26,37 +26,6 @@ body {
                 }
             }
 
-            // 3. Celtic Knot
-            &.border-style-celtic {
-                border: 15px solid $border-color !important;
-                background: #fff !important;
-                position: relative;
-
-                &::before {
-                    content: '';
-                    position: absolute;
-                    inset: -12px;
-                    border: 2px solid $secondary-border-color;
-                    background: 
-                        linear-gradient(45deg, transparent 45%, #698B69 45%, #698B69 55%, transparent 55%),
-                        linear-gradient(-45deg, transparent 45%, #698B69 45%, #698B69 55%, transparent 55%);
-                    background-size: 20px 20px;
-                    background-position: center;
-                    z-index: -1;
-                    opacity: 0.7;
-                }
-
-                &::after {
-                    content: '';
-                    position: absolute;
-                    inset: -15px;
-                    border: 3px solid $secondary-border-color;
-                    background: 
-                        radial-gradient(circle, $border-color 30%, transparent 30%);
-                    background-size: 15px 15px;
-                    z-index: -2;
-                }
-            }
 
             // 4. Japanese Pattern
             &.border-style-japanese {
