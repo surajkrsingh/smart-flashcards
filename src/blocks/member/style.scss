@@ -1,12 +1,8 @@
 /**
- * Frontend styles for the User Display block
+ * Frontend styles for the Member block
  */
-
 .wp-block-smfcs-member {
-    padding: 20px;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    padding: 0;
 
     .user-avatar {
         display: flex;
@@ -117,5 +113,44 @@
                 display: block;
             }
         }
+    }
+}
+
+   /* Specific fix for Member block in flashcard back */
+.wp-block-smfcs-flashcard-back .wp-block-smfcs-member {
+    transform: rotateY(0deg) !important;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+
+    /* Ensure all content inside displays correctly */
+    * {
+        transform: rotateY(0deg);
+        backface-visibility: visible;
+    }
+
+    /* Reset any inherited transforms */
+    .user-avatar,
+    .user-name,
+    .user-email,
+    .user-website,
+    .user-bio,
+    .user-social-links {
+        transform: rotateY(0deg);
+        display: inline-block;
+        width: 100%;
+    }
+
+    /* Ensure images display correctly */
+    img {
+        transform: rotateY(0deg);
+        backface-visibility: visible;
+    }
+
+    /* Ensure links are clickable */
+    a {
+        cursor: pointer;
+        display: inline-block;
+        transform: rotateY(0deg);
     }
 }
