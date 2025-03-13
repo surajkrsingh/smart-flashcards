@@ -3,19 +3,19 @@
  * Smart Flashcards
  *
  * @package           smart-flashcards
- * @author            SurajWP
- * @copyright         2025 by SurajWP
+ * @author            BuddyLMS Inc.
+ * @copyright         2025 by BuddyLMS Inc.
  * @license           GPL-2.0+
  *
  * @wordpress-plugin
  * Plugin Name:       Smart Flashcards
- * Plugin URI:        https://surajwp.com/smart-flashcards/
+ * Plugin URI:        https://buddylms.com/smart-flashcards/
  * Description:       Simple flashcards
  * Version:           1.0.0
  * Requires PHP:      7.4
  * Requires at least: 5.8
- * Author:            SurajWP
- * Author URI:        https://surajwp.com/
+ * Author:            BuddyLMS Inc.
+ * Author URI:        https://buddylms.com/
  * Text Domain:       smart-flashcards
  * Domain Path:       /languages
  *

@@ -1,7 +1,7 @@
 === Smart Flashcards ===
-Contributors: Suraj Singh
+Contributors: BuddyLMS Inc
 Plugin Name: Smart Flashcards
-Plugin URI: https://profiles.wordpress.org/surajkumarsingh/
+Plugin URI: https://buddylms.com/smart-flashcards/
 Description: Create interactive flashcards and card stacks with engaging animations directly within the WordPress block editor. Enhance your website with dynamic learning tools, quizzes, and visually appealing content using flashcard sets and animated card stacks.
 Version: 0.1.0
 Requires at least: 6.0
@@ -103,7 +103,7 @@ Once activated, you can find the "Smart Flashcards" blocks within the Gutenberg 
 
 == Credits ==
 
-Developed by Suraj Singh (https://profiles.wordpress.org/surajkumarsingh/)
+Developed by BuddyLMS - https://buddylms.com/
 
 == License ==
 
