@@ -58,7 +58,7 @@ class Single_Post_Display_Block {
 	 */
 	public function ensure_post_type_rest_support() {
 		global $wp_post_types;
-		
+
 		// Get all registered post types.
 		$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
@@ -69,23 +69,23 @@ class Single_Post_Display_Block {
 			}
 
 			// Enable REST API support.
-			$post_type->show_in_rest = true;
-			$post_type->rest_base = $post_type->rest_base ?? $post_type->name;
+			$post_type->show_in_rest          = true;
+			$post_type->rest_base             = $post_type->rest_base ?? $post_type->name;
 			$post_type->rest_controller_class = $post_type->rest_controller_class ?? 'WP_REST_Posts_Controller';
-			
+
 			// Ensure proper visibility settings.
 			$post_type->viewable = true;
 			if ( ! isset( $post_type->visibility ) ) {
 				$post_type->visibility = (object) array(
-					'show_in_nav_menus' => true,
-					'show_ui'           => true,
-					'public'            => true,
+					'show_in_nav_menus'  => true,
+					'show_ui'            => true,
+					'public'             => true,
 					'publicly_queryable' => true,
 				);
 			}
 
 			// Update global post types registry.
-			$wp_post_types[$post_type->name] = $post_type;
+			$wp_post_types[ $post_type->name ] = $post_type;
 		}
 	}
 
@@ -99,17 +99,17 @@ class Single_Post_Display_Block {
 	public function add_rest_support( $args, $post_type ) {
 		// Always enable REST API for public post types.
 		if ( isset( $args['public'] ) && $args['public'] ) {
-			$args['show_in_rest'] = true;
-			$args['rest_base'] = $args['rest_base'] ?? $post_type;
+			$args['show_in_rest']          = true;
+			$args['rest_base']             = $args['rest_base'] ?? $post_type;
 			$args['rest_controller_class'] = $args['rest_controller_class'] ?? 'WP_REST_Posts_Controller';
 
 			// Ensure post type is viewable and has proper visibility settings.
 			$args['viewable'] = true;
 			if ( ! isset( $args['visibility'] ) ) {
 				$args['visibility'] = array(
-					'show_in_nav_menus' => true,
-					'show_ui'           => true,
-					'public'            => true,
+					'show_in_nav_menus'  => true,
+					'show_ui'            => true,
+					'public'             => true,
 					'publicly_queryable' => true,
 				);
 			}
@@ -238,10 +238,10 @@ class Single_Post_Display_Block {
 			);
 		}
 
-		// Store the current global post
+		// Store the current global post.
 		$original_post = isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null;
 
-		// Set up post data
+		// Set up post data.
 		$GLOBALS['post'] = $post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		setup_postdata( $post );
 

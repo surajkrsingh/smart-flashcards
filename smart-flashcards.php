@@ -87,10 +87,9 @@ if ( ! defined( 'SMFCS_PLUGIN_TEMPLATE_PATH' ) ) {
 }
 
 /** Include the required files only*/
-require_once SMFCS_PLUGIN_PATH . '/inc/helpers/autoloader.php';
-require_once SMFCS_PLUGIN_PATH . '/inc/helpers/custom-functions.php';
-require_once SMFCS_PLUGIN_PATH . '/inc/classes/class-single-post-display-block.php';
-require_once SMFCS_PLUGIN_PATH . '/inc/classes/class-member-block.php';
+if ( file_exists( SMFCS_PLUGIN_PATH . '/vendor/autoload.php' ) ) {
+	require_once SMFCS_PLUGIN_PATH . '/vendor/autoload.php';
+}
 
 /**
  * To load plugin main class.
