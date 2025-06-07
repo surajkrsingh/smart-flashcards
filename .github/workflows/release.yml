@@ -43,17 +43,17 @@ jobs:
       - name: Get version from plugin file
         id: get_version
         run: |
-          VERSION=$(grep -m 1 "Version:" buddyshare.php | awk -F': ' '{print $2}' | tr -d ' \r\n\t')
+          VERSION=$(grep -m 1 "Version:" smart-flashcards.php | awk -F': ' '{print $2}' | tr -d ' \r\n\t')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Plugin version: $VERSION"
 
       - name: Create release zip
         run: |
-          mkdir -p /tmp/buddyshare
-          rsync -av --exclude-from='.distignore' . /tmp/buddyshare/
+          mkdir -p /tmp/smart-flashcards
+          rsync -av --exclude-from='.distignore' . /tmp/smart-flashcards/
           cd /tmp
-          zip -r $GITHUB_WORKSPACE/buddyshare-${{ steps.get_version.outputs.version }}.zip buddyshare
-          rm -rf /tmp/buddyshare
+          zip -r $GITHUB_WORKSPACE/smart-flashcards-${{ steps.get_version.outputs.version }}.zip smart-flashcards
+          rm -rf /tmp/smart-flashcards
           cd $GITHUB_WORKSPACE
 
       - name: Create Release
@@ -61,8 +61,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.get_version.outputs.version }}
-          name: BuddyShare v${{ steps.get_version.outputs.version }}
-          files: buddyshare-${{ steps.get_version.outputs.version }}.zip
+          name: Smart Flashcards v${{ steps.get_version.outputs.version }}
+          files: smart-flashcards-${{ steps.get_version.outputs.version }}.zip
           draft: false
           prerelease: false
           generate_release_notes: true
@@ -72,8 +72,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: buddyshare-${{ steps.get_version.outputs.version }}
-          path: buddyshare-${{ steps.get_version.outputs.version }}.zip
+          name: smart-flashcards-${{ steps.get_version.outputs.version }}
+          path: smart-flashcards-${{ steps.get_version.outputs.version }}.zip
           retention-days: 5
 
   cleanup:
