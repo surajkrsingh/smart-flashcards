@@ -47,159 +47,67 @@
     }
 }
 
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set {
-    max-width: 800px;
-    margin: 1rem auto;
+/* Flashcard Set Block Editor Styles */
+.wp-block-smfcs-flashcard-set {
     position: relative;
-
-    // Add visual feedback when the block is selected
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 20px 0;
+    background-color: #f9f9f9;
+    
+    &:hover {
+        border-color: #007cba;
+        background-color: #f0f8ff;
+    }
+    
     &.is-selected {
-        outline: 2px solid #007cba;
-        outline-offset: 2px;
+        border-color: #007cba;
+        background-color: #f0f8ff;
     }
 
-    .flashcard-set-nav {
+    // Clean header without navigation buttons
+    .flashcard-set-header {
         display: flex;
-        flex-direction: column;
-        gap: 12px;
-        margin-bottom: 20px;
-        padding: 16px;
-        background: #f8f9fa;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
         border-radius: 8px;
-        border: 1px solid #e0e0e0;
-        position: relative;
-
-        // Add hover effect to indicate clickability
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
         &:hover {
-            background: #f0f0f0;
-            cursor: pointer;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
-
-        .flashcard-set-header {
+        
+        .flashcard-set-title {
+            font-size: 16px;
+            font-weight: 600;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #e0e0e0;
-            margin-bottom: 8px;
-
-            .flashcard-set-title {
-                font-weight: 600;
+            gap: 8px;
+            
+            .mode-indicator {
                 font-size: 14px;
-                color: #1e1e1e;
-                user-select: none;
-            }
-
-            // Add a subtle hint that this area is clickable
-            &::after {
-                content: "Click to select block";
-                font-size: 11px;
-                color: #666;
-                opacity: 0;
-                transition: opacity 0.2s ease;
+                font-weight: 400;
+                opacity: 0.9;
             }
         }
-
-        // Show hint on hover
-        &:hover .flashcard-set-header::after {
-            opacity: 1;
-        }
-
-        .components-button-group {
-            display: flex;
-            gap: 6px;
-            align-items: center;
-            justify-content: center;
-
-            .components-button {
-                height: 36px;
-                padding: 6px 12px;
-                font-size: 14px;
-                border-radius: 4px;
-                transition: all 0.2s ease;
-
-                &:focus {
-                    box-shadow: 0 0 0 1.5px #007cba;
-                }
-
-                // Previous and Next buttons
-                &:not(.current-slide-indicator):not(.add-slide-button):not(.remove-slide-button) {
-                    min-width: 80px;
-                    justify-content: center;
-                    background: #fff;
-                    border: 1px solid #ddd;
-
-                    &:hover:not(:disabled) {
-                        background: #f8f8f8;
-                        border-color: #999;
-                    }
-
-                    &:disabled {
-                        opacity: 0.6;
-                        cursor: not-allowed;
-                    }
-                }
-
-                // Slide indicator
-                &.current-slide-indicator {
-                    cursor: default;
-                    background: #fff;
-                    min-width: 70px;
-                    justify-content: center;
-                    font-weight: 500;
-                    border: 1px solid #ddd;
-                    
-                    &:hover {
-                        background: #fff;
-                    }
-                }
-
-                // Add button
-                &.add-slide-button {
-                    background: #007cba;
-                    color: #fff;
-                    border: none;
-                    padding: 6px;
-                    width: 36px;
-
-                    &:hover {
-                        background: #006ba1;
-                    }
-
-                    svg {
-                        width: 18px;
-                        height: 18px;
-                    }
-                }
-
-                // Remove button
-                &.remove-slide-button {
-                    background: #fff;
-                    color: #cc1818;
-                    border: 1px solid #cc1818;
-                    padding: 6px;
-                    width: 36px;
-
-                    &:hover:not(:disabled) {
-                        background: #f8d7d7;
-                    }
-
-                    &:disabled {
-                        opacity: 0.4;
-                        border-color: #ddd;
-                        color: #999;
-                    }
-
-                    svg {
-                        width: 18px;
-                        height: 18px;
-                    }
-                }
-            }
+        
+        .flashcard-count {
+            font-size: 14px;
+            opacity: 0.9;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
         }
     }
 
-    // NEW: Container for the flashcard set
+    // Container for the flashcard set
     .flashcard-set-container {
         position: relative;
         width: 100%;
@@ -222,7 +130,7 @@
         }
     }
 
-    // FIXED: Inner blocks styling - Only show active flashcard
+    // Inner blocks styling - Only show active flashcard
     .block-editor-block-list__layout {
         position: relative;
         
@@ -252,264 +160,57 @@
     }
 }
 
-.editor-styles-wrapper .wp-block-smfcs-flashcard-set {
-    .flashcard-set-wrapper {
-        position: relative;
-        padding: 20px;
-        background: #fff;
-        border-radius: 8px;
-    }
-
-    .flashcard-set-controls {
-        padding: 0 16px 16px;
-        border-bottom: 1px solid #e0e0e0;
-
-        .flashcard-controls {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-    }
-
-    .flashcard-tabs-container {
-        .components-tab-panel__tabs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 4px;
-            padding: 16px 16px 0;
-            border-bottom: 1px solid #e0e0e0;
-            overflow-x: auto;
-            scrollbar-width: thin;
-            -webkit-overflow-scrolling: touch;
-
-            &::-webkit-scrollbar {
-                height: 6px;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                background-color: #ccc;
-                border-radius: 3px;
-            }
-
-            .components-tab-panel__tabs-item {
-                flex: 0 0 auto;
-                padding: 8px 16px;
-                border: 1px solid transparent;
-                border-radius: 4px 4px 0 0;
-                margin-bottom: -1px;
-                font-size: 13px;
-                white-space: nowrap;
-                
-                &.active-tab {
-                    background: #f0f0f0;
-                    border-color: #e0e0e0;
-                    border-bottom-color: #f0f0f0;
-                }
-
-                &:focus {
-                    box-shadow: none;
-                    outline: 2px solid #007cba;
-                    outline-offset: -2px;
-                }
-            }
-        }
-    }
-
-    .flashcard-tab-content {
-        padding: 20px 16px;
-        background: #f0f0f0;
-        min-height: 220px;
-    }
-
-    .flashcard-tab-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+// Inspector Controls Sidebar Styles
+.flashcard-nav-sidebar {
+    .current-flashcard-info {
+        background-color: #f0f6fc;
+        border: 1px solid #d0d7de;
+        border-radius: 6px;
+        padding: 12px;
         margin-bottom: 16px;
-
-        h3 {
-            margin: 0;
-            font-size: 14px;
-            color: #1e1e1e;
-        }
-    }
-
-    .flashcard-remove-button {
-        color: #cc1818;
-        padding: 6px;
-        height: auto;
-        min-width: auto;
+        font-size: 14px;
         
-        &:hover {
-            color: #710d0d;
+        strong {
+            color: #24292f;
         }
     }
-
-    .flashcard-content {
-        width: 100%;
-        transition: all 0.3s ease-in-out;
-    }
-
-    .wp-block-smfcs-flashcard {
-        position: relative;
-
-        .flashcard-index {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            background: #007cba;
-            color: #fff;
-            width: 24px;
-            height: 24px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
-            z-index: 20;
-        }
-
-        &.is-selected .flashcard-index,
-        &.has-child-selected .flashcard-index {
-            background: #00a0d2;
-        }
-    }
-}
-
-.flashcard-set-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
     
-    .flashcard-set-count {
-        font-size: 0.9em;
-        color: #666;
-        text-align: center;
-    }
-}
-
-.flashcard-set-appender {
-    width: 100%;
-    flex-shrink: 0;
-    padding: 0 10px;
-}
-
-.wp-block-smfcs-flashcard-set {
-    margin-top: 28px;
-    
-    .flashcard-set-editor {
-        background: #fff;
-        border: 1px solid #e2e4e7;
-        border-radius: 4px;
-        padding: 20px;
-        position: relative;
-    }
-
-    // Slide Controls
-    .flashcard-set-controls {
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #e2e4e7;
-
-        .slide-selector {
+    .navigation-controls {
+        .nav-buttons-row {
             display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-
-        .slide-selector-label {
-            font-size: 13px;
-            color: #1e1e1e;
-            font-weight: 500;
-        }
-
-        .slide-buttons {
-            display: flex;
-            gap: 4px;
-            flex-wrap: wrap;
-        }
-
-        .slide-button {
-            min-width: 36px;
-            height: 36px;
-            padding: 0;
-            justify-content: center;
-            font-size: 13px;
-
-            &.is-primary {
-                background: #007cba;
-                color: #fff;
-            }
-        }
-
-        .add-slide-button,
-        .remove-slide-button {
-            min-width: 36px;
-            height: 36px;
-            padding: 0;
-            justify-content: center;
-        }
-
-        .remove-slide-button {
-            color: #cc1818;
+            gap: 8px;
+            margin-bottom: 12px;
             
-            &:hover {
-                color: #710d0d;
+            .nav-button {
+                flex: 1;
+                justify-content: center;
+                font-size: 12px;
+                
+                &:disabled {
+                    opacity: 0.5;
+                }
             }
         }
-    }
-
-    // Current Slide Editor
-    .flashcard-editor {
-        background: #f8f9f9;
-        border: 1px solid #e2e4e7;
-        border-radius: 4px;
-        padding: 20px;
-
-        .current-slide-info {
-            font-size: 13px;
-            color: #757575;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e2e4e7;
-        }
-
-        .flashcard-content {
-            background: #fff;
-            border: 1px solid #e2e4e7;
-            border-radius: 4px;
-            padding: 15px;
-            min-height: 220px;
-            position: relative;
-        }
-    }
-
-    // Fix toolbar positioning
-    .block-editor-block-list__block {
-        margin-top: 0;
-        position: relative;
-    }
-
-    .block-editor-block-contextual-toolbar {
-        position: absolute;
-        top: -40px;
-        left: 0;
-        right: 0;
-        margin: 0;
-        z-index: 21;
-    }
-
-    // Ensure inner blocks are properly styled
-    .wp-block-smfcs-flashcard {
-        .block-editor-block-list__layout {
-            margin: 0;
-            padding: 0;
-        }
-
-        .block-editor-default-block-appender {
-            display: none;
+        
+        .action-buttons-row {
+            display: flex;
+            gap: 8px;
+            
+            .add-button {
+                flex: 1;
+                justify-content: center;
+                font-size: 12px;
+            }
+            
+            .remove-button {
+                flex: 1;
+                justify-content: center;
+                font-size: 12px;
+                
+                &:disabled {
+                    opacity: 0.5;
+                }
+            }
         }
     }
 } 

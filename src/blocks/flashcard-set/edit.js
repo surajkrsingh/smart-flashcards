@@ -5,7 +5,7 @@ import { useState, useRef, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import './editor.scss';
 import { FLASHCARD_SET_ALLOWED_BLOCKS, FLASHCARD_SET_DEFAULT_TEMPLATE } from '../../utils/constants';
-import { trash, plus } from '@wordpress/icons';
+import { trash, plus, arrowLeft, arrowRight } from '@wordpress/icons';
 import { InspectorControls } from '@wordpress/block-editor';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
@@ -25,14 +25,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
     // Handle click on flashcard-set to select it
     const handleContainerClick = (event) => {
-        // Only handle clicks on the container itself or navigation area
+        // Only handle clicks on the container itself or header area
         const target = event.target;
-        const isNavigationArea = target.closest('.flashcard-set-nav');
+        const isHeaderArea = target.closest('.flashcard-set-header');
         const isInnerBlocksArea = target.closest('.flashcard-set-container .block-editor-block-list__layout');
-        const isButton = target.closest('button');
         
-        // If clicking on navigation area (but not buttons) or empty container area, select the flashcard-set
-        if ((isNavigationArea && !isButton) || (!isInnerBlocksArea && !isButton)) {
+        // If clicking on header area or empty container area, select the flashcard-set
+        if (isHeaderArea || (!isInnerBlocksArea)) {
             event.stopPropagation();
             selectBlock(clientId);
         }
@@ -123,7 +122,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     return (
         <div {...blockProps} ref={wrapperRef} onClick={handleContainerClick}>
             <InspectorControls>
-                <PanelBody title={__('Flashcard Set Settings', 'smart-flashcards')}>
+                <PanelBody title={__('Flashcard Set Settings', 'smart-flashcards')} initialOpen={true}>
                     <SelectControl
                         label={__('Display Mode', 'smart-flashcards')}
                         value={displayMode}
@@ -140,56 +139,72 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         onChange={(value) => setAttributes({ enableShuffle: value })}
                     />
                 </PanelBody>
+
+                <PanelBody title={__('Flashcard Navigation', 'smart-flashcards')} initialOpen={true}>
+                    <div className="flashcard-nav-sidebar">
+                        <div className="current-flashcard-info">
+                            <strong>{__('Current Flashcard:', 'smart-flashcards')}</strong> {currentSlide + 1} / {totalSlides}
+                        </div>
+                        
+                        <div className="navigation-controls">
+                            <div className="nav-buttons-row">
+                                <Button
+                                    icon={arrowLeft}
+                                    variant="secondary"
+                                    onClick={() => selectSlide(Math.max(0, currentSlide - 1))}
+                                    disabled={currentSlide === 0}
+                                    title={__('Previous flashcard', 'smart-flashcards')}
+                                    className="nav-button"
+                                >
+                                    {__('Previous', 'smart-flashcards')}
+                                </Button>
+                                <Button
+                                    icon={arrowRight}
+                                    variant="secondary"
+                                    onClick={() => selectSlide(Math.min(totalSlides - 1, currentSlide + 1))}
+                                    disabled={currentSlide === totalSlides - 1}
+                                    title={__('Next flashcard', 'smart-flashcards')}
+                                    className="nav-button"
+                                >
+                                    {__('Next', 'smart-flashcards')}
+                                </Button>
+                            </div>
+                            
+                            <div className="action-buttons-row">
+                                <Button
+                                    icon={plus}
+                                    variant="primary"
+                                    onClick={handleAddSlide}
+                                    title={__('Add new flashcard', 'smart-flashcards')}
+                                    className="add-button"
+                                >
+                                    {__('Add Flashcard', 'smart-flashcards')}
+                                </Button>
+                                <Button
+                                    icon={trash}
+                                    variant="secondary"
+                                    onClick={handleRemoveSlide}
+                                    disabled={totalSlides <= 1}
+                                    isDestructive
+                                    title={__('Remove current flashcard', 'smart-flashcards')}
+                                    className="remove-button"
+                                >
+                                    {__('Remove', 'smart-flashcards')}
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </PanelBody>
             </InspectorControls>
             
-            <div className="flashcard-set-nav">
-                <div className="flashcard-set-header">
-                    <span className="flashcard-set-title">
-                        {__('Flashcard Set', 'smart-flashcards')} ({displayMode} mode)
-                    </span>
+            <div className="flashcard-set-header" onClick={handleContainerClick}>
+                <div className="flashcard-set-title">
+                    <strong>{__('Flashcard Set', 'smart-flashcards')}</strong>
+                    <span className="mode-indicator">({displayMode} mode)</span>
                 </div>
-                <ButtonGroup>
-                    <Button
-                        icon={trash}
-                        variant="secondary"
-                        onClick={handleRemoveSlide}
-                        disabled={totalSlides <= 1}
-                        className="remove-slide-button"
-                        isDestructive
-                        title={__('Remove current flashcard', 'smart-flashcards')}
-                    />
-                    <Button
-                        variant="secondary"
-                        onClick={() => selectSlide(Math.max(0, currentSlide - 1))}
-                        disabled={currentSlide === 0}
-                        title={__('Previous flashcard', 'smart-flashcards')}
-                    >
-                        {__('Previous', 'smart-flashcards')}
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        className="current-slide-indicator"
-                        disabled
-                        title={__('Current flashcard position', 'smart-flashcards')}
-                    >
-                        {currentSlide + 1} / {totalSlides}
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        onClick={() => selectSlide(Math.min(totalSlides - 1, currentSlide + 1))}
-                        disabled={currentSlide === totalSlides - 1}
-                        title={__('Next flashcard', 'smart-flashcards')}
-                    >
-                        {__('Next', 'smart-flashcards')}
-                    </Button>
-                    <Button
-                        icon={plus}
-                        variant="primary"
-                        onClick={handleAddSlide}
-                        className="add-slide-button"
-                        title={__('Add new flashcard', 'smart-flashcards')}
-                    />
-                </ButtonGroup>
+                <div className="flashcard-count">
+                    {totalSlides} {totalSlides === 1 ? __('flashcard', 'smart-flashcards') : __('flashcards', 'smart-flashcards')}
+                </div>
             </div>
 
             <div className="flashcard-set-container">
