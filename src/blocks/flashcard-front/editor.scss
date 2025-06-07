@@ -5,7 +5,6 @@
             $border-color: var(--primary-border-color);
             $secondary-border-color: var(--secondary-border-color);
             position: relative;
-            background: #fff !important;
 
             // Base styles for all border styles
             &[class*="border-style-"] {

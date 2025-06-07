@@ -44,7 +44,7 @@
 .wp-block-smfcs-flashcard {
     width: var(--flashcard-width, 100%);
     min-height: var(--flashcard-height, 300px);
-    margin: 0 auto;
+    margin: 0;
     box-sizing: border-box;
 
     .flashcard {
@@ -77,7 +77,7 @@
         display: none; // Hidden by default
         border: 1px solid #ddd;
         border-radius: 8px;
-        margin: 0;
+        margin: 0 auto;
         padding: 2rem;
         box-sizing: border-box;
 
@@ -168,7 +168,7 @@
         transform: none !important;
         z-index: 1;
         min-height: 200px;
-        margin-bottom: 2rem;
+        margin-bottom: 0 !important;
 
         // Ensure border styles are visible
         &[class*="border-style-"] {

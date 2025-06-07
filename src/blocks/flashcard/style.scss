@@ -17,7 +17,7 @@ body:not(.editor-styles-wrapper) {
     .wp-block-smfcs-flashcard {
         position: relative;
         width: var(--flashcard-width, 100%);
-        margin: 0 auto 20px;
+        margin: 0 auto;
         perspective: 1000px;
 
         .flashcard-inner {
