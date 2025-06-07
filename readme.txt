@@ -5,7 +5,7 @@ Plugin URI: https://buddylms.com/smart-flashcards/
 Description: Create interactive flashcards, display posts dynamically, and showcase team members with engaging animations directly within the WordPress block editor. Perfect for educational websites, online courses, interactive content, and professional presentations.
 Version: 1.0.0
 Requires at least: 5.8
-Tested up to: 6.4
+Tested up to: 6.8
 Requires PHP: 7.4
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
