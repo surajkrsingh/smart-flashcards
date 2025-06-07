@@ -1,8 +1,8 @@
 {
-	"name": "smart-flashcards",
-	"version": "0.1.0",
-	"description": "Example static block scaffolded with Create Block tool.",
-	"author": "The WordPress Contributors",
+	"name": "buddylms/smart-flashcards",
+	"version": "1.0.0",
+	"description": "Smart Flashcards - Simple flashcards for your WordPress site",
+	"author": "Suraj Singh",
 	"license": "GPL-2.0-or-later",
 	"main": "build/index.js",
 	"scripts": {
