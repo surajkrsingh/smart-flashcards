@@ -9,3 +9,8 @@ node_modules
 _zip/
 vendor
 composer.lock
+/vendor
+*.log
+
+
+
