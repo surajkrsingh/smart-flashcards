@@ -23,15 +23,39 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     const { removeBlock, insertBlock, selectBlock } = useDispatch('core/block-editor');
     const totalSlides = innerBlocks?.length || 0;
 
-    // Handle click on flashcard-set to select it
-    const handleContainerClick = (event) => {
-        // Only handle clicks on the container itself or header area
+    // Handle click on flashcard-set header to select the set
+    const handleHeaderClick = (event) => {
         const target = event.target;
-        const isHeaderArea = target.closest('.flashcard-set-header');
-        const isInnerBlocksArea = target.closest('.flashcard-set-container .block-editor-block-list__layout');
-        
-        // If clicking on header area or empty container area, select the flashcard-set
-        if (isHeaderArea || (!isInnerBlocksArea)) {
+        const isButton = target.closest('button');
+
+        // Only select flashcard-set if clicking on header area, not on buttons
+        if (!isButton) {
+            event.stopPropagation();
+            selectBlock(clientId);
+        }
+    };
+
+    // Handle click on container to select flashcard-set when clicking on empty areas
+    const handleContainerClick = (event) => {
+        const target = event.target;
+
+        // Check if we're clicking on the main container or padding areas
+        const isMainContainer = target.classList.contains('wp-block-smfcs-flashcard-set');
+        const isFlashcardSetContainer = target.classList.contains('flashcard-set-container');
+        const isHeader = target.closest('.flashcard-set-header');
+        const isButton = target.closest('button');
+
+        // Check if clicking on an inner block or its content
+        const isInnerBlock = target.closest('.wp-block-smfcs-flashcard');
+        const isInnerBlockContent = target.closest('.flashcard-content');
+        const isBlockEditorContent = target.closest('.block-editor-block-list__block');
+
+        // Select flashcard-set if clicking on container/padding areas, but NOT on inner blocks
+        if ((isMainContainer || isFlashcardSetContainer || isHeader) &&
+            !isInnerBlock &&
+            !isInnerBlockContent &&
+            !isBlockEditorContent &&
+            !isButton) {
             event.stopPropagation();
             selectBlock(clientId);
         }
@@ -53,7 +77,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
             const cards = wrapperRef.current.querySelectorAll('.wp-block-smfcs-flashcard');
             cards.forEach((card, index) => {
                 const cardElement = card.querySelector('[data-type="smfcs/flashcard"]') || card;
-                
+
                 if (index === currentSlide) {
                     card.classList.add('is-active');
                     cardElement.style.setProperty('display', 'block', 'important');
@@ -76,11 +100,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
     useEffect(() => {
         if (selectedBlockClientId && innerBlocks.length > 0) {
-            const selectedBlockIndex = innerBlocks.findIndex(block => 
-                block.clientId === selectedBlockClientId || 
+            const selectedBlockIndex = innerBlocks.findIndex(block =>
+                block.clientId === selectedBlockClientId ||
                 block.innerBlocks?.some(innerBlock => innerBlock.clientId === selectedBlockClientId)
             );
-            
+
             if (selectedBlockIndex !== -1 && selectedBlockIndex !== currentSlide) {
                 setAttributes({ currentSlide: selectedBlockIndex });
             }
@@ -147,7 +171,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         checked={showNavigation}
                         onChange={(value) => setAttributes({ showNavigation: value })}
                     />
-                    
+
                     {showNavigation && (
                         <>
                             <div className="color-control-group">
@@ -170,7 +194,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                                     </Button>
                                 )}
                             </div>
-                            
+
                             <div className="color-control-group" style={{ marginTop: '20px' }}>
                                 <label className="color-control-label">
                                     {__('Button Text Color', 'smart-flashcards')}
@@ -200,7 +224,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         <div className="current-flashcard-info">
                             <strong>{__('Current Flashcard:', 'smart-flashcards')}</strong> {currentSlide + 1} / {totalSlides}
                         </div>
-                        
+
                         <div className="navigation-controls">
                             <div className="nav-buttons-row">
                                 <Button
@@ -224,7 +248,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                                     {__('Next', 'smart-flashcards')}
                                 </Button>
                             </div>
-                            
+
                             <div className="action-buttons-row">
                                 <Button
                                     icon={plus}
@@ -251,8 +275,8 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                     </div>
                 </PanelBody>
             </InspectorControls>
-            
-            <div className="flashcard-set-header" onClick={handleContainerClick}>
+
+            <div className="flashcard-set-header" onClick={handleHeaderClick}>
                 <div className="flashcard-set-title">
                     <strong>{__('Flashcard Set', 'smart-flashcards')}</strong>
                     <span className="mode-indicator">({displayMode} mode)</span>
@@ -272,7 +296,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                     >
                         {__('Previous', 'smart-flashcards')}
                     </Button>
-                    
+
                     <Button
                         icon={plus}
                         variant="primary"
@@ -284,13 +308,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         className="nav-button-header add-button-header"
                         size="small"
                     />
-                    
+
                     <div className="flashcard-position-indicator">
                         <span className="current-position">{currentSlide + 1}</span>
                         <span className="position-separator">/</span>
                         <span className="total-count">{totalSlides}</span>
                     </div>
-                    
+
                     <Button
                         icon={trash}
                         variant="secondary"
@@ -304,7 +328,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         className="nav-button-header remove-button-header"
                         size="small"
                     />
-                    
+
                     <Button
                         icon={arrowRight}
                         variant="secondary"
