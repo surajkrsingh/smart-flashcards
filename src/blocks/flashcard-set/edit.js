@@ -14,13 +14,29 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     const blockProps = useBlockProps();
     const wrapperRef = useRef(null);
 
-    const { innerBlocks, selectedBlockClientId } = useSelect(select => ({
+    const { innerBlocks, selectedBlockClientId, isBlockSelected } = useSelect(select => ({
         innerBlocks: select('core/block-editor').getBlocks(clientId),
-        selectedBlockClientId: select('core/block-editor').getSelectedBlockClientId()
+        selectedBlockClientId: select('core/block-editor').getSelectedBlockClientId(),
+        isBlockSelected: select('core/block-editor').isBlockSelected(clientId)
     }), [clientId]);
 
     const { removeBlock, insertBlock, selectBlock } = useDispatch('core/block-editor');
     const totalSlides = innerBlocks?.length || 0;
+
+    // Handle click on flashcard-set to select it
+    const handleContainerClick = (event) => {
+        // Only handle clicks on the container itself or navigation area
+        const target = event.target;
+        const isNavigationArea = target.closest('.flashcard-set-nav');
+        const isInnerBlocksArea = target.closest('.flashcard-set-container .block-editor-block-list__layout');
+        const isButton = target.closest('button');
+        
+        // If clicking on navigation area (but not buttons) or empty container area, select the flashcard-set
+        if ((isNavigationArea && !isButton) || (!isInnerBlocksArea && !isButton)) {
+            event.stopPropagation();
+            selectBlock(clientId);
+        }
+    };
 
     useEffect(() => {
         if (!isInitialized) {
@@ -105,7 +121,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     };
 
     return (
-        <div {...blockProps} ref={wrapperRef}>
+        <div {...blockProps} ref={wrapperRef} onClick={handleContainerClick}>
             <InspectorControls>
                 <PanelBody title={__('Flashcard Set Settings', 'smart-flashcards')}>
                     <SelectControl
@@ -127,6 +143,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
             </InspectorControls>
             
             <div className="flashcard-set-nav">
+                <div className="flashcard-set-header">
+                    <span className="flashcard-set-title">
+                        {__('Flashcard Set', 'smart-flashcards')} ({displayMode} mode)
+                    </span>
+                </div>
                 <ButtonGroup>
                     <Button
                         icon={trash}

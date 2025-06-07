@@ -50,20 +50,66 @@
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set {
     max-width: 800px;
     margin: 1rem auto;
+    position: relative;
+
+    // Add visual feedback when the block is selected
+    &.is-selected {
+        outline: 2px solid #007cba;
+        outline-offset: 2px;
+    }
 
     .flashcard-set-nav {
         display: flex;
-        justify-content: center;
+        flex-direction: column;
+        gap: 12px;
         margin-bottom: 20px;
-        padding: 12px;
-        background: #f0f0f0;
+        padding: 16px;
+        background: #f8f9fa;
         border-radius: 8px;
         border: 1px solid #e0e0e0;
+        position: relative;
+
+        // Add hover effect to indicate clickability
+        &:hover {
+            background: #f0f0f0;
+            cursor: pointer;
+        }
+
+        .flashcard-set-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 8px;
+
+            .flashcard-set-title {
+                font-weight: 600;
+                font-size: 14px;
+                color: #1e1e1e;
+                user-select: none;
+            }
+
+            // Add a subtle hint that this area is clickable
+            &::after {
+                content: "Click to select block";
+                font-size: 11px;
+                color: #666;
+                opacity: 0;
+                transition: opacity 0.2s ease;
+            }
+        }
+
+        // Show hint on hover
+        &:hover .flashcard-set-header::after {
+            opacity: 1;
+        }
 
         .components-button-group {
             display: flex;
             gap: 6px;
             align-items: center;
+            justify-content: center;
 
             .components-button {
                 height: 36px;
@@ -163,6 +209,17 @@
         border-radius: 8px;
         padding: 20px;
         box-sizing: border-box;
+
+        // Add empty state styling when no flashcards
+        &:empty::before {
+            content: "Click 'Add' to create your first flashcard";
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #666;
+            font-style: italic;
+        }
     }
 
     // FIXED: Inner blocks styling - Only show active flashcard
