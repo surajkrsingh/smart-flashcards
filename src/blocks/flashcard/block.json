@@ -5,7 +5,7 @@
 	"version": "0.1.0",
 	"title": "Flashcard",
 	"category": "widgets",
-	"icon": "index-card",
+	"icon": "id-alt",
 	"description": "Create interactive flashcards with custom content",
 	"supports": {
 		"html": true,
