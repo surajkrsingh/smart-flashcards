@@ -12,7 +12,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use SMFCS\Features\Inc\Traits\Singleton;
-use SMFCS\Features\Inc\Single_Post_Display_Block;
 
 /**
  * Class Smart_Flashcards
@@ -62,19 +61,11 @@ class Smart_Flashcards {
 			$block_path = SMFCS_PLUGIN_PATH . "/build/blocks/{$block}/block.json";
 
 			if ( ! file_exists( $block_path ) ) {
-				error_log( "Smart Flashcards: Missing block.json for {$block}" );
 				continue;
 			}
 
-			$result = register_block_type( $block_path );
-
-			if ( ! $result ) {
-				error_log( "Smart Flashcards: Failed to register block {$block}" );
-			}
+			register_block_type( $block_path );
 		}
-
-		// Initialize the Single Post Display Block
-		//Single_Post_Display_Block::get_instance();
 	}
 
 	/**
