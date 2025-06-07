@@ -16,8 +16,8 @@ const ALLOWED_BLOCKS = [
 ];
 
 const TEMPLATE = [
-	['core/heading', { level: 2, placeholder: 'Flashcard Title' }],
-	['core/paragraph', { placeholder: 'Add your content here...' }]
+	['core/heading', { level: 2, placeholder: 'Back Side: Provide the answer here...' }],
+	['core/paragraph', { placeholder: 'Add detailed explanation, examples, or additional information here...' }]
 ];
 
 const BORDER_STYLES = [
