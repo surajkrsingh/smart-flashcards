@@ -6,15 +6,23 @@ document.addEventListener('DOMContentLoaded', function () {
 function initializeFlashcardSets() {
     const flashcardSets = document.querySelectorAll('.wp-block-smfcs-flashcard-set');
 
-    flashcardSets.forEach(set => {
+    flashcardSets.forEach((set, index) => {
         const track = set.querySelector('.flashcard-set-track');
-        if (!track) return;
+        if (!track) {
+            return;
+        }
 
         const flashcards = Array.from(track.querySelectorAll('.wp-block-smfcs-flashcard'));
-        if (!flashcards.length) return;
+        if (!flashcards.length) {
+            return;
+        }
 
-        // Get display mode
+        // Get display mode and shuffle setting
         const displayMode = set.getAttribute('data-display-mode') || 'slide';
+        const enableShuffle = set.getAttribute('data-enable-shuffle') === 'true';
+        
+        // Check if shuffle button exists
+        const shuffleBtn = set.querySelector('.flashcard-shuffle-button');
         
         // Initialize based on display mode
         switch (displayMode) {
@@ -100,26 +108,38 @@ function initializeSlideMode(set, track, flashcards) {
     function handleShuffle() {
         if (isAnimating) return;
         
-        // Shuffle the flashcards array
-        const shuffled = shuffleArray([...flashcards]);
-        currentSlide = 0;
+        // Jump to a random flashcard (excluding current one if possible)
+        let randomIndex;
+        if (flashcards.length > 1) {
+            do {
+                randomIndex = Math.floor(Math.random() * flashcards.length);
+            } while (randomIndex === currentSlide && flashcards.length > 1);
+        } else {
+            randomIndex = 0;
+        }
         
-        // Re-append shuffled cards to track
-        shuffled.forEach(card => track.appendChild(card));
-        
-        // Update flashcards reference
-        flashcards.length = 0;
-        flashcards.push(...shuffled);
-        
+        currentSlide = randomIndex;
         updateSlides();
+        
+        // Add visual feedback
+        if (shuffleBtn) {
+            shuffleBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                shuffleBtn.style.transform = 'scale(1)';
+            }, 150);
+        }
     }
 
     // Event listeners
     prevBtn?.addEventListener('click', () => handleNavigation('prev'));
     nextBtn?.addEventListener('click', () => handleNavigation('next'));
     
+    // Shuffle button handling
     if (enableShuffle && shuffleBtn) {
-        shuffleBtn.addEventListener('click', handleShuffle);
+        shuffleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleShuffle();
+        });
         shuffleBtn.style.display = 'flex';
     }
 
@@ -216,23 +236,38 @@ function initializeStackMode(set, track, flashcards) {
     function handleShuffle() {
         if (isAnimating) return;
         
-        const shuffled = shuffleArray([...flashcards]);
-        currentIndex = 0;
+        // Jump to a random flashcard (excluding current one if possible)
+        let randomIndex;
+        if (flashcards.length > 1) {
+            do {
+                randomIndex = Math.floor(Math.random() * flashcards.length);
+            } while (randomIndex === currentIndex && flashcards.length > 1);
+        } else {
+            randomIndex = 0;
+        }
         
-        shuffled.forEach(card => track.appendChild(card));
-        
-        flashcards.length = 0;
-        flashcards.push(...shuffled);
-        
+        currentIndex = randomIndex;
         updateStackPositions();
+        
+        // Add visual feedback
+        if (shuffleBtn) {
+            shuffleBtn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                shuffleBtn.style.transform = 'scale(1)';
+            }, 150);
+        }
     }
 
     // Event listeners
     prevBtn?.addEventListener('click', () => handleNavigation('prev'));
     nextBtn?.addEventListener('click', () => handleNavigation('next'));
     
+    // Shuffle button handling
     if (enableShuffle && shuffleBtn) {
-        shuffleBtn.addEventListener('click', handleShuffle);
+        shuffleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            handleShuffle();
+        });
         shuffleBtn.style.display = 'flex';
     }
 
