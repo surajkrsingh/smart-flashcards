@@ -74,6 +74,7 @@ export default function Edit({ attributes, setAttributes }) {
 						allowedBlocks={ALLOWED_BLOCKS}
 						template={TEMPLATE}
 						templateLock={false}
+						renderAppender={InnerBlocks.ButtonBlockAppender}
 					/>
 				</div>
 			</div>
