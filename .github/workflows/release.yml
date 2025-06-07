@@ -1,0 +1,92 @@
+name: Create Release
+
+on:
+  pull_request:
+    types: [closed]
+    branches:
+      - release
+
+jobs:
+  build:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # Required for creating releases
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer:v2
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Install PHP dependencies
+        run: |
+          composer install --no-dev --optimize-autoloader
+          composer dump-autoload --optimize
+
+      - name: Install Node dependencies
+        run: npm ci
+        
+      - name: Build assets
+        run: npm run build
+
+      - name: Get version from plugin file
+        id: get_version
+        run: |
+          VERSION=$(grep -m 1 "Version:" smart-flashcards.php | awk -F': ' '{print $2}' | tr -d ' \r\n\t')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Plugin version: $VERSION"
+
+      - name: Create release zip
+        run: |
+          mkdir -p /tmp/smart-flashcards
+          rsync -av --exclude-from='.distignore' . /tmp/smart-flashcards/
+          cd /tmp
+          zip -r $GITHUB_WORKSPACE/smart-flashcards-${{ steps.get_version.outputs.version }}.zip smart-flashcards
+          rm -rf /tmp/smart-flashcards
+          cd $GITHUB_WORKSPACE
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: Smart Flashcards v${{ steps.get_version.outputs.version }}
+          files: smart-flashcards-${{ steps.get_version.outputs.version }}.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: smart-flashcards-${{ steps.get_version.outputs.version }}
+          path: smart-flashcards-${{ steps.get_version.outputs.version }}.zip
+          retention-days: 5
+
+  cleanup:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write      # Required for deleting workflow runs
+      contents: write     # Required for accessing repository
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          retain_days: 30
+          keep_minimum_runs: 10
