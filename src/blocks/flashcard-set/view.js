@@ -20,6 +20,13 @@ function initializeFlashcardSets() {
         // Get display mode and shuffle setting
         const displayMode = set.getAttribute('data-display-mode') || 'slide';
         const enableShuffle = set.getAttribute('data-enable-shuffle') === 'true';
+        const showNavigation = set.getAttribute('data-show-navigation') !== 'false';
+        
+        // Handle navigation visibility
+        const nav = set.querySelector('.flashcard-set-nav');
+        if (nav && !showNavigation) {
+            nav.style.display = 'none';
+        }
         
         // Check if shuffle button exists
         const shuffleBtn = set.querySelector('.flashcard-shuffle-button');
@@ -298,7 +305,7 @@ function initializeGridMode(set, track, flashcards) {
         card.style.transform = 'none';
     });
 
-    // Hide navigation since it's not needed in grid mode
+    // Hide navigation in grid mode (navigation not needed for grid display)
     const nav = set.querySelector('.flashcard-set-nav');
     if (nav) {
         nav.style.display = 'none';

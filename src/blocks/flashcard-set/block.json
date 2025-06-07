@@ -20,6 +20,18 @@
         "enableShuffle": {
             "type": "boolean",
             "default": false
+        },
+        "showNavigation": {
+            "type": "boolean",
+            "default": true
+        },
+        "buttonBackgroundColor": {
+            "type": "string",
+            "default": ""
+        },
+        "buttonTextColor": {
+            "type": "string",
+            "default": ""
         }
     },
     "supports": {

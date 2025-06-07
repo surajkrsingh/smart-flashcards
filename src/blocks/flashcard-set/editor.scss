@@ -110,7 +110,7 @@
                 color: white !important;
                 font-size: 12px !important;
                 font-weight: 500 !important;
-                padding: 4px 8px !important;
+                padding: 4px 16px !important;
                 height: auto !important;
                 border-radius: 16px !important;
                 transition: all 0.2s ease !important;
@@ -309,6 +309,27 @@
                     opacity: 0.5;
                 }
             }
+        }
+    }
+}
+
+// Color picker control styling
+.color-control-group {
+    margin-bottom: 16px;
+    
+    .color-control-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        color: #1e1e1e;
+        letter-spacing: 0.5px;
+    }
+    
+    .components-color-picker {
+        .components-flex {
+            margin-bottom: 8px;
         }
     }
 }

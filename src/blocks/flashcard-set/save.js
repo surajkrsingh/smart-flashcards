@@ -2,10 +2,22 @@ import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 
 export default function Save({ attributes }) {
-    const { displayMode, enableShuffle } = attributes;
+    const { displayMode, enableShuffle, showNavigation = true, buttonBackgroundColor = '', buttonTextColor = '' } = attributes;
+    
+    // Create custom CSS variables for button styling
+    const customStyle = {};
+    if (buttonBackgroundColor) {
+        customStyle['--button-bg-color'] = buttonBackgroundColor;
+    }
+    if (buttonTextColor) {
+        customStyle['--button-text-color'] = buttonTextColor;
+    }
+    
     const blockProps = useBlockProps.save({
         'data-display-mode': displayMode,
-        'data-enable-shuffle': enableShuffle
+        'data-enable-shuffle': enableShuffle,
+        'data-show-navigation': showNavigation,
+        style: Object.keys(customStyle).length > 0 ? customStyle : undefined
     });
 
     return (
@@ -16,7 +28,7 @@ export default function Save({ attributes }) {
                         <InnerBlocks.Content />
                     </div>
                 </div>
-                {displayMode !== 'grid' && (
+                {displayMode !== 'grid' && showNavigation && (
                     <div className="flashcard-set-nav">
                         {enableShuffle && (
                             <button 

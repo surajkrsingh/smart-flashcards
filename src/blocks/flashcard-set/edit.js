@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
-import { Button, ButtonGroup, PanelBody, ToggleControl, SelectControl } from '@wordpress/components';
+import { Button, ButtonGroup, PanelBody, ToggleControl, SelectControl, ColorPicker } from '@wordpress/components';
 import { useState, useRef, useEffect } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
 import './editor.scss';
@@ -9,7 +9,7 @@ import { trash, plus, arrowLeft, arrowRight } from '@wordpress/icons';
 import { InspectorControls } from '@wordpress/block-editor';
 
 export default function Edit({ attributes, setAttributes, clientId }) {
-    const { currentSlide = 0, displayMode, enableShuffle } = attributes;
+    const { currentSlide = 0, displayMode, enableShuffle, showNavigation = true, buttonBackgroundColor = '', buttonTextColor = '' } = attributes;
     const [isInitialized, setIsInitialized] = useState(false);
     const blockProps = useBlockProps();
     const wrapperRef = useRef(null);
@@ -138,6 +138,61 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         checked={enableShuffle}
                         onChange={(value) => setAttributes({ enableShuffle: value })}
                     />
+                </PanelBody>
+
+                <PanelBody title={__('Navigation & Styling', 'smart-flashcards')} initialOpen={false}>
+                    <ToggleControl
+                        label={__('Show Navigation', 'smart-flashcards')}
+                        help={__('Show/hide navigation buttons on frontend', 'smart-flashcards')}
+                        checked={showNavigation}
+                        onChange={(value) => setAttributes({ showNavigation: value })}
+                    />
+                    
+                    {showNavigation && (
+                        <>
+                            <div className="color-control-group">
+                                <label className="color-control-label">
+                                    {__('Button Background Color', 'smart-flashcards')}
+                                </label>
+                                <ColorPicker
+                                    color={buttonBackgroundColor}
+                                    onChangeComplete={(value) => setAttributes({ buttonBackgroundColor: value.hex })}
+                                    disableAlpha={false}
+                                />
+                                {buttonBackgroundColor && (
+                                    <Button
+                                        isSmall
+                                        variant="secondary"
+                                        onClick={() => setAttributes({ buttonBackgroundColor: '' })}
+                                        style={{ marginTop: '8px' }}
+                                    >
+                                        {__('Reset', 'smart-flashcards')}
+                                    </Button>
+                                )}
+                            </div>
+                            
+                            <div className="color-control-group" style={{ marginTop: '20px' }}>
+                                <label className="color-control-label">
+                                    {__('Button Text Color', 'smart-flashcards')}
+                                </label>
+                                <ColorPicker
+                                    color={buttonTextColor}
+                                    onChangeComplete={(value) => setAttributes({ buttonTextColor: value.hex })}
+                                    disableAlpha={false}
+                                />
+                                {buttonTextColor && (
+                                    <Button
+                                        isSmall
+                                        variant="secondary"
+                                        onClick={() => setAttributes({ buttonTextColor: '' })}
+                                        style={{ marginTop: '8px' }}
+                                    >
+                                        {__('Reset', 'smart-flashcards')}
+                                    </Button>
+                                )}
+                            </div>
+                        </>
+                    )}
                 </PanelBody>
 
                 <PanelBody title={__('Flashcard Navigation', 'smart-flashcards')} initialOpen={true}>
