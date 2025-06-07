@@ -80,30 +80,30 @@
         margin-bottom: 20px;
         cursor: pointer;
         transition: all 0.3s ease;
-        
+
         &:hover {
             transform: translateY(-2px);
         }
-        
+
         .flashcard-set-title {
             font-size: 16px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
-            
+
             .mode-indicator {
                 font-size: 14px;
                 font-weight: 400;
                 opacity: 0.9;
             }
         }
-        
+
         .flashcard-navigation-header {
             display: flex;
             align-items: center;
             gap: 8px;
-            
+
             .nav-button-header {
                 background: rgba(255, 255, 255, 0.2) !important;
                 border: 1px solid rgba(255, 255, 255, 0.3) !important;
@@ -115,31 +115,77 @@
                 border-radius: 16px !important;
                 transition: all 0.2s ease !important;
                 min-width: 70px;
-                
+
                 &:hover:not(:disabled) {
                     background: rgba(255, 255, 255, 0.3) !important;
                     transform: translateY(-1px);
                 }
-                
+
                 &:disabled {
                     opacity: 0.4 !important;
                     background: rgba(255, 255, 255, 0.1) !important;
                     border-color: rgba(255, 255, 255, 0.2) !important;
                     cursor: not-allowed;
                 }
-                
+
                 &:focus {
                     outline: 2px solid rgba(255, 255, 255, 0.4);
                 }
-                
+
                 svg {
                     width: 14px;
                     height: 14px;
                     fill: currentColor;
                 }
             }
+
+            // Add button - icon only, harmonious accent
+            .add-button-header {
+                min-width: 32px !important;
+                width: 32px !important;
+                padding: 6px !important;
+                background: rgba(255, 255, 255, 0.35) !important;
+                border-color: rgba(255, 255, 255, 0.5) !important;
+
+                &:hover:not(:disabled) {
+                    background: rgba(255, 255, 255, 0.5) !important;
+                    border-color: rgba(255, 255, 255, 0.7) !important;
+                    transform: translateY(-1px) scale(1.05);
+                }
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+
+            // Remove button - icon only, subtle warning
+            .remove-button-header {
+                min-width: 32px !important;
+                width: 32px !important;
+                padding: 6px !important;
+                background: rgba(255, 255, 255, 0.25) !important;
+                border-color: rgba(255, 255, 255, 0.4) !important;
+
+                &:hover:not(:disabled) {
+                    background: rgba(255, 182, 193, 0.8) !important;
+                    border-color: rgba(255, 182, 193, 0.9) !important;
+                    transform: translateY(-1px) scale(1.05);
+                }
+
+                &:disabled {
+                    background: rgba(255, 255, 255, 0.1) !important;
+                    border-color: rgba(255, 255, 255, 0.15) !important;
+                    opacity: 0.4 !important;
+                }
+
+                svg {
+                    width: 16px;
+                    height: 16px;
+                }
+            }
         }
-        
+
         .flashcard-position-indicator {
             font-size: 16px;
             font-weight: 600;
@@ -152,19 +198,19 @@
             gap: 2px;
             min-width: 60px;
             justify-content: center;
-            
+
             .current-position {
                 color: #fff;
                 font-weight: 700;
                 text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
             }
-            
+
             .position-separator {
                 color: rgba(255, 255, 255, 0.8);
                 font-weight: 400;
                 margin: 0 2px;
             }
-            
+
             .total-count {
                 color: rgba(255, 255, 255, 0.9);
                 font-weight: 500;

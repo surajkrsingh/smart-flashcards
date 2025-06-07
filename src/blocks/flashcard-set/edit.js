@@ -217,11 +217,39 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                     >
                         {__('Previous', 'smart-flashcards')}
                     </Button>
+                    
+                    <Button
+                        icon={plus}
+                        variant="primary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleAddSlide();
+                        }}
+                        title={__('Add new flashcard', 'smart-flashcards')}
+                        className="nav-button-header add-button-header"
+                        size="small"
+                    />
+                    
                     <div className="flashcard-position-indicator">
                         <span className="current-position">{currentSlide + 1}</span>
                         <span className="position-separator">/</span>
                         <span className="total-count">{totalSlides}</span>
                     </div>
+                    
+                    <Button
+                        icon={trash}
+                        variant="secondary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveSlide();
+                        }}
+                        disabled={totalSlides <= 1}
+                        isDestructive
+                        title={__('Remove current flashcard', 'smart-flashcards')}
+                        className="nav-button-header remove-button-header"
+                        size="small"
+                    />
+                    
                     <Button
                         icon={arrowRight}
                         variant="secondary"
