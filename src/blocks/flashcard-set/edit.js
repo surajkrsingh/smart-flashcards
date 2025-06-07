@@ -32,19 +32,45 @@ export default function Edit({ attributes, setAttributes, clientId }) {
     }, [isInitialized]);
 
     useEffect(() => {
-        if (isInitialized && wrapperRef.current) {
+        const updateCardVisibility = () => {
+            if (!wrapperRef.current) return;
+
             const cards = wrapperRef.current.querySelectorAll('.wp-block-smfcs-flashcard');
             cards.forEach((card, index) => {
+                const cardElement = card.querySelector('[data-type="smfcs/flashcard"]') || card;
+                
                 if (index === currentSlide) {
                     card.classList.add('is-active');
-                    card.style.display = 'block';
+                    cardElement.style.setProperty('display', 'block', 'important');
+                    cardElement.style.setProperty('opacity', '1', 'important');
+                    cardElement.style.setProperty('visibility', 'visible', 'important');
                 } else {
                     card.classList.remove('is-active');
-                    card.style.display = 'none';
+                    cardElement.style.setProperty('display', 'none', 'important');
+                    cardElement.style.setProperty('opacity', '0', 'important');
+                    cardElement.style.setProperty('visibility', 'hidden', 'important');
                 }
             });
-        }
+        };
+
+        updateCardVisibility();
+        const timeoutId = setTimeout(updateCardVisibility, 100);
+
+        return () => clearTimeout(timeoutId);
     }, [currentSlide, innerBlocks, isInitialized]);
+
+    useEffect(() => {
+        if (selectedBlockClientId && innerBlocks.length > 0) {
+            const selectedBlockIndex = innerBlocks.findIndex(block => 
+                block.clientId === selectedBlockClientId || 
+                block.innerBlocks?.some(innerBlock => innerBlock.clientId === selectedBlockClientId)
+            );
+            
+            if (selectedBlockIndex !== -1 && selectedBlockIndex !== currentSlide) {
+                setAttributes({ currentSlide: selectedBlockIndex });
+            }
+        }
+    }, [selectedBlockClientId, innerBlocks, currentSlide]);
 
     const handleAddSlide = () => {
         const newBlock = wp.blocks.createBlock('smfcs/flashcard', {
@@ -62,13 +88,20 @@ export default function Edit({ attributes, setAttributes, clientId }) {
             const currentBlock = innerBlocks[currentSlide];
             if (currentBlock) {
                 removeBlock(currentBlock.clientId);
-                selectSlide(Math.min(currentSlide, totalSlides - 2));
+                const newCurrentSlide = Math.min(currentSlide, totalSlides - 2);
+                setAttributes({ currentSlide: newCurrentSlide });
             }
         }
     };
 
     const selectSlide = (index) => {
-        setAttributes({ currentSlide: index });
+        if (index >= 0 && index < totalSlides) {
+            setAttributes({ currentSlide: index });
+            const targetBlock = innerBlocks[index];
+            if (targetBlock) {
+                selectBlock(targetBlock.clientId);
+            }
+        }
     };
 
     return (
@@ -92,6 +125,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                     />
                 </PanelBody>
             </InspectorControls>
+            
             <div className="flashcard-set-nav">
                 <ButtonGroup>
                     <Button
@@ -101,11 +135,13 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         disabled={totalSlides <= 1}
                         className="remove-slide-button"
                         isDestructive
+                        title={__('Remove current flashcard', 'smart-flashcards')}
                     />
                     <Button
                         variant="secondary"
                         onClick={() => selectSlide(Math.max(0, currentSlide - 1))}
                         disabled={currentSlide === 0}
+                        title={__('Previous flashcard', 'smart-flashcards')}
                     >
                         {__('Previous', 'smart-flashcards')}
                     </Button>
@@ -113,6 +149,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         variant="secondary"
                         className="current-slide-indicator"
                         disabled
+                        title={__('Current flashcard position', 'smart-flashcards')}
                     >
                         {currentSlide + 1} / {totalSlides}
                     </Button>
@@ -120,6 +157,7 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         variant="secondary"
                         onClick={() => selectSlide(Math.min(totalSlides - 1, currentSlide + 1))}
                         disabled={currentSlide === totalSlides - 1}
+                        title={__('Next flashcard', 'smart-flashcards')}
                     >
                         {__('Next', 'smart-flashcards')}
                     </Button>
@@ -128,15 +166,18 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                         variant="primary"
                         onClick={handleAddSlide}
                         className="add-slide-button"
+                        title={__('Add new flashcard', 'smart-flashcards')}
                     />
                 </ButtonGroup>
             </div>
 
-            <InnerBlocks
-                allowedBlocks={FLASHCARD_SET_ALLOWED_BLOCKS}
-                template={FLASHCARD_SET_DEFAULT_TEMPLATE}
-                templateLock={false}
-            />
+            <div className="flashcard-set-container">
+                <InnerBlocks
+                    allowedBlocks={FLASHCARD_SET_ALLOWED_BLOCKS}
+                    template={FLASHCARD_SET_DEFAULT_TEMPLATE}
+                    templateLock={false}
+                />
+            </div>
         </div>
     );
 }
