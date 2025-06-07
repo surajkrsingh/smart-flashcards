@@ -56,7 +56,6 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 
 	return (
 		<div {...blockProps}>
-			{index && <div className="flashcard-index">{index}</div>}
 			<InspectorControls>
 				<PanelBody title={__('Flashcard Settings', 'smart-flashcards')}>
 					<ButtonGroup>
@@ -97,10 +96,11 @@ export default function Edit({ attributes, setAttributes, clientId }) {
 					/>
 
 					<Button 
-						className="smfcs-flashcard-control-button"
+						className={`smfcs-flashcard-control-button current-side-${activeSide}`}
 						icon={<Icon icon={flipHorizontal} />}
 						onClick={() => handleSideChange(activeSide === 'front' ? 'back' : 'front')}
 						aria-label={activeSide === 'back' ? __('Show front side', 'smart-flashcards') : __('Show back side', 'smart-flashcards')}
+						title={activeSide === 'front' ? __('Currently editing: Front Side - Click to edit Back', 'smart-flashcards') : __('Currently editing: Back Side - Click to edit Front', 'smart-flashcards')}
 					/>
 				</div>
 			</div>

@@ -202,8 +202,40 @@ export default function Edit({ attributes, setAttributes, clientId }) {
                     <strong>{__('Flashcard Set', 'smart-flashcards')}</strong>
                     <span className="mode-indicator">({displayMode} mode)</span>
                 </div>
-                <div className="flashcard-count">
-                    {totalSlides} {totalSlides === 1 ? __('flashcard', 'smart-flashcards') : __('flashcards', 'smart-flashcards')}
+                <div className="flashcard-navigation-header">
+                    <Button
+                        icon={arrowLeft}
+                        variant="secondary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            selectSlide(Math.max(0, currentSlide - 1));
+                        }}
+                        disabled={currentSlide === 0}
+                        title={__('Previous flashcard', 'smart-flashcards')}
+                        className="nav-button-header nav-previous"
+                        size="small"
+                    >
+                        {__('Previous', 'smart-flashcards')}
+                    </Button>
+                    <div className="flashcard-position-indicator">
+                        <span className="current-position">{currentSlide + 1}</span>
+                        <span className="position-separator">/</span>
+                        <span className="total-count">{totalSlides}</span>
+                    </div>
+                    <Button
+                        icon={arrowRight}
+                        variant="secondary"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            selectSlide(Math.min(totalSlides - 1, currentSlide + 1));
+                        }}
+                        disabled={currentSlide === totalSlides - 1}
+                        title={__('Next flashcard', 'smart-flashcards')}
+                        className="nav-button-header nav-next"
+                        size="small"
+                    >
+                        {__('Next', 'smart-flashcards')}
+                    </Button>
                 </div>
             </div>
 

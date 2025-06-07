@@ -22,22 +22,63 @@
     display: flex !important;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 100;
     opacity: 1 !important;
     visibility: visible !important;
     background: #fff !important;
-    border: 1px solid #ddd !important;
+    border: 2px solid #007cba !important;
+    transition: all 0.3s ease;
+    padding: 0 !important;
+    min-width: unset !important;
 
     &:hover {
         background: #f8f8f8 !important;
         transform: scale(1.05);
     }
 
+    &:focus {
+        outline: 3px solid rgba(0, 124, 186, 0.3);
+    }
+
+    // Hide the text label in the small round version
+    .flip-button-label {
+        display: none;
+    }
+
+    // Visual indication of current side with colored border
+    &.current-side-front {
+        border-color: #22c55e !important;
+        
+        &:hover {
+            background: #f0fdf4 !important;
+        }
+        
+        &:focus {
+            outline: 3px solid rgba(34, 197, 94, 0.3);
+        }
+    }
+
+    &.current-side-back {
+        border-color: #f97316 !important;
+        
+        &:hover {
+            background: #fff7ed !important;
+        }
+        
+        &:focus {
+            outline: 3px solid rgba(249, 115, 22, 0.3);
+        }
+    }
+
     svg {
         width: 20px;
         height: 20px;
         fill: currentColor;
+        transition: transform 0.2s ease;
+    }
+
+    &:hover svg {
+        transform: rotateY(180deg);
     }
 }
 

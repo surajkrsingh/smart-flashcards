@@ -4,10 +4,12 @@
 
 // IMPORTANT: Override any display mode effects in the editor
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set {
+
     // Reset all display mode specific styles in editor
     &[data-display-mode="slide"],
     &[data-display-mode="stack"],
     &[data-display-mode="grid"] {
+
         .flashcard-set-track,
         .flashcard-set-inner {
             display: block !important;
@@ -17,7 +19,7 @@
             perspective: none !important;
             transform-style: flat !important;
             padding: 0 !important;
-            
+
             &::before,
             &::after {
                 display: none !important;
@@ -30,7 +32,7 @@
             visibility: visible !important;
             transform: none !important;
             z-index: auto !important;
-            
+
             // Remove all display mode classes in editor
             &.is-active,
             &.prev,
@@ -55,12 +57,12 @@
     padding: 20px;
     margin: 20px 0;
     background-color: #f9f9f9;
-    
+
     &:hover {
         border-color: #007cba;
         background-color: #f0f8ff;
     }
-    
+
     &.is-selected {
         border-color: #007cba;
         background-color: #f0f8ff;
@@ -81,7 +83,6 @@
         
         &:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         
         .flashcard-set-title {
@@ -98,12 +99,76 @@
             }
         }
         
-        .flashcard-count {
-            font-size: 14px;
-            opacity: 0.9;
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 4px 8px;
-            border-radius: 4px;
+        .flashcard-navigation-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            
+            .nav-button-header {
+                background: rgba(255, 255, 255, 0.2) !important;
+                border: 1px solid rgba(255, 255, 255, 0.3) !important;
+                color: white !important;
+                font-size: 12px !important;
+                font-weight: 500 !important;
+                padding: 4px 8px !important;
+                height: auto !important;
+                border-radius: 16px !important;
+                transition: all 0.2s ease !important;
+                min-width: 70px;
+                
+                &:hover:not(:disabled) {
+                    background: rgba(255, 255, 255, 0.3) !important;
+                    transform: translateY(-1px);
+                }
+                
+                &:disabled {
+                    opacity: 0.4 !important;
+                    background: rgba(255, 255, 255, 0.1) !important;
+                    border-color: rgba(255, 255, 255, 0.2) !important;
+                    cursor: not-allowed;
+                }
+                
+                &:focus {
+                    outline: 2px solid rgba(255, 255, 255, 0.4);
+                }
+                
+                svg {
+                    width: 14px;
+                    height: 14px;
+                    fill: currentColor;
+                }
+            }
+        }
+        
+        .flashcard-position-indicator {
+            font-size: 16px;
+            font-weight: 600;
+            background-color: rgba(255, 255, 255, 0.25);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            min-width: 60px;
+            justify-content: center;
+            
+            .current-position {
+                color: #fff;
+                font-weight: 700;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            }
+            
+            .position-separator {
+                color: rgba(255, 255, 255, 0.8);
+                font-weight: 400;
+                margin: 0 2px;
+            }
+            
+            .total-count {
+                color: rgba(255, 255, 255, 0.9);
+                font-weight: 500;
+            }
         }
     }
 
@@ -111,12 +176,7 @@
     .flashcard-set-container {
         position: relative;
         width: 100%;
-        min-height: 220px;
-        background: #fff;
-        border: 1px solid #e2e4e7;
-        border-radius: 8px;
-        padding: 20px;
-        box-sizing: border-box;
+        min-height: 200px;
 
         // Add empty state styling when no flashcards
         &:empty::before {
@@ -133,8 +193,8 @@
     // Inner blocks styling - Only show active flashcard
     .block-editor-block-list__layout {
         position: relative;
-        
-        > .wp-block-smfcs-flashcard {
+
+        >.wp-block-smfcs-flashcard {
             margin: 0 !important;
             display: none !important; // Hide all by default
             position: relative;
@@ -143,18 +203,10 @@
             &.is-active {
                 display: block !important; // Show only active card
             }
-
-            // Ensure proper styling for the active card
-            &.is-active {
-                border: 2px solid #007cba;
-                border-radius: 4px;
-                padding: 10px;
-                background: rgba(0, 124, 186, 0.05);
-            }
         }
 
         // Hide the block appender when we have flashcards
-        > .block-list-appender {
+        >.block-list-appender {
             display: none;
         }
     }
@@ -169,48 +221,48 @@
         padding: 12px;
         margin-bottom: 16px;
         font-size: 14px;
-        
+
         strong {
             color: #24292f;
         }
     }
-    
+
     .navigation-controls {
         .nav-buttons-row {
             display: flex;
             gap: 8px;
             margin-bottom: 12px;
-            
+
             .nav-button {
                 flex: 1;
                 justify-content: center;
                 font-size: 12px;
-                
+
                 &:disabled {
                     opacity: 0.5;
                 }
             }
         }
-        
+
         .action-buttons-row {
             display: flex;
             gap: 8px;
-            
+
             .add-button {
                 flex: 1;
                 justify-content: center;
                 font-size: 12px;
             }
-            
+
             .remove-button {
                 flex: 1;
                 justify-content: center;
                 font-size: 12px;
-                
+
                 &:disabled {
                     opacity: 0.5;
                 }
             }
         }
     }
-} 
+}
