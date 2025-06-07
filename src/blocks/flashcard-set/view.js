@@ -1,121 +1,173 @@
 document.addEventListener('DOMContentLoaded', function () {
+    initializeFlashcardSets();
+});
+
+// Handle flashcard set functionality with display modes
+function initializeFlashcardSets() {
     const flashcardSets = document.querySelectorAll('.wp-block-smfcs-flashcard-set');
 
     flashcardSets.forEach(set => {
-        // Get existing navigation if it exists
-        const existingNav = set.querySelector('.flashcard-set-nav');
-        if (existingNav) {
-            initializeNavigation(set, existingNav);
-            return;
-        }
+        const track = set.querySelector('.flashcard-set-track');
+        if (!track) return;
 
-        let inner = set.querySelector('.flashcard-set-inner') || set.querySelector('.flashcard-set-track');
-        if (!inner) {
-            inner = document.createElement('div');
-            inner.className = 'flashcard-set-inner';
-            const flashcards = Array.from(set.querySelectorAll('.wp-block-smfcs-flashcard'));
-            flashcards.forEach(card => inner.appendChild(card));
-            set.insertBefore(inner, set.firstChild);
-        }
-
-        const flashcards = Array.from(inner.querySelectorAll('.wp-block-smfcs-flashcard'));
+        const flashcards = Array.from(track.querySelectorAll('.wp-block-smfcs-flashcard'));
         if (!flashcards.length) return;
 
-        // Initialize based on display mode
+        // Get display mode
         const displayMode = set.getAttribute('data-display-mode') || 'slide';
-        if (displayMode === 'slide') {
-            initializeSlideMode(set, inner, flashcards);
-        } else if (displayMode === 'stack') {
-            initializeStackMode(set, inner, flashcards);
-        } else if (displayMode === 'grid') {
-            initializeGridMode(set, inner, flashcards);
+        
+        // Initialize based on display mode
+        switch (displayMode) {
+            case 'slide':
+                initializeSlideMode(set, track, flashcards);
+                break;
+            case 'stack':
+                initializeStackMode(set, track, flashcards);
+                break;
+            case 'grid':
+                initializeGridMode(set, track, flashcards);
+                break;
+            default:
+                initializeSlideMode(set, track, flashcards);
         }
+
+        // Mark as initialized
+        set.classList.add('initialized');
     });
-});
+}
 
-function initializeNavigation(set, nav) {
-    const inner = set.querySelector('.flashcard-set-inner') || set.querySelector('.flashcard-set-track');
-    const flashcards = Array.from(inner.querySelectorAll('.wp-block-smfcs-flashcard'));
-    const prevButton = nav.querySelector('.flashcard-nav-button.prev');
-    const nextButton = nav.querySelector('.flashcard-nav-button.next');
-    const counter = nav.querySelector('.flashcard-set-counter');
-
-    let currentIndex = 0;
+// SLIDE MODE: Classic carousel with previous/next navigation
+function initializeSlideMode(set, track, flashcards) {
+    let currentSlide = 0;
     let isAnimating = false;
 
-    function updateDisplay() {
+    const nav = set.querySelector('.flashcard-set-nav');
+    const prevBtn = nav?.querySelector('.flashcard-nav-button.prev');
+    const nextBtn = nav?.querySelector('.flashcard-nav-button.next');
+    const counter = nav?.querySelector('.flashcard-set-counter');
+    const shuffleBtn = nav?.querySelector('.flashcard-shuffle-button');
+
+    const enableShuffle = set.getAttribute('data-enable-shuffle') === 'true';
+
+    function updateSlides() {
         if (isAnimating) return;
         isAnimating = true;
 
-        // Hide all cards first
-        flashcards.forEach(card => {
-            card.classList.remove('is-active');
-            // Remove any inline styles
-            card.removeAttribute('style');
+        // Remove all state classes first
+        flashcards.forEach(slide => {
+            slide.classList.remove('is-active', 'prev', 'next');
         });
 
-        // Show current card
-        const activeCard = flashcards[currentIndex];
-        activeCard.classList.add('is-active');
+        // Set states for relevant slides
+        const prevSlide = flashcards[currentSlide - 1];
+        const nextSlide = flashcards[currentSlide + 1];
+        const activeSlide = flashcards[currentSlide];
 
-        // Update counter and buttons
-        counter.textContent = `${currentIndex + 1} / ${flashcards.length}`;
-        prevButton.disabled = currentIndex === 0;
-        nextButton.disabled = currentIndex === flashcards.length - 1;
+        if (prevSlide) prevSlide.classList.add('prev');
+        if (nextSlide) nextSlide.classList.add('next');
+        activeSlide.classList.add('is-active');
 
-        // Update container height using a class
-        inner.style.height = `${activeCard.offsetHeight}px`;
+        // Update navigation
+        if (prevBtn) prevBtn.disabled = currentSlide === 0;
+        if (nextBtn) nextBtn.disabled = currentSlide === flashcards.length - 1;
+        
+        // Update counter
+        if (counter) {
+            counter.textContent = `${currentSlide + 1} / ${flashcards.length}`;
+        }
 
-        // Reset animation flag after transition
+        // Update track height to match active slide
+        track.style.height = `${activeSlide.offsetHeight}px`;
+
+        // Reset animation flag
         setTimeout(() => {
             isAnimating = false;
         }, 400);
     }
 
-    // Initialize first card
-    updateDisplay();
+    function handleNavigation(direction) {
+        if (isAnimating) return;
+
+        if (direction === 'prev' && currentSlide > 0) {
+            currentSlide--;
+            updateSlides();
+        } else if (direction === 'next' && currentSlide < flashcards.length - 1) {
+            currentSlide++;
+            updateSlides();
+        }
+    }
+
+    function handleShuffle() {
+        if (isAnimating) return;
+        
+        // Shuffle the flashcards array
+        const shuffled = shuffleArray([...flashcards]);
+        currentSlide = 0;
+        
+        // Re-append shuffled cards to track
+        shuffled.forEach(card => track.appendChild(card));
+        
+        // Update flashcards reference
+        flashcards.length = 0;
+        flashcards.push(...shuffled);
+        
+        updateSlides();
+    }
 
     // Event listeners
-    prevButton?.addEventListener('click', () => {
-        if (currentIndex > 0 && !isAnimating) {
-            currentIndex--;
-            updateDisplay();
-        }
-    });
+    prevBtn?.addEventListener('click', () => handleNavigation('prev'));
+    nextBtn?.addEventListener('click', () => handleNavigation('next'));
+    
+    if (enableShuffle && shuffleBtn) {
+        shuffleBtn.addEventListener('click', handleShuffle);
+        shuffleBtn.style.display = 'flex';
+    }
 
-    nextButton?.addEventListener('click', () => {
-        if (currentIndex < flashcards.length - 1 && !isAnimating) {
-            currentIndex++;
-            updateDisplay();
+    // Keyboard navigation - only respond to keys when not focused on a flashcard
+    set.addEventListener('keydown', (e) => {
+        const focusedElement = document.activeElement;
+        const isFocusedOnCard = focusedElement.closest('.wp-block-smfcs-flashcard');
+        
+        if (!isFocusedOnCard) {
+            if (e.key === 'ArrowLeft') handleNavigation('prev');
+            if (e.key === 'ArrowRight') handleNavigation('next');
         }
     });
 
     // Handle window resize
-    window.addEventListener('resize', debounce(() => updateDisplay(), 250));
+    window.addEventListener('resize', debounce(() => {
+        if (flashcards[currentSlide]) {
+            track.style.height = `${flashcards[currentSlide].offsetHeight}px`;
+        }
+    }, 250));
+
+    // Initialize
+    updateSlides();
 }
 
-function initializeSlideMode(set, inner, flashcards) {
-    // Use existing navigation
-    const nav = set.querySelector('.flashcard-set-nav');
-    if (nav) {
-        initializeNavigation(set, nav);
-    }
-}
-
-function initializeStackMode(set, inner, flashcards) {
+// STACK MODE: Cards stacked with peek effect
+function initializeStackMode(set, track, flashcards) {
     let currentIndex = 0;
     let isAnimating = false;
 
+    const nav = set.querySelector('.flashcard-set-nav');
+    const prevBtn = nav?.querySelector('.flashcard-nav-button.prev');
+    const nextBtn = nav?.querySelector('.flashcard-nav-button.next');
+    const counter = nav?.querySelector('.flashcard-set-counter');
+    const shuffleBtn = nav?.querySelector('.flashcard-shuffle-button');
+
+    const enableShuffle = set.getAttribute('data-enable-shuffle') === 'true';
+
     // Set total cards attribute for visual stack effect
-    inner.setAttribute('data-total-cards', flashcards.length);
+    track.setAttribute('data-total-cards', flashcards.length);
 
     function updateStackPositions(direction = null) {
         if (isAnimating) return;
         isAnimating = true;
 
-        // Add direction for animation
+        // Add swipe animation class
         if (direction) {
-            inner.classList.add(`swipe-${direction}`);
+            track.classList.add(`swipe-${direction}`);
         }
 
         // Update all cards
@@ -123,7 +175,7 @@ function initializeStackMode(set, inner, flashcards) {
             // Remove all classes first
             card.classList.remove('is-active', 'stack-1', 'stack-2');
 
-            // Only show current and next 2 cards
+            // Assign stack positions
             if (index === currentIndex) {
                 card.classList.add('is-active');
             } else if (index === currentIndex + 1) {
@@ -134,99 +186,103 @@ function initializeStackMode(set, inner, flashcards) {
         });
 
         // Update navigation
-        const prevBtn = set.querySelector('.flashcard-nav-button.prev');
-        const nextBtn = set.querySelector('.flashcard-nav-button.next');
-        const counter = set.querySelector('.flashcard-set-counter');
-
-        function updateCounter() {
-            if (counter) {
-                counter.textContent = `${currentIndex + 1} / ${flashcards.length}`;
-            }
-        }
-
         if (prevBtn) prevBtn.disabled = currentIndex === 0;
         if (nextBtn) nextBtn.disabled = currentIndex === flashcards.length - 1;
-        updateCounter();
+        
+        // Update counter
+        if (counter) {
+            counter.textContent = `${currentIndex + 1} / ${flashcards.length}`;
+        }
 
         // Reset animation state
         setTimeout(() => {
             isAnimating = false;
-            inner.classList.remove('swipe-left', 'swipe-right');
+            track.classList.remove('swipe-left', 'swipe-right');
         }, 400);
     }
 
-    // Handle click on active card
-    flashcards.forEach(card => {
-        card.addEventListener('click', () => {
-            if (card.classList.contains('is-active') && !isAnimating && currentIndex < flashcards.length - 1) {
-                currentIndex++;
-                updateStackPositions();
-            }
-        });
+    function handleNavigation(direction) {
+        if (isAnimating) return;
+
+        if (direction === 'prev' && currentIndex > 0) {
+            currentIndex--;
+            updateStackPositions('right');
+        } else if (direction === 'next' && currentIndex < flashcards.length - 1) {
+            currentIndex++;
+            updateStackPositions('left');
+        }
+    }
+
+    function handleShuffle() {
+        if (isAnimating) return;
+        
+        const shuffled = shuffleArray([...flashcards]);
+        currentIndex = 0;
+        
+        shuffled.forEach(card => track.appendChild(card));
+        
+        flashcards.length = 0;
+        flashcards.push(...shuffled);
+        
+        updateStackPositions();
+    }
+
+    // Event listeners
+    prevBtn?.addEventListener('click', () => handleNavigation('prev'));
+    nextBtn?.addEventListener('click', () => handleNavigation('next'));
+    
+    if (enableShuffle && shuffleBtn) {
+        shuffleBtn.addEventListener('click', handleShuffle);
+        shuffleBtn.style.display = 'flex';
+    }
+
+    // Keyboard navigation - only respond to keys when not focused on a flashcard
+    set.addEventListener('keydown', (e) => {
+        const focusedElement = document.activeElement;
+        const isFocusedOnCard = focusedElement.closest('.wp-block-smfcs-flashcard');
+        
+        if (!isFocusedOnCard) {
+            if (e.key === 'ArrowLeft') handleNavigation('prev');
+            if (e.key === 'ArrowRight') handleNavigation('next');
+        }
     });
 
-    // Initialize stack
+    // Initialize
     updateStackPositions();
-
-    // Add navigation support
-    const nav = set.querySelector('.flashcard-set-nav');
-    if (nav) {
-        const prevBtn = nav.querySelector('.flashcard-nav-button.prev');
-        const nextBtn = nav.querySelector('.flashcard-nav-button.next');
-        const counter = nav.querySelector('.flashcard-set-counter');
-
-        function updateCounter() {
-            if (counter) {
-                counter.textContent = `${currentIndex + 1} / ${flashcards.length}`;
-            }
-        }
-
-        prevBtn?.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!isAnimating && currentIndex > 0) {
-                currentIndex--;
-                updateStackPositions('right'); // Swipe right for previous
-                updateCounter();
-            }
-        });
-
-        nextBtn?.addEventListener('click', (e) => {
-            e.preventDefault();
-            if (!isAnimating && currentIndex < flashcards.length - 1) {
-                currentIndex++;
-                updateStackPositions('left'); // Swipe left for next
-                updateCounter();
-            }
-        });
-
-        // Update buttons state
-        function updateButtons() {
-            if (prevBtn) prevBtn.disabled = currentIndex === 0;
-            if (nextBtn) nextBtn.disabled = currentIndex === flashcards.length - 1;
-        }
-
-        // Initialize counter and buttons
-        updateCounter();
-        updateButtons();
-
-        // Add keyboard navigation
-        set.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft' && currentIndex > 0 && !isAnimating) {
-                currentIndex--;
-                updateStackPositions('right');
-                updateCounter();
-                updateButtons();
-            } else if (e.key === 'ArrowRight' && currentIndex < flashcards.length - 1 && !isAnimating) {
-                currentIndex++;
-                updateStackPositions('left');
-                updateCounter();
-                updateButtons();
-            }
-        });
-    }
 }
 
-// Debounce helper function
+// GRID MODE: Show all cards in a grid layout
+function initializeGridMode(set, track, flashcards) {
+    // Show all cards
+    flashcards.forEach(card => {
+        card.classList.remove('is-active', 'prev', 'next', 'stack-1', 'stack-2');
+        card.style.display = 'block';
+        card.style.opacity = '1';
+        card.style.visibility = 'visible';
+        card.style.position = 'relative';
+        card.style.transform = 'none';
+    });
+
+    // Hide navigation since it's not needed in grid mode
+    const nav = set.querySelector('.flashcard-set-nav');
+    if (nav) {
+        nav.style.display = 'none';
+    }
+
+    // Reset track styles
+    track.style.height = 'auto';
+    track.style.overflow = 'visible';
+}
+
+// Utility functions
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -239,205 +295,11 @@ function debounce(func, wait) {
     };
 }
 
-function initializeFlashcards() {
-    const flashcards = document.querySelectorAll('.wp-block-smfcs-flashcard');
-
-    flashcards.forEach(function (card) {
-        const toggleFlip = (e) => {
-            // Check if the clicked element or its parents is a link or button
-            const clickedElement = e.target;
-            const isClickableElement = clickedElement.closest('a, button, .read-more-button');
-
-            // Don't flip if clicking on a link or button
-            if (isClickableElement) {
-                return;
-            }
-
-            card.classList.toggle('is-flipped');
-        };
-
-        // Handle click events
-        card.addEventListener('click', function (e) {
-            // Only handle clicks directly on the flashcard or non-interactive elements
-            const clickedElement = e.target;
-            const isClickableElement = clickedElement.closest('a, button, .read-more-button');
-            if (!isClickableElement) {
-                toggleFlip(e);
-            }
-        });
-
-        // Handle keyboard events
-        card.addEventListener('keydown', function (e) {
-            // Only handle keyboard events if not focused on interactive elements
-            const focusedElement = document.activeElement;
-            const isInteractiveElement = focusedElement.matches('a, button, .read-more-button, [role="button"], [tabindex]');
-
-            if (!isInteractiveElement && (e.key === 'Enter' || e.key === ' ')) {
-                e.preventDefault();
-                toggleFlip(e);
-            }
-        });
-    });
-
-    // Initialize flashcard sets
-    document.querySelectorAll('.wp-block-smfcs-flashcard-set:not(.initialized)').forEach(initializeFlashcardSet);
-}
-
-function initializeFlashcardSet(set) {
-    const track = set.querySelector('.flashcard-set-track');
-    if (!track) return;
-
-    const prevBtn = set.querySelector('.flashcard-nav-button.prev');
-    const nextBtn = set.querySelector('.flashcard-nav-button.next');
-    const counter = set.querySelector('.flashcard-set-counter');
-    const shuffleBtn = set.querySelector('.flashcard-shuffle-button');
-
-    let slides = Array.from(track.querySelectorAll('.wp-block-smfcs-flashcard'));
-    if (!slides.length) return;
-
-    let currentSlide = 0;
-    let isAnimating = false;
-
-    const enableShuffle = set.dataset.enableShuffle === 'true';
-
-    function updateCounter() {
-        if (counter) {
-            counter.textContent = `${currentSlide + 1} / ${slides.length}`;
-        }
-    }
-
-    function updateSlides() {
-        if (isAnimating) return;
-        isAnimating = true;
-
-        const prevSlide = slides[currentSlide - 1];
-        const nextSlide = slides[currentSlide + 1];
-
-        // Remove all state classes first
-        slides.forEach(slide => {
-            slide.classList.remove('is-active', 'prev', 'next');
-        });
-
-        // Set states for relevant slides
-        if (prevSlide) {
-            prevSlide.classList.add('prev');
-        }
-        if (nextSlide) {
-            nextSlide.classList.add('next');
-        }
-
-        // Show current slide
-        const activeSlide = slides[currentSlide];
-        activeSlide.classList.add('is-active');
-
-        // Update navigation
-        if (prevBtn) prevBtn.disabled = currentSlide === 0;
-        if (nextBtn) nextBtn.disabled = currentSlide === slides.length - 1;
-        updateCounter();
-
-        // Update track height
-        track.style.height = `${activeSlide.offsetHeight}px`;
-
-        // Reset animation flag after transition completes
-        setTimeout(() => {
-            isAnimating = false;
-
-            // Clean up slides not in view
-            slides.forEach((slide, index) => {
-                if (index !== currentSlide &&
-                    index !== currentSlide - 1 &&
-                    index !== currentSlide + 1) {
-                    slide.classList.remove('prev', 'next');
-                }
-            });
-        }, 400); // Match this with CSS transition duration
-    }
-
-    function handleShuffle() {
-        if (isAnimating) return;
-        slides = shuffleArray([...slides]);
-        currentSlide = 0;
-        slides.forEach(slide => track.appendChild(slide));
-        updateSlides();
-    }
-
-    function handleNavigation(e, direction) {
-        e.preventDefault();
-        if (isAnimating) return;
-
-        // Add direction class to container for animation
-        track.classList.remove('sliding-left', 'sliding-right');
-        track.classList.add(direction === 'prev' ? 'sliding-right' : 'sliding-left');
-
-        if (direction === 'prev' && currentSlide > 0) {
-            currentSlide--;
-            updateSlides();
-        } else if (direction === 'next' && currentSlide < slides.length - 1) {
-            currentSlide++;
-            updateSlides();
-        }
-
-        // Remove direction class after animation
-        setTimeout(() => {
-            track.classList.remove('sliding-left', 'sliding-right');
-        }, 400);
-    }
-
-    // Event listeners
-    prevBtn?.addEventListener('click', e => handleNavigation(e, 'prev'));
-    nextBtn?.addEventListener('click', e => handleNavigation(e, 'next'));
-
-    if (enableShuffle && shuffleBtn) {
-        shuffleBtn.addEventListener('click', handleShuffle);
-        shuffleBtn.style.display = 'block';
-    }
-
-    // Keyboard navigation
-    set.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') handleNavigation(e, 'prev');
-        if (e.key === 'ArrowRight') handleNavigation(e, 'next');
-    });
-
-    // Handle window resize
-    window.addEventListener('resize', debounce(() => {
-        if (slides[currentSlide]) {
-            track.style.height = `${slides[currentSlide].offsetHeight}px`;
-        }
-    }, 250));
-
-    // Initialize
-    updateSlides();
-    set.classList.add('initialized');
-}
-
-// Utility functions
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-
-// Initialize on DOM ready
+// Initialize when DOM is ready
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeFlashcards);
-} else {
-    initializeFlashcards();
-}
-
-// Add new function for grid mode
-function initializeGridMode(set, inner, flashcards) {
-    // Show all cards
-    flashcards.forEach(card => {
-        card.style.display = 'block';
-        card.style.opacity = '1';
-        card.style.visibility = 'visible';
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeFlashcardSets();
     });
-
-    // Remove navigation if it exists
-    const nav = set.querySelector('.flashcard-set-nav');
-    if (nav) {
-        nav.style.display = 'none';
-    }
+} else {
+    initializeFlashcardSets();
 }

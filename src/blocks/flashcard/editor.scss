@@ -44,7 +44,7 @@
 .wp-block-smfcs-flashcard {
     width: var(--flashcard-width, 100%);
     min-height: var(--flashcard-height, 300px);
-    margin: 0;
+    margin: 1rem auto;
     box-sizing: border-box;
 
     .flashcard {
@@ -73,7 +73,7 @@
     .wp-block-smfcs-flashcard-back {
         position: relative;
         width: 100%;
-        min-height: 300px;
+        min-height: 200px;
         display: none; // Hidden by default
         border: 1px solid #ddd;
         border-radius: 8px;

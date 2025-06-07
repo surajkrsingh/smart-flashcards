@@ -2,9 +2,54 @@
 @use '../flashcard-front/editor.scss' as *;
 @use '../flashcard-back/editor.scss' as *;
 
+// IMPORTANT: Override any display mode effects in the editor
+.editor-styles-wrapper .wp-block-smfcs-flashcard-set {
+    // Reset all display mode specific styles in editor
+    &[data-display-mode="slide"],
+    &[data-display-mode="stack"],
+    &[data-display-mode="grid"] {
+        .flashcard-set-track,
+        .flashcard-set-inner {
+            display: block !important;
+            grid-template-columns: none !important;
+            gap: 0 !important;
+            overflow: visible !important;
+            perspective: none !important;
+            transform-style: flat !important;
+            padding: 0 !important;
+            
+            &::before,
+            &::after {
+                display: none !important;
+            }
+        }
+
+        .wp-block-smfcs-flashcard {
+            position: relative !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            z-index: auto !important;
+            
+            // Remove all display mode classes in editor
+            &.is-active,
+            &.prev,
+            &.next,
+            &.stack-1,
+            &.stack-2 {
+                position: relative !important;
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+                z-index: auto !important;
+            }
+        }
+    }
+}
+
 .editor-styles-wrapper .wp-block-smfcs-flashcard-set {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 1rem auto;
 
     .flashcard-set-nav {
         display: flex;
@@ -112,7 +157,7 @@
     .flashcard-set-container {
         position: relative;
         width: 100%;
-        min-height: 300px;
+        min-height: 220px;
         background: #fff;
         border: 1px solid #e2e4e7;
         border-radius: 8px;
@@ -216,7 +261,7 @@
     .flashcard-tab-content {
         padding: 20px 16px;
         background: #f0f0f0;
-        min-height: 200px;
+        min-height: 220px;
     }
 
     .flashcard-tab-header {
@@ -379,7 +424,7 @@
             border: 1px solid #e2e4e7;
             border-radius: 4px;
             padding: 15px;
-            min-height: 200px;
+            min-height: 220px;
             position: relative;
         }
     }
