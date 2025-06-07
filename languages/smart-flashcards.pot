@@ -1,0 +1,638 @@
+# Copyright (C) 2025 BuddyLMS Inc.
+# This file is distributed under the GPL-2.0+.
+msgid ""
+msgstr ""
+"Project-Id-Version: Smart Flashcards 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/smart-flashcards\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-06-07T17:45:35+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.11.0\n"
+"X-Domain: smart-flashcards\n"
+
+#. Plugin Name of the plugin
+#: smart-flashcards.php
+msgid "Smart Flashcards"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: smart-flashcards.php
+msgid "https://buddylms.com/smart-flashcards/"
+msgstr ""
+
+#. Description of the plugin
+#: smart-flashcards.php
+msgid "Simple flashcards"
+msgstr ""
+
+#. Author of the plugin
+#: smart-flashcards.php
+msgid "BuddyLMS Inc."
+msgstr ""
+
+#. Author URI of the plugin
+#: smart-flashcards.php
+msgid "https://buddylms.com/"
+msgstr ""
+
+#: inc/classes/class-member-block.php:66
+msgid "Member display name rendered"
+msgstr ""
+
+#: inc/classes/class-member-block.php:118
+msgid "Please select a member to display."
+msgstr ""
+
+#: inc/classes/class-member-block.php:128
+msgid "Selected member not found."
+msgstr ""
+
+#: inc/classes/class-member-block.php:158
+msgid "Website"
+msgstr ""
+
+#: inc/classes/class-single-post-display-block.php:169
+msgid "Post title rendered"
+msgstr ""
+
+#: inc/classes/class-single-post-display-block.php:219
+msgid "Read More"
+msgstr ""
+
+#: inc/classes/class-single-post-display-block.php:227
+msgid "Please select a post to display."
+msgstr ""
+
+#: inc/classes/class-single-post-display-block.php:237
+msgid "Selected post not found."
+msgstr ""
+
+#: inc/classes/class-single-post-display-block.php:274
+msgid "By "
+msgstr ""
+
+#: inc/classes/class-single-post-display-block.php:283
+msgid "Published on "
+msgstr ""
+
+#: inc/classes/class-smart-flashcards.php:105
+msgid "Smart Flashcards requires PHP 5.8 or higher to function and has therefore been automatically disabled. You are still on "
+msgstr ""
+
+#: build/blocks/flashcard-back/index.js:1
+#: build/blocks/flashcard-front/index.js:1
+#: src/blocks/flashcard-back/edit.js:24
+#: src/blocks/flashcard-front/edit.js:24
+msgid "Default"
+msgstr ""
+
+#: build/blocks/flashcard-back/index.js:1
+#: build/blocks/flashcard-front/index.js:1
+#: src/blocks/flashcard-back/edit.js:25
+#: src/blocks/flashcard-front/edit.js:25
+msgid "Vintage"
+msgstr ""
+
+#: build/blocks/flashcard-back/index.js:1
+#: build/blocks/flashcard-front/index.js:1
+#: src/blocks/flashcard-back/edit.js:26
+#: src/blocks/flashcard-front/edit.js:26
+msgid "Moroccan"
+msgstr ""
+
+#: build/blocks/flashcard-back/index.js:1
+#: build/blocks/flashcard-front/index.js:1
+#: src/blocks/flashcard-back/edit.js:42
+#: src/blocks/flashcard-front/edit.js:42
+msgid "Border Style"
+msgstr ""
+
+#: build/blocks/flashcard-back/index.js:1
+#: build/blocks/flashcard-front/index.js:1
+#: src/blocks/flashcard-back/edit.js:44
+#: src/blocks/flashcard-front/edit.js:44
+msgid "Choose Style"
+msgstr ""
+
+#: build/blocks/flashcard-back/index.js:1
+#: build/blocks/flashcard-front/index.js:1
+#: src/blocks/flashcard-back/edit.js:52
+#: src/blocks/flashcard-front/edit.js:52
+msgid "Primary Border Color"
+msgstr ""
+
+#: build/blocks/flashcard-back/index.js:1
+#: build/blocks/flashcard-front/index.js:1
+#: src/blocks/flashcard-back/edit.js:60
+#: src/blocks/flashcard-front/edit.js:60
+msgid "Secondary Border Color"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:281
+#: src/blocks/flashcard-set/index.js:9
+msgid "Flashcard Set"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/index.js:10
+msgid "Create a set of flashcards with carousel navigation"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:149
+msgid "Flashcard Set Settings"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:151
+msgid "Display Mode"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:154
+msgid "Slide"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:155
+msgid "Stack"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:156
+msgid "Grid"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:161
+msgid "Enable Shuffle"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:167
+msgid "Navigation & Styling"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:169
+msgid "Show Navigation"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:170
+msgid "Show/hide navigation buttons on frontend"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:179
+msgid "Button Background Color"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:193
+#: src/blocks/flashcard-set/edit.js:214
+msgid "Reset"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:200
+msgid "Button Text Color"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:222
+msgid "Flashcard Navigation"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:225
+msgid "Current Flashcard:"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:235
+#: src/blocks/flashcard-set/edit.js:293
+#: src/blocks/flashcard-set/save.js:46
+msgid "Previous flashcard"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:238
+#: src/blocks/flashcard-set/edit.js:297
+#: src/blocks/flashcard-set/save.js:49
+msgid "Previous"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:245
+#: src/blocks/flashcard-set/edit.js:340
+#: src/blocks/flashcard-set/save.js:55
+msgid "Next flashcard"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:248
+#: src/blocks/flashcard-set/edit.js:344
+#: src/blocks/flashcard-set/save.js:57
+msgid "Next"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:257
+#: src/blocks/flashcard-set/edit.js:307
+msgid "Add new flashcard"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:260
+msgid "Add Flashcard"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:268
+#: src/blocks/flashcard-set/edit.js:327
+msgid "Remove current flashcard"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/edit.js:271
+msgid "Remove"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/save.js:37
+msgid "Shuffle flashcards"
+msgstr ""
+
+#: build/blocks/flashcard-set/index.js:1
+#: src/blocks/flashcard-set/save.js:40
+msgid "Shuffle"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/index.js:10
+msgid "Smart Flashcard"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/index.js:11
+msgid "Create interactive flashcards with custom content"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/edit.js:60
+msgid "Flashcard Settings"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/edit.js:65
+#: src/blocks/flashcard/edit.js:102
+msgid "Show front side"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/edit.js:67
+msgid "Front"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/edit.js:72
+#: src/blocks/flashcard/edit.js:102
+msgid "Show back side"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/edit.js:74
+msgid "Back"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/edit.js:103
+msgid "Currently editing: Front Side - Click to edit Back"
+msgstr ""
+
+#: build/blocks/flashcard/index.js:1
+#: src/blocks/flashcard/edit.js:103
+msgid "Currently editing: Back Side - Click to edit Front"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:65
+msgid "Member Settings"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:68
+msgid "Select or Search Member"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:73
+msgid "Type to search members..."
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:84
+msgid "Show Name"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:90
+msgid "Show Avatar"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:97
+msgid "Avatar Size"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:107
+msgid "Show Bio"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:113
+msgid "Show Email"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:119
+msgid "Show Website"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:125
+msgid "Show Social Links"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:139
+#: src/blocks/member/edit.js:159
+msgid "Member"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:140
+msgid "Loading member content..."
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/member/edit.js:148
+#: src/blocks/single-post-display/edit.js:344
+msgid "Error"
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:151
+msgid "Error loading member content. Please try again."
+msgstr ""
+
+#: build/blocks/member/index.js:1
+#: src/blocks/member/edit.js:160
+msgid "Select a member to display"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:59
+msgid "No public post types available."
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:62
+msgid "Error fetching post types."
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:83
+msgid "Invalid post type selected."
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:123
+msgid "Error fetching posts."
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:171
+msgid "Thumbnail"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:172
+msgid "Medium"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:173
+msgid "Large"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:174
+msgid "Full"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:180
+msgid "Post Selection"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:182
+msgid "Post Type"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:185
+msgid "Select a post type"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:208
+msgid "Search and Select Post"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:219
+msgid "Type to search posts or select from recent posts"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:224
+msgid "Display Options"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:226
+msgid "Show Title"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:231
+msgid "Show Content"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:236
+msgid "Show Excerpt"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:241
+msgid "Show Featured Image"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:247
+msgid "Image Size"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:254
+msgid "Show Meta Information"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:261
+msgid "Show Date"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:266
+msgid "Show Author"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:273
+msgid "Show Read More Button"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:281
+msgid "Read More Text"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:284
+msgid "Customize the text for the read more button"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:290
+msgid "Button Alignment"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:301
+msgid "Align Left"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:309
+msgid "Align Center"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:317
+msgid "Align Right"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:335
+#: src/blocks/single-post-display/edit.js:355
+msgid "Single Post Display"
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:336
+msgid "Loading post content..."
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:347
+msgid "Error loading post content. Please try again."
+msgstr ""
+
+#: build/blocks/single-post-display/index.js:1
+#: src/blocks/single-post-display/edit.js:356
+msgid "Select a post type and post to display"
+msgstr ""
+
+#: build/blocks/flashcard-back/block.json
+#: src/blocks/flashcard-back/block.json
+msgctxt "block title"
+msgid "Flashcard Back"
+msgstr ""
+
+#: build/blocks/flashcard-back/block.json
+#: src/blocks/flashcard-back/block.json
+msgctxt "block description"
+msgid "Back side of the flashcard"
+msgstr ""
+
+#: build/blocks/flashcard-front/block.json
+#: src/blocks/flashcard-front/block.json
+msgctxt "block title"
+msgid "Flashcard Front"
+msgstr ""
+
+#: build/blocks/flashcard-front/block.json
+#: src/blocks/flashcard-front/block.json
+msgctxt "block description"
+msgid "Front side of the flashcard"
+msgstr ""
+
+#: build/blocks/flashcard-set/block.json
+#: src/blocks/flashcard-set/block.json
+msgctxt "block title"
+msgid "Flashcard Set"
+msgstr ""
+
+#: build/blocks/flashcard-set/block.json
+#: src/blocks/flashcard-set/block.json
+msgctxt "block description"
+msgid "Create a set of flashcards with navigation"
+msgstr ""
+
+#: build/blocks/flashcard/block.json
+#: src/blocks/flashcard/block.json
+msgctxt "block title"
+msgid "Flashcard"
+msgstr ""
+
+#: build/blocks/flashcard/block.json
+#: src/blocks/flashcard/block.json
+msgctxt "block description"
+msgid "Create interactive flashcards with custom content"
+msgstr ""
+
+#: build/blocks/member/block.json
+#: src/blocks/member/block.json
+msgctxt "block title"
+msgid "Member"
+msgstr ""
+
+#: build/blocks/member/block.json
+#: src/blocks/member/block.json
+msgctxt "block description"
+msgid "Display a member profile with customizable elements"
+msgstr ""
+
+#: build/blocks/single-post-display/block.json
+#: src/blocks/single-post-display/block.json
+msgctxt "block title"
+msgid "Single Post Display"
+msgstr ""
+
+#: build/blocks/single-post-display/block.json
+#: src/blocks/single-post-display/block.json
+msgctxt "block description"
+msgid "Display a single post with customizable elements"
+msgstr ""
